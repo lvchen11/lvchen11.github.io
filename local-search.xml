@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>测试文章</title>
+    <link href="/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/"/>
+    <url>/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</url>
+    
+    <content type="html"><![CDATA[<p>这是一篇测试文章<br><img src="/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/595064.jpg"></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hello World</title>
     <link href="/2022/10/11/hello-world/"/>
     <url>/2022/10/11/hello-world/</url>
