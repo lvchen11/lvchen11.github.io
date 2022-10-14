@@ -48,8 +48,9 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/clicklove.js"></script>
 </head>
-
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
 
@@ -147,7 +148,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="cclv"
-      src="/images/avatar.gif">
+      src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">cclv</p>
   <div class="site-description" itemprop="description">我的第一个博客搭建</div>
 </div>
@@ -155,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -165,6 +166,14 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lvchen11" title="gitHub → https:&#x2F;&#x2F;github.com&#x2F;lvchen11" rel="noopener" target="_blank"><i class="github fa-fw"></i>gitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cnblogs.com/lcc-lv/" title="cnblogs → https:&#x2F;&#x2F;www.cnblogs.com&#x2F;lcc-lv&#x2F;" rel="noopener" target="_blank"><i class="cnblogs fa-fw"></i>cnblogs</a>
+      </span>
+  </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
   </div>
@@ -201,13 +210,33 @@
   <div class="post-block">
     <div class="post-content">
       <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 2 篇日志。 继续努力。</span>
+        <span class="collection-header">嗯..! 目前共计 3 篇日志。 继续努力。</span>
       </div>
 
       
     <div class="collection-year">
       <span class="collection-header">2022</span>
     </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+      <div class="post-meta-container">
+        <time itemprop="dateCreated"
+              datetime="2022-10-14T11:24:23+08:00"
+              content="2022-10-14">
+          10-14
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2022/10/14/python%E8%AF%BB%E5%8F%96excle%E5%86%85%E5%AE%B9/" itemprop="url">
+            <span itemprop="name">python读取excel内容</span>
+          </a>
+      </div>
+
+      
+    </header>
+  </article>
 
   <article itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
@@ -274,7 +303,7 @@
 <div class="busuanzi-count">
     <span class="post-meta-item" id="busuanzi_container_site_uv">
       <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
+        <i class="user"></i>
       </span>
       <span class="site-uv" title="总访客量">
         <span id="busuanzi_value_site_uv"></span>
@@ -282,7 +311,7 @@
     </span>
     <span class="post-meta-item" id="busuanzi_container_site_pv">
       <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
+        <i class="eye"></i>
       </span>
       <span class="site-pv" title="总访问量">
         <span id="busuanzi_value_site_pv"></span>
@@ -291,6 +320,9 @@
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
+
+
+
 
     </div>
   </footer>
@@ -317,8 +349,3 @@
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
-live2d:
-  model: hijiki
-  position: left
-  bottom: -30
-  mobileShow: false  #手机端不显示

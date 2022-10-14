@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>测试文章</title>
-    <url>/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>这是一篇测试文章<br><img src="/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/595064.jpg"></p>
-]]></content>
-      <tags>
-        <tag>原创</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2022/10/11/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -26,5 +17,19 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>python读取excel内容</title>
+    <url>/2022/10/14/python%E8%AF%BB%E5%8F%96excle%E5%86%85%E5%AE%B9/</url>
+    <content><![CDATA[<h4 id="1-代码如下："><a href="#1-代码如下：" class="headerlink" title="1.代码如下："></a>1.代码如下：</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">import</span> xlsxwriter</span><br><span class="line"></span><br><span class="line"><span class="comment"># 操作Excel的工具类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Excel</span>():</span><br><span class="line">    <span class="comment"># 初始化方法 参数type：为r是读取excel，为w是写入excel获取不同的实例，参数file_name是将要读取的文件</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, <span class="built_in">type</span>, file_name</span>):</span><br><span class="line">        <span class="comment"># 读取excel</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">type</span> == <span class="string">&#x27;r&#x27;</span>:</span><br><span class="line">            <span class="comment"># 打开文件</span></span><br><span class="line">            self.workbook = xlrd.open_workbook(file_name)</span><br><span class="line">            <span class="comment"># 获取到所有的sheet_names,sheet1,sheet2获取到所有，获取到的是一个list</span></span><br><span class="line">            self.sheet_names = self.workbook.sheet_names()</span><br><span class="line">            <span class="comment"># 装载所有数据的list</span></span><br><span class="line">            self.list_data = []</span><br><span class="line">        <span class="comment"># 写入excel</span></span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">type</span> == <span class="string">&#x27;w&#x27;</span>:</span><br><span class="line">            <span class="comment"># 获得写入excel的实例</span></span><br><span class="line">            self.workbook = xlsxwriter.Workbook(file_name)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">read</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 根据sheet_name去读取用例，并获取文件的总行数获取到每行的内容</span></span><br><span class="line">        <span class="keyword">for</span> sheet_name <span class="keyword">in</span> self.sheet_names:</span><br><span class="line">            <span class="comment"># 通过每个sheetname获取到每个页的内容</span></span><br><span class="line">            sheet = self.workbook.sheet_by_name(sheet_name)</span><br><span class="line">            <span class="comment"># 获取总行数</span></span><br><span class="line">            rosw = sheet.nrows</span><br><span class="line">            <span class="comment"># 根据总行数进行读取</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, rosw):</span><br><span class="line">                rowvalues = sheet.row_values(i)</span><br><span class="line">                <span class="comment"># 将每一行的内容添加进去</span></span><br><span class="line">                self.list_data.append(rowvalues)</span><br><span class="line">            <span class="comment">#     去除大标题第一行进行切割处理</span></span><br><span class="line">        <span class="comment"># 将得到的excel数据返回进行处理</span></span><br><span class="line">        <span class="keyword">return</span> self.list_data</span><br><span class="line"></span><br><span class="line"><span class="comment">#将元素和链接表处理为json格式方便查询</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">element_tojson</span>(<span class="params">element</span>):</span><br><span class="line">    elements = &#123;&#125;</span><br><span class="line">    <span class="comment">#将元素和接口信息组成key和value的形式方便查询</span></span><br><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> element:</span><br><span class="line">        elements[e[<span class="number">0</span>]] = &#123;<span class="string">&quot;type&quot;</span>: e[<span class="number">1</span>], <span class="string">&quot;url&quot;</span>: e[<span class="number">2</span>]&#125;</span><br><span class="line">    <span class="keyword">return</span> elements</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    file = <span class="string">&#x27;../element/test1.xls&#x27;</span></span><br><span class="line">    e = Excel(<span class="string">&#x27;r&#x27;</span>, file)</span><br><span class="line">    list_read = e.read()</span><br><span class="line">    e = element_tojson(list_read)</span><br><span class="line">    <span class="built_in">print</span>(e[<span class="string">&#x27;获取短信验证码&#x27;</span>])</span><br><span class="line">    <span class="built_in">print</span>(e)</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>测试文章</title>
+    <url>/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<p>这是一篇测试文章<br><img src="/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/595064.jpg"></p>
+]]></content>
+      <tags>
+        <tag>原创</tag>
+      </tags>
   </entry>
 </search>
