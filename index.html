@@ -156,18 +156,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,100 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">selenium定位方式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-08 17:36:08" itemprop="dateCreated datePublished" datetime="2022-11-08T17:36:08+08:00">2022-11-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-11-09 15:20:01" itemprop="dateModified" datetime="2022-11-09T15:20:01+08:00">2022-11-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/selenium/" itemprop="url" rel="index"><span itemprop="name">selenium</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="项目能正常开展自动化测试的条件"><a href="#项目能正常开展自动化测试的条件" class="headerlink" title="项目能正常开展自动化测试的条件"></a>项目能正常开展自动化测试的条件</h4><pre><code>1.软件需求变动不频繁
+2.项目周期长
+3.自动化测试脚本可重复使用
+</code></pre>
+<h4 id="css定位简单语法"><a href="#css定位简单语法" class="headerlink" title="css定位简单语法"></a>css定位简单语法</h4><p><img src="/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/css%E9%80%89%E6%8B%A9%E5%99%A8.jpg" alt="css选择器的常用语法"></p>
+<h4 id="常用的定位方式举例"><a href="#常用的定位方式举例" class="headerlink" title="常用的定位方式举例"></a>常用的定位方式举例</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment">#导入selenium下面的webdriver模块</span></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_click</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        os.system(<span class="string">&quot;taskkill /f /im chromedriver.exe /t&quot;</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#调用webdriver模块下的Chrome()类</span></span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    <span class="comment"># 通过driver变量，调用Chrome()类提供的get()方法访问百度首页</span></span><br><span class="line">    <span class="comment"># driver.maximize_window()</span></span><br><span class="line">    driver.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line">    <span class="comment"># driver.implicitly_wait(10)</span></span><br><span class="line">    time.sleep(<span class="number">4</span>)</span><br><span class="line">    <span class="comment"># driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;Selenium&quot;)</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_class_name(&#x27;s_ipt&#x27;).send_keys(&quot;测试开发&quot;)</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_tag_name(&#x27;input&#x27;).send_keys(&#x27;mysql&#x27;) #定位不到</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_link_text(&#x27;贴吧&#x27;).click()</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_partial_link_text(&#x27;携手并进&#x27;).click()</span></span><br><span class="line">    <span class="comment"># xpath定位：利用元素属性定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&#x27;//*[@id=&quot;kw&quot;]&#x27;).send_keys(&#x27;hahah&#x27;)</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//*[@class=&#x27;s_ipt&#x27;]&quot;)</span></span><br><span class="line">    <span class="comment"># 使用XPath 不局限于id、name和class 这三个属性值，元素的任意属性都可以使用，只要它能唯一标识一个元素</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//input[@maxlength=&#x27;100&#x27;]&quot;).send_keys(&#x27;aaa&#x27;) #不能成功，数字不唯一</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//input[@autocomplete=&#x27;off&#x27;]&quot;).send_keys(&#x27;bbb&#x27;) #可以成功</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//input[@type=&#x27;text&#x27;]&quot;).send_keys(&#x27;ccc&#x27;)# 不能成功,type不唯一</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#层级和属性定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//form//span[@class=&#x27;bg s_ipt_wr new-pmd quickdelete-wrap&#x27;]/input[1]&quot;).send_keys(&quot;工程局&quot;)#定位失败</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//span[@id=&#x27;s_kw_wrap&#x27;]/input[@name=&#x27;wd&#x27;]&quot;).send_keys(&quot;疫情最新&quot;) 定位失败，执行失败</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//form[@id=&#x27;form&#x27;]/span[1]/input[1]&quot;).send_keys(&quot;form&quot;) 成功定位</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#使用逻辑运算符定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//input[@id=&#x27;kw&#x27; and @name=&#x27;wd&#x27;]&quot;).send_keys(&quot;逻辑运算&quot;) #成功定位</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#使用contains方法定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//form[contains(@id,&#x27;form&#x27;)]/span[1]/input&quot;).send_keys(&quot;contains&quot;) #定位成功</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#使用text方法定位‘贴吧’</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_xpath(&quot;//a[contains(text(),&#x27;贴吧&#x27;)]&quot;).click() #定位成功</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#使用css定位</span></span><br><span class="line">    <span class="comment">#css是一种语言，用来描述html和xml文档的表现，css使用选择器为页面元素绑定属性，一般情况下，css定位速度比xpath定位速度快</span></span><br><span class="line">    <span class="comment">#通过class定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;.s_ipt&#x27;).send_keys(&quot;css_selector&quot;) #成功定位</span></span><br><span class="line">    <span class="comment"># 层级关系定位：</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;form#form&gt;span&gt;input&#x27;).send_keys(&quot;form&quot;) 成功定位</span></span><br><span class="line">    <span class="comment">#通过id定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;#kw&#x27;).send_keys(&quot;立冬&quot;) #定位成功</span></span><br><span class="line">    <span class="comment">#通过属性定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;[autocomplete=off]&#x27;).send_keys(&quot;隆冬&quot;) #定位成功</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&quot;[name=&#x27;wd&#x27;]&quot;).send_keys(&quot;小寒&quot;) #定位成功</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&quot;[type=&#x27;text&#x27;]&quot;).send_keys(&quot;hhh&quot;)#元素不唯一，失败，属性值可以选择加引号</span></span><br><span class="line">    <span class="comment">#组合定位</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&quot;form#form &gt; span &gt;input.s_ipt&quot;).send_keys(&quot;组合定位&quot;) #定位成功</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;form.fm &gt; span &gt;input.s_ipt&#x27;).send_keys(&quot;class&quot;) # 定位成功</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;form#form&gt; span &gt;input#kw&#x27;).send_keys(&#x27;dcc&#x27;) #定位成功</span></span><br><span class="line">    <span class="comment">#更多定位方法</span></span><br><span class="line">    <span class="comment">#查找class 属性包含“s_ipt_wr”字符串的元素</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&quot;[class*=s_ipt]&quot;).send_keys(&#x27;haaa&#x27;)  #定位失败</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&quot;form &gt; input:nth-child(2)&quot;) #查找 form标签下面第2个input标签的元素</span></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># driver.find_element_by_id(&quot;su&quot;).click()</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;#s-top-left &gt; a:nth-child(1)&#x27;).click()  #定位百度首页新闻超链接，定位成功</span></span><br><span class="line">    driver.find_element_by_xpath(<span class="string">&quot;//input[@type=&#x27;submit&#x27;]&quot;</span>).click()</span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&quot;input[class~=&#x27;btn&#x27;]&quot;).click() #字符开头(&quot;input[class^=&#x27;btn&#x27;]&quot;)#字符结尾(&quot;input[class$=&#x27;s_btn&#x27;]&quot;) 定位失败</span></span><br><span class="line">    <span class="comment"># driver.find_element_by_css_selector(&#x27;.btn.self-btn.bg.s_btn&#x27;).click()</span></span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    driver.close()</span><br><span class="line"></span><br><span class="line">    driver.quit()</span><br><span class="line">    <span class="comment"># try:</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#     os.system(&quot;taskkill /f /im chromedriver.exe /t&quot;)</span></span><br><span class="line">    <span class="comment"># except:</span></span><br><span class="line">    <span class="comment">#     pass</span></span><br></pre></td></tr></table></figure>
+<h4 id="控制浏览器"><a href="#控制浏览器" class="headerlink" title="控制浏览器"></a>控制浏览器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver <span class="keyword">import</span> ActionChains</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_con</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;http://m.baidu.com&quot;</span>)</span><br><span class="line">    <span class="comment">#参数数字为像素</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;设置浏览器宽480、高800 显示&quot;</span>)</span><br><span class="line">    driver.set_window_size(<span class="number">480</span>, <span class="number">800</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    driver.quit()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_forward</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    <span class="comment">#访问百度首页</span></span><br><span class="line">    url = <span class="string">&quot;http://m.baidu.com&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;now access %s&quot;</span>%(url))</span><br><span class="line">    driver.get(url)</span><br><span class="line">    <span class="comment">#访问新闻页</span></span><br><span class="line">    url2=<span class="string">&#x27;http://news.baidu.com&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;now access %s&quot;</span> %(url2))</span><br><span class="line">    driver.get(url2)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 返回（后退）到百度首页</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;back to %s &quot;</span> %(url))</span><br><span class="line">    driver.back()</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 前进到新闻页</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;forward to %s&quot;</span> %(url2))</span><br><span class="line">    driver.forward()</span><br><span class="line">    driver.quit()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_common</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line">    driver.refresh() <span class="comment">#刷新浏览器</span></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(<span class="string">&quot;cclean&quot;</span>)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).clear() <span class="comment">#先清理“cclean”</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(<span class="string">&quot;selenium&quot;</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">    driver.quit()</span><br><span class="line"><span class="comment">#submit()：提交表单</span></span><br><span class="line"><span class="comment">#有些搜索框不提供搜索按钮，而是通过按键盘上的回车键完成搜索内容的提交，这时可以通过submit()模拟</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_submit</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    search_text = driver.find_element_by_id(<span class="string">&#x27;kw&#x27;</span>)</span><br><span class="line">    search_text.send_keys(<span class="string">&#x27;selenium&#x27;</span>)</span><br><span class="line">    search_text.submit()</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    driver.quit()</span><br><span class="line"><span class="comment">#size：返回元素的尺寸。text：获取元素的文本。get_attribute(name)：获得属性值。is_displayed()：设置该元素是否用户可见</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_ele</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    size = driver.find_element(By.ID,<span class="string">&#x27;kw&#x27;</span>).size</span><br><span class="line">    <span class="built_in">print</span>(size)</span><br><span class="line">    <span class="comment"># 返回文本信息</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(<span class="string">&quot;哈哈哈哈啊啊&quot;</span>)</span><br><span class="line">    text = driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).text</span><br><span class="line">    <span class="built_in">print</span>(text)</span><br><span class="line">    <span class="comment"># 返回元素的属性值，可以是id、name、type 或其他任意属性</span></span><br><span class="line">    attribute = driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).get_attribute(<span class="string">&#x27;type&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(attribute)</span><br><span class="line">    <span class="comment"># 返回元素的结果是否可见，返回结果为True 或False</span></span><br><span class="line">    result = driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).is_displayed()</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br><span class="line">    driver.quit()</span><br><span class="line"><span class="comment">#鼠标操作，在WebDriver中，与鼠标操作相关的方法都封装在ActionChains 类中。ActionChains 类提供了鼠标操作的常用方法：</span></span><br><span class="line"><span class="comment">#perform()：执行ActionChains 类中存储的所有行为。</span></span><br><span class="line"><span class="comment"># context_click()：右击。</span></span><br><span class="line"><span class="comment"># double_click()：双击。</span></span><br><span class="line"><span class="comment"># drag_and_drop()：拖动。</span></span><br><span class="line"><span class="comment"># move_to_element()：鼠标悬停</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_chain</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;https://www.baidu.cn&quot;</span>)</span><br><span class="line">    time.sleep(<span class="number">5</span>)</span><br><span class="line">    <span class="comment"># 定位到要悬停的元素</span></span><br><span class="line">    above = driver.find_element_by_link_text(<span class="string">&quot;设置&quot;</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 对定位到的元素执行鼠标悬停操作</span></span><br><span class="line">    <span class="comment">#调用 ActionChains 类，把浏览器驱动driver 作为参数传入。</span></span><br><span class="line">    <span class="comment">#move_to_element()方法用于模拟鼠标移动到元素上，在调用时需要指定元素</span></span><br><span class="line">    <span class="comment">#提交所有ActionChains 类中存储的行为</span></span><br><span class="line">    ActionChains(driver).move_to_element(above).perform()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -740,7 +834,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-10-14 14:55:53" itemprop="dateModified" datetime="2022-10-14T14:55:53+08:00">2022-10-14</time>
+      <time title="修改时间：2022-11-09 09:06:36" itemprop="dateModified" datetime="2022-11-09T09:06:36+08:00">2022-11-09</time>
     </span>
 
   
@@ -756,6 +850,7 @@
           <center>这是一篇测试文章</center>
 #### 1.放一张图片看看
 ![](595064.jpg)
+![](1267361.jpg)
       
     </div>
 
