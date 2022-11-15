@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="unittest功能 提供测试用例组织和执行 提供丰富的断言方法 提供丰富的日志  基础代码实现&#96;&#96; 12345678910111213141516171819202122232425262728293031323334353637383940import unittestclass Calculator:    &quot;&quot;&quot; 用于完成两个数的加、减、乘、除">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unittest单元测试框架">
+<meta property="og:url" content="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="unittest功能 提供测试用例组织和执行 提供丰富的断言方法 提供丰富的日志  基础代码实现&#96;&#96; 12345678910111213141516171819202122232425262728293031323334353637383940import unittestclass Calculator:    &quot;&quot;&quot; 用于完成两个数的加、减、乘、除">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imags/$%7Bfiilename%7D/%E6%96%AD%E8%A8%80%E6%96%B9%E6%B3%95.jpg">
+<meta property="article:published_time" content="2022-11-15T05:14:49.000Z">
+<meta property="article:modified_time" content="2022-11-15T09:54:23.862Z">
+<meta property="article:author" content="cclv">
+<meta property="article:tag" content="unittest概念">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imags/$%7Bfiilename%7D/%E6%96%AD%E8%A8%80%E6%96%B9%E6%B3%95.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/","path":"2022/11/15/unittest基础/","title":"unittest单元测试框架"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>unittest单元测试框架 | 月明星稀</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/clicklove.js"></script>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">月明星稀</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">太阳当空照</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#unittest%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">unittest功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">基础代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-unittest-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E9%87%8D%E6%96%B0%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="nav-number">2.1.</span> <span class="nav-text">通过 unittest 单元测试框架重新编写测试用例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#96-96"><span class="nav-number">2.2.</span> <span class="nav-text">&#96;&#96;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9B%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%9ATest-Case%E3%80%81Test-Suite%E3%80%81Test-Runner-%E5%92%8CTest-Fixture%E3%80%82"><span class="nav-number">2.3.</span> <span class="nav-text">四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%AD%E8%A8%80%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">断言方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E7%BB%84%E7%BB%87%E4%B8%8Ediscover-%E6%96%B9%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">测试用例的组织与discover 方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%9F%90%E5%B9%B4%E6%98%AF%E5%90%A6%E4%B8%BA%E9%97%B0%E5%B9%B4"><span class="nav-number">2.6.</span> <span class="nav-text">判断某年是否为闰年</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E5%A4%9A%E4%B8%AA%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6"><span class="nav-number">2.7.</span> <span class="nav-text">如何执行多个测试文件</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="cclv"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">cclv</p>
+  <div class="site-description" itemprop="description">我的第一个博客搭建</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lvchen11" title="gitHub → https:&#x2F;&#x2F;github.com&#x2F;lvchen11" rel="noopener" target="_blank"><i class="github fa-fw"></i>gitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cnblogs.com/lcc-lv/" title="cnblogs → https:&#x2F;&#x2F;www.cnblogs.com&#x2F;lcc-lv&#x2F;" rel="noopener" target="_blank"><i class="cnblogs fa-fw"></i>cnblogs</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="unittest单元测试框架 | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          unittest单元测试框架
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-15 13:14:49 / 修改时间：17:54:23" itemprop="dateCreated datePublished" datetime="2022-11-15T13:14:49+08:00">2022-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unittest/" itemprop="url" rel="index"><span itemprop="name">unittest</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="unittest功能"><a href="#unittest功能" class="headerlink" title="unittest功能"></a>unittest功能</h4><ol>
+<li>提供测试用例组织和执行</li>
+<li>提供丰富的断言方法</li>
+<li>提供丰富的日志</li>
+</ol>
+<h4 id="基础代码实现"><a href="#基础代码实现" class="headerlink" title="基础代码实现"></a>基础代码实现</h4><p>&#96;&#96;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Calculator</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        self.a = <span class="built_in">int</span>(a)</span><br><span class="line">        self.b = <span class="built_in">int</span>(b)</span><br><span class="line">    <span class="comment"># 加法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a + self.b</span><br><span class="line">    <span class="comment"># 减法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sub</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a - self.b</span><br><span class="line">    <span class="comment"># 乘法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">mul</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a * self.b</span><br><span class="line">    <span class="comment"># 除法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">div</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a / self.b</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_add</span>():</span><br><span class="line">    c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">    result = c.add()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">8</span>, <span class="string">&#x27;加法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_sub</span>():</span><br><span class="line">    c = Calculator(<span class="number">7</span>, <span class="number">2</span>)</span><br><span class="line">    result = c.sub()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">5</span>, <span class="string">&#x27;减法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_mul</span>():</span><br><span class="line">    c = Calculator(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">    result = c.mul()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">10</span>, <span class="string">&#x27;乘法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_div</span>():</span><br><span class="line">    c = Calculator(<span class="number">6</span>, <span class="number">2</span>)</span><br><span class="line">    result = c.div()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">3</span>, <span class="string">&#x27;除法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    test_add()</span><br><span class="line">    test_sub()</span><br><span class="line">    test_mul()</span><br><span class="line">    test_div()</span><br></pre></td></tr></table></figure>
+
+<p>这样的测试存在着一些问题。首先，我们需要自己定义断言失败的提示；其次，当<br>测试函数运行失败后，后面的测试函数将不再执行；最后，执行结果无法统计	</p>
+<h5 id="通过-unittest-单元测试框架重新编写测试用例"><a href="#通过-unittest-单元测试框架重新编写测试用例" class="headerlink" title="通过 unittest 单元测试框架重新编写测试用例"></a>通过 unittest 单元测试框架重新编写测试用例</h5><h5 id="96-96"><a href="#96-96" class="headerlink" title="&#96;&#96;"></a>&#96;&#96;</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestCalculator</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">        result = c.add()</span><br><span class="line">        self.assertEqual(result, <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_sub</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">7</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.sub()</span><br><span class="line">        self.assertEqual(result, <span class="number">5</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_mul</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">        result = c.mul()</span><br><span class="line">        self.assertEqual(result, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_div</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">6</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.div()</span><br><span class="line">        self.assertEqual(result, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>创建一个测试类，这里为TestCalculator 类，必须要继承unittest 模块的TestCase类。</li>
+<li>创建一个测试方法，该方法必须以“test”开头。</li>
+<li>通过unittest 提供的assertEqual()方法来断言结果是否与预期结果相同。该方法由TestCase 父类提供，由于继承了该类，所以可以通过self 调用。</li>
+<li>最后，调用unittest 的main()来执行测试用例，它会按照前面的两条规则查找测试用例并执行。</li>
+</ol>
+<h5 id="四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。"><a href="#四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。" class="headerlink" title="四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。"></a>四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。</h5><ol>
+<li>Test Case 是最小的测试单元，用于检查特定输入集合的特定返回值。unittest 提供了TestCase 基类，我们创建的测试类需要继承该基类，它可以用来创建新的测试用例。</li>
+<li>测试套件是测试用例、测试套件或两者的集合，用于组装一组要运行的测试。unittest提供了TestSuite 类来创建测试套件。</li>
+<li>Test Runner 是一个组件，用于协调测试的执行并向用户提供结果。Test Runner 可以使用图形界面、文本界面或返回特殊值来展示执行测试的结果。unittest 提供了TextTestRunner类运行测试用例，为了生成HTML 格式的测试报告，后面会选择使用HTMLTestRunner 运行类。</li>
+<li>Test Fixture 代表执行一个或多个测试所需的环境准备，以及关联的清理动作。例如，创建临时或代理数据库、目录，或启动服务器进程,unittest 中提供了setUp()&#x2F;tearDown()、setUpClass()&#x2F;tearDownClass()等方法来完成这些操作</li>
+</ol>
+<p>&#96;&#96;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestCalculator</span>(unittest.TestCase):</span><br><span class="line">    <span class="comment"># 测试用例前置动作</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test start:&quot;</span>)</span><br><span class="line">    <span class="comment"># 测试用例后置动作</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDown</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test end&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">        result = c.add()</span><br><span class="line">        self.assertEqual(result, <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_sub</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">7</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.sub()</span><br><span class="line">        self.assertEqual(result, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_mul</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">        result = c.mul()</span><br><span class="line">        self.assertEqual(result, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_div</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">6</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.div()</span><br><span class="line">        self.assertEqual(result, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"><span class="comment"># 创建测试套件</span></span><br><span class="line">    suit = unittest.TestSuite()</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_add&quot;</span>))</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_sub&quot;</span>))</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_mul&quot;</span>))</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_div&quot;</span>))</span><br><span class="line"><span class="comment"># 创建测试运行器</span></span><br><span class="line">    runner = unittest.TextTestRunner()</span><br><span class="line">    runner.run(suit)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>首先，创建一个测试类并继承TestCase 类，在该类下面创建一条以“test”开头的方法为测试用例</li>
+<li>在测试类中增加了 setUp()&#x2F;tearDown()方法，用于定义测试用例的前置和后置动作。在当前测试中暂时用不上，这里定义了一些简单的打印</li>
+<li>抛弃了unittest 提供的main()方法，而是调用TestSuite 类下面addTest()来添加测试用例。因为一次只能添加一条用例，所以需要指定测试类及测试方法。然后，再调用TextTestRunner 类下面的run()运行测试套件。</li>
+<li>优点：相比main()方法。测试用例的执行顺序可以由测试套件的添加顺序控制，而main()方法只能按照测试类、方法的名称来执行测试用例。例如，TestA 类比TestB 类先执行，test_add()用例比test_div()用例先执行。</li>
+<li>其次，当一个测试文件中有很多测试用例时，并不是每次都要执行所有的测试用例，尤其是比较耗时的UI 自动化测试。因而通过测试套件和测试运行器可以灵活地控制要执行的测试用例。</li>
+</ul>
+<h5 id="断言方法"><a href="#断言方法" class="headerlink" title="断言方法"></a>断言方法</h5><p><img src="/imags/$%7Bfiilename%7D/%E6%96%AD%E8%A8%80%E6%96%B9%E6%B3%95.jpg"></p>
+<p>&#96;&#96;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestAssert</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_equal</span>(<span class="params">self</span>):</span><br><span class="line">        self.assertEqual(<span class="number">2</span>+<span class="number">52</span>, <span class="number">4</span>)</span><br><span class="line">        self.assertEqual(<span class="string">&quot;pytgn&quot;</span>, <span class="string">&quot;python&quot;</span>)</span><br><span class="line">        self.assertNotEqual(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;python&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_in</span>(<span class="params">self</span>):</span><br><span class="line">        self.assertIn(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">        self.assertNotIn(<span class="string">&quot;hi&quot;</span>, <span class="string">&quot;hello&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_true</span>(<span class="params">self</span>):</span><br><span class="line">        self.assertTrue(<span class="literal">True</span>)</span><br><span class="line">        self.assertFalse(<span class="literal">False</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+
+<h5 id="测试用例的组织与discover-方法"><a href="#测试用例的组织与discover-方法" class="headerlink" title="测试用例的组织与discover 方法"></a>测试用例的组织与discover 方法</h5><p>针对 Calculator 类所编写的测试用例存在的问题：一个功能对应一条测试用例不够的；其次测试用例的划分，建议一个测试类对应一个被测试功能</p>
+<p>&#96;&#96;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Calculator</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        self.a = <span class="built_in">int</span>(a)</span><br><span class="line">        self.b = <span class="built_in">int</span>(b)</span><br><span class="line">    <span class="comment"># 加法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a + self.b</span><br><span class="line">    <span class="comment"># 减法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sub</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a - self.b</span><br><span class="line">    <span class="comment"># 乘法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">mul</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a * self.b</span><br><span class="line">    <span class="comment"># 除法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">div</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a / self.b</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestAdd</span>(unittest.TestCase):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; add()方法测试&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add_integer</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 整数相加测试&quot;&quot;&quot;</span></span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">        self.assertEqual(c.add(), <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add_decimals</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 小数相加测试&quot;&quot;&quot;</span></span><br><span class="line">        c = Calculator(<span class="number">3.2</span>, <span class="number">5.5</span>)</span><br><span class="line">        self.assertEqual(c.add(), <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add_string</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 字符串整数相加测试&quot;&quot;&quot;</span></span><br><span class="line">        c = Calculator(<span class="string">&quot;7&quot;</span>, <span class="string">&quot;9&quot;</span>)</span><br><span class="line">        self.assertEqual(c.add(), <span class="number">16</span>)</span><br><span class="line">    <span class="comment"># ……</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestSub</span>(unittest.TestCase):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; sub()方法测试&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># ……</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+
+<h5 id="判断某年是否为闰年"><a href="#判断某年是否为闰年" class="headerlink" title="判断某年是否为闰年"></a>判断某年是否为闰年</h5><p>&#96;&#96;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LeapYear</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算某年是否为闰年&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span> (self, year):</span><br><span class="line">        self.year = <span class="built_in">int</span>(year)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">answer</span>(<span class="params">self</span>):</span><br><span class="line">        year = self.year</span><br><span class="line">        <span class="keyword">if</span> year % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> year % <span class="number">400</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># 整百年能被400 整除的是闰年</span></span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;不是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> year % <span class="number">4</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># 非整百年能被4 整除的是闰年</span></span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;不是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestLeapYear</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2000</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2000</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2000是闰年&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2004</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2004</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2004是闰年&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2017</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2017</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2017不是闰年&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2100</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2100</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2100不是闰年&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+
+<h5 id="如何执行多个测试文件"><a href="#如何执行多个测试文件" class="headerlink" title="如何执行多个测试文件"></a>如何执行多个测试文件</h5><p>unittest 中的TestLoader 类提供的discover()方法可以从多个文件中查找测试用例。</p>
+<p>该类根据各种标准加载测试用例，并将它们返回给测试套件。正常情况下，不需要创建这个类的实例。unittest 提供了可以共享的defaultTestLoader 类，可以使用其子类或方法创建实例，discover()方法就是其中之一。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">discover(start_dir，pattern=<span class="string">&#x27;test*.py&#x27;</span>，top_level_dir=<span class="literal">None</span>)</span><br><span class="line">找到指定目录及其子目录下的所有测试模块，只有匹配的文件名才能被加载。如果启动的不是顶层目录，那么顶层目录必须单独指定。</span><br><span class="line">	start_dir ：待测试的模块名或测试用例目录。</span><br><span class="line">	pattern=<span class="string">&#x27;test*.py&#x27;</span> ：测试用例文件名的匹配原则。此处匹配文件名以“test”开头的“.py”类型的文件，星号“*”表示任意多个字符。</span><br><span class="line">	top_level_dir=<span class="literal">None</span>：测试模块的顶层目录，如果没有顶层目录，则默认为<span class="literal">None</span>。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line">test_dir = <span class="string">&#x27;../test1107&#x27;</span></span><br><span class="line">suits = unittest.defaultTestLoader.discover(test_dir, pattern=<span class="string">&#x27;test_unit*.py&#x27;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    runner = unittest.TextTestRunner()</span><br><span class="line">    runner.run(suits)</span><br></pre></td></tr></table></figure>
+
+<p>discover()方法会自动根据测试用例目录（test_dir）查找测试用例文件（test*.py），并将找到的测试用例添加到测试套件中，因此，可以直接通过run()方法执行测试套件suits。这种方式极大地简化了测试用例的查找，我们需要做的就是按照文件的匹配规则创建测试文件即可。</p>
+
+    </div>
+
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>cclv
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" title="unittest单元测试框架">http://example.com/2022/11/15/unittest基础/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag"># unittest概念</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="prev" title="selenium多窗口_警告框处理">
+                  <i class="fa fa-chevron-left"></i> selenium多窗口_警告框处理
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cclv</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
