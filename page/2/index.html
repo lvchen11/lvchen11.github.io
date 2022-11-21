@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,78 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/14/python%E8%AF%BB%E5%8F%96excle%E5%86%85%E5%AE%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/14/python%E8%AF%BB%E5%8F%96excle%E5%86%85%E5%AE%B9/" class="post-title-link" itemprop="url">python读取excel内容</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-14 11:24:23 / 修改时间：13:40:34" itemprop="dateCreated datePublished" datetime="2022-10-14T11:24:23+08:00">2022-10-14</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="1-代码如下："><a href="#1-代码如下：" class="headerlink" title="1.代码如下："></a>1.代码如下：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">import</span> xlsxwriter</span><br><span class="line"></span><br><span class="line"><span class="comment"># 操作Excel的工具类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Excel</span>():</span><br><span class="line">    <span class="comment"># 初始化方法 参数type：为r是读取excel，为w是写入excel获取不同的实例，参数file_name是将要读取的文件</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, <span class="built_in">type</span>, file_name</span>):</span><br><span class="line">        <span class="comment"># 读取excel</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">type</span> == <span class="string">&#x27;r&#x27;</span>:</span><br><span class="line">            <span class="comment"># 打开文件</span></span><br><span class="line">            self.workbook = xlrd.open_workbook(file_name)</span><br><span class="line">            <span class="comment"># 获取到所有的sheet_names,sheet1,sheet2获取到所有，获取到的是一个list</span></span><br><span class="line">            self.sheet_names = self.workbook.sheet_names()</span><br><span class="line">            <span class="comment"># 装载所有数据的list</span></span><br><span class="line">            self.list_data = []</span><br><span class="line">        <span class="comment"># 写入excel</span></span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">type</span> == <span class="string">&#x27;w&#x27;</span>:</span><br><span class="line">            <span class="comment"># 获得写入excel的实例</span></span><br><span class="line">            self.workbook = xlsxwriter.Workbook(file_name)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">read</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 根据sheet_name去读取用例，并获取文件的总行数获取到每行的内容</span></span><br><span class="line">        <span class="keyword">for</span> sheet_name <span class="keyword">in</span> self.sheet_names:</span><br><span class="line">            <span class="comment"># 通过每个sheetname获取到每个页的内容</span></span><br><span class="line">            sheet = self.workbook.sheet_by_name(sheet_name)</span><br><span class="line">            <span class="comment"># 获取总行数</span></span><br><span class="line">            rosw = sheet.nrows</span><br><span class="line">            <span class="comment"># 根据总行数进行读取</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, rosw):</span><br><span class="line">                rowvalues = sheet.row_values(i)</span><br><span class="line">                <span class="comment"># 将每一行的内容添加进去</span></span><br><span class="line">                self.list_data.append(rowvalues)</span><br><span class="line">            <span class="comment">#     去除大标题第一行进行切割处理</span></span><br><span class="line">        <span class="comment"># 将得到的excel数据返回进行处理</span></span><br><span class="line">        <span class="keyword">return</span> self.list_data</span><br><span class="line"></span><br><span class="line"><span class="comment">#将元素和链接表处理为json格式方便查询</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">element_tojson</span>(<span class="params">element</span>):</span><br><span class="line">    elements = &#123;&#125;</span><br><span class="line">    <span class="comment">#将元素和接口信息组成key和value的形式方便查询</span></span><br><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> element:</span><br><span class="line">        elements[e[<span class="number">0</span>]] = &#123;<span class="string">&quot;type&quot;</span>: e[<span class="number">1</span>], <span class="string">&quot;url&quot;</span>: e[<span class="number">2</span>]&#125;</span><br><span class="line">    <span class="keyword">return</span> elements</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    file = <span class="string">&#x27;../element/test1.xls&#x27;</span></span><br><span class="line">    e = Excel(<span class="string">&#x27;r&#x27;</span>, file)</span><br><span class="line">    list_read = e.read()</span><br><span class="line">    e = element_tojson(list_read)</span><br><span class="line">    <span class="built_in">print</span>(e[<span class="string">&#x27;获取短信验证码&#x27;</span>])</span><br><span class="line">    <span class="built_in">print</span>(e)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 

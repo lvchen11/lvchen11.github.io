@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="HTML下载与安装HTMLTestRunner.py 文件，既可以把它当作Python 的第三方库来使用，也可以将把它当作项目的一部分来使用。建议将该文件放到python的lib目录下；如果把 HTMLTestRunner 当作项目的一部分来使用，就把它放到项目目录中。可以方便地定制生成的HTMLTestRunner 报告,文件目录结构如下：  12345678910111213141516171">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML测试报告">
+<meta property="og:url" content="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="HTML下载与安装HTMLTestRunner.py 文件，既可以把它当作Python 的第三方库来使用，也可以将把它当作项目的一部分来使用。建议将该文件放到python的lib目录下；如果把 HTMLTestRunner 当作项目的一部分来使用，就把它放到项目目录中。可以方便地定制生成的HTMLTestRunner 报告,文件目录结构如下：  12345678910111213141516171">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imags/$%7Bfiilename%7D/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95-16690114393791.jpg">
+<meta property="article:published_time" content="2022-11-21T05:50:48.000Z">
+<meta property="article:modified_time" content="2022-11-21T09:50:56.741Z">
+<meta property="article:author" content="cclv">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imags/$%7Bfiilename%7D/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95-16690114393791.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/","path":"2022/11/21/HTML测试报告/","title":"HTML测试报告"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HTML测试报告 | 月明星稀</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/clicklove.js"></script>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">月明星稀</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">太阳当空照</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">HTML下载与安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8"><span class="nav-number">2.</span> <span class="nav-text">数据驱动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Parameterized"><span class="nav-number">3.</span> <span class="nav-text">Parameterized</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DDT"><span class="nav-number">4.</span> <span class="nav-text">DDT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6%E5%8A%9F%E8%83%BD"><span class="nav-number">5.</span> <span class="nav-text">自动发送邮件功能</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="cclv"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">cclv</p>
+  <div class="site-description" itemprop="description">我的第一个博客搭建</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lvchen11" title="gitHub → https:&#x2F;&#x2F;github.com&#x2F;lvchen11" rel="noopener" target="_blank"><i class="github fa-fw"></i>gitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cnblogs.com/lcc-lv/" title="cnblogs → https:&#x2F;&#x2F;www.cnblogs.com&#x2F;lcc-lv&#x2F;" rel="noopener" target="_blank"><i class="cnblogs fa-fw"></i>cnblogs</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HTML测试报告 | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTML测试报告
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-21 13:50:48 / 修改时间：17:50:56" itemprop="dateCreated datePublished" datetime="2022-11-21T13:50:48+08:00">2022-11-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unittest/" itemprop="url" rel="index"><span itemprop="name">unittest</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="HTML下载与安装"><a href="#HTML下载与安装" class="headerlink" title="HTML下载与安装"></a>HTML下载与安装</h4><p>HTMLTestRunner.py 文件，既可以把它当作Python 的第三方库来使用，也可以将把它当作项目的一部分来使用。建议将该文件放到python的lib目录下；如果把 HTMLTestRunner 当作项目的一部分来使用，就把它放到项目目录中。可以方便地定制生成的HTMLTestRunner 报告,文件目录结构如下：</p>
+<p><img src="/../../imags/$%7Bfiilename%7D/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95-16690114393791.jpg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#test_unittest1.py文件</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line">    driver = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver = webdriver.Chrome()</span><br><span class="line">        cls.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">baidu_search</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(search_key)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_selenium</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;&quot; 搜索关键字：selenium &quot;&quot;&quot;</span>  <span class="comment"># 加了注释的测试报告</span></span><br><span class="line">        search_key = <span class="string">&quot;selenium&quot;</span></span><br><span class="line">        self.baidu_search(search_key) <span class="comment"># 调用baidu_search方法，直接传入search_key</span></span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_unittest</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 搜索关键字：unittest&quot;&quot;&quot;</span></span><br><span class="line">        search_key = <span class="string">&quot;unittest&quot;</span></span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver.quit()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#run_tests.py文件</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> HTMLTestRunner <span class="keyword">import</span> HTMLTestRunner</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义测试用例的目录为当前目录下的test_case 目录</span></span><br><span class="line">test_dir = <span class="string">&#x27;./test_case&#x27;</span></span><br><span class="line">suit = unittest.defaultTestLoader.discover(test_dir, pattern=<span class="string">&#x27;test_*.py&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># if __name__ == &#x27;__main__&#x27;:</span></span><br><span class="line"><span class="comment">#     # 生成HTML 格式的报告</span></span><br><span class="line"><span class="comment">#     fp = open(&#x27;./test_report/result.html&#x27;, &#x27;wb&#x27;)</span></span><br><span class="line"><span class="comment">#     runner = HTMLTestRunner(stream=fp,title=&quot;百度搜索测试报告&quot;,description=&quot;运行环境：Windows 10, Chrome 浏览器&quot;)</span></span><br><span class="line"><span class="comment">#     runner.run(suit)</span></span><br><span class="line"><span class="comment">#     fp.close()</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 取当前日期时间，修改测试报告名称，确保测试报告不会被覆盖</span></span><br><span class="line">    <span class="comment"># strftime()方法以指定的格式获取当前日期时间</span></span><br><span class="line">    now_time = time.strftime(<span class="string">&quot;%Y-%m-%d %H_%M_%S&quot;</span>)</span><br><span class="line">    fp = <span class="built_in">open</span>(<span class="string">&#x27;./test_report/&#x27;</span>+ now_time +<span class="string">&#x27;result.html&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">    runner = HTMLTestRunner(stream=fp,title=<span class="string">&quot;百度搜索测试报告&quot;</span>,description=<span class="string">&quot;运行环境：Windows 10, Chrome 浏览器&quot;</span>)</span><br><span class="line">    runner.run(suit)</span><br><span class="line">    fp.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> islice</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver = webdriver.Chrome()</span><br><span class="line">        cls.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line">        cls.test_data = []</span><br><span class="line">        <span class="keyword">with</span> codecs.<span class="built_in">open</span>(<span class="string">&#x27;data.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;utf_8_sig&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            data = csv.reader(f)</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> islice(data, <span class="number">1</span>, <span class="literal">None</span>):</span><br><span class="line">                cls.test_data.append(line)</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver.quit()</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">baidu_search</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(search_key)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_selenium</span>(<span class="params">self</span>):</span><br><span class="line">        self.baidu_search(self.test_data[<span class="number">0</span>][<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_unittest</span>(<span class="params">self</span>):</span><br><span class="line">        self.baidu_search(self.test_data[<span class="number">1</span>][<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_parameterized</span>(<span class="params">self</span>):</span><br><span class="line">        self.baidu_search(self.test_data[<span class="number">2</span>][<span class="number">1</span>])</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main(verbosity=<span class="number">2</span>)</span><br><span class="line">    verbosity是一个选项,表示测试结果的信息复杂度，有<span class="number">0</span>、<span class="number">1</span>、<span class="number">2</span> 三个值</span><br><span class="line">    <span class="number">0</span> (静默模式): 你只能获得总的测试用例数和总的结果 比如 总共<span class="number">10</span>个 失败<span class="number">2</span> 成功<span class="number">8</span></span><br><span class="line">    <span class="number">1</span> (默认模式): 非常类似静默模式 只是在每个成功的用例前面有个“.” 每个失败的用例前面有个 “F”</span><br><span class="line">    <span class="number">2</span> (详细模式):测试结果会显示每个测试用例的所有相关的信息</span><br><span class="line">    并且 你在命令行里加入不同的参数可以起到一样的效果</span><br><span class="line">    加入 --quiet 参数 等效于 verbosity=<span class="number">0</span></span><br><span class="line">    加入--verbose参数等效于 verbosity=<span class="number">2</span></span><br><span class="line">    什么都不加就是 verbosity=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Parameterized"><a href="#Parameterized" class="headerlink" title="Parameterized"></a>Parameterized</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> parameterized <span class="keyword">import</span> parameterized</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver = webdriver.Chrome()</span><br><span class="line">        cls.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">baidu_search</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(search_key)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 通过Parameterized 实现参数化</span></span><br><span class="line"><span class="meta">    @parameterized.expand(<span class="params">[</span></span></span><br><span class="line"><span class="params"><span class="meta">    (<span class="params"><span class="string">&quot;case1&quot;</span>, <span class="string">&quot;selenium&quot;</span></span>),</span></span></span><br><span class="line"><span class="params"><span class="meta">    (<span class="params"><span class="string">&quot;case2&quot;</span>, <span class="string">&quot;unittest&quot;</span></span>),</span></span></span><br><span class="line"><span class="params"><span class="meta">    (<span class="params"><span class="string">&quot;case3&quot;</span>, <span class="string">&quot;parameterized&quot;</span></span>),</span></span></span><br><span class="line"><span class="params"><span class="meta">    ]</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search</span>(<span class="params">self, name, search_key</span>):</span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver.quit()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main(verbosity=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="DDT"><a href="#DDT" class="headerlink" title="DDT"></a>DDT</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#列举了三组参数化，第一组为列表，第二组为元组，第三组为字典。需要注意的是，字典的key与测试方法的参数要保持一致。</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> ddt <span class="keyword">import</span> ddt, data, file_data, unpack</span><br><span class="line"><span class="meta">@ddt</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver = webdriver.Chrome()</span><br><span class="line">        cls.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">baidu_search</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(search_key)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">3</span>)</span><br><span class="line">    <span class="comment"># 参数化使用方式一</span></span><br><span class="line"><span class="meta">    @data(<span class="params">[<span class="string">&quot;case1&quot;</span>, <span class="string">&quot;selenium&quot;</span>], [<span class="string">&quot;case2&quot;</span>, <span class="string">&quot;ddt&quot;</span>], [<span class="string">&quot;case3&quot;</span>, <span class="string">&quot;python&quot;</span>]</span>)</span></span><br><span class="line"><span class="meta">    @unpack</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search1</span>(<span class="params">self, <span class="keyword">case</span>, search_key</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第一组测试用例：&quot;</span>, <span class="keyword">case</span>)</span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line">    <span class="comment"># 参数化使用方式二</span></span><br><span class="line"><span class="meta">    @data(<span class="params">(<span class="params"><span class="string">&quot;case1&quot;</span>, <span class="string">&quot;selenium&quot;</span></span>), (<span class="params"><span class="string">&quot;case2&quot;</span>, <span class="string">&quot;ddt&quot;</span></span>), (<span class="params"><span class="string">&quot;case3&quot;</span>, <span class="string">&quot;python&quot;</span></span>)</span>)</span></span><br><span class="line"><span class="meta">    @unpack</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search2</span>(<span class="params">self, <span class="keyword">case</span>, search_key</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第二组测试用例：&quot;</span>, <span class="keyword">case</span>)</span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line">    <span class="comment"># 参数化使用方式三</span></span><br><span class="line"><span class="meta">    @data(<span class="params">&#123;<span class="string">&quot;search_key&quot;</span>: <span class="string">&quot;selenium&quot;</span>&#125;, &#123;<span class="string">&quot;search_key&quot;</span>: <span class="string">&quot;ddt&quot;</span>&#125;, &#123;<span class="string">&quot;search_key&quot;</span>:</span></span></span><br><span class="line"><span class="params"><span class="meta">    <span class="string">&quot;python&quot;</span>&#125;</span>)</span></span><br><span class="line"><span class="meta">    @unpack</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search3</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第三组测试用例：&quot;</span>, search_key)</span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver.quit()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main(verbosity=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>DDT 同样支持数据文件的参数化。它封装了数据文件的读取,不需要关心数据文件是如何被读取进来的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建ddt_data_file.json文件</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;case1&quot;</span>: &#123;<span class="string">&quot;search_key&quot;</span>: <span class="string">&quot;python1&quot;</span>&#125;,</span><br><span class="line"><span class="string">&quot;case2&quot;</span>: &#123;<span class="string">&quot;search_key&quot;</span>: <span class="string">&quot;ddt1&quot;</span>&#125;,</span><br><span class="line"><span class="string">&quot;case3&quot;</span>: &#123;<span class="string">&quot;search_key&quot;</span>: <span class="string">&quot;Selenium1&quot;</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> ddt <span class="keyword">import</span> ddt, data, file_data, unpack</span><br><span class="line"><span class="meta">@ddt</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver = webdriver.Chrome()</span><br><span class="line">        cls.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">baidu_search</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(search_key)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">3</span>)</span><br><span class="line">        </span><br><span class="line"><span class="meta">    @file_data(<span class="params"><span class="string">&#x27;ddt_data_file.json&#x27;</span></span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search4</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第四组测试用例：&quot;</span>, search_key)</span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver.quit()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main(verbosity=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>DDT 还支持yaml 格式的数据文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">case1:</span><br><span class="line">- search_key: <span class="string">&quot;python&quot;</span></span><br><span class="line">case2:</span><br><span class="line">- search_key: <span class="string">&quot;ddt&quot;</span></span><br><span class="line">case3:</span><br><span class="line">- search_key: <span class="string">&quot;unittest&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@file_data(<span class="params"><span class="string">&#x27;ddt_data_file.yaml&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_search5</span>(<span class="params">self, <span class="keyword">case</span></span>):</span><br><span class="line">search_key = <span class="keyword">case</span>[<span class="number">0</span>][<span class="string">&quot;search_key&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第五组测试用例：&quot;</span>, search_key)</span><br><span class="line">self.baidu_search(search_key)</span><br><span class="line">self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动发送邮件功能"><a href="#自动发送邮件功能" class="headerlink" title="自动发送邮件功能"></a>自动发送邮件功能</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">import</span> yagmail</span><br><span class="line"><span class="keyword">from</span> HTMLTestRunner <span class="keyword">import</span> HTMLTestRunner</span><br><span class="line"><span class="comment">#把测试报告作为附件发送到指定邮箱</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_mail</span>(<span class="params">report</span>):</span><br><span class="line">    yag = yagmail.SMTP(user=<span class="string">&quot;sender@126.com&quot;</span>,</span><br><span class="line">    password=<span class="string">&quot;a123456&quot;</span>,</span><br><span class="line">    host=<span class="string">&#x27;smtp.126.com&#x27;</span>)</span><br><span class="line">    subject = <span class="string">&quot;主题，自动化测试报告&quot;</span></span><br><span class="line">    contents = <span class="string">&quot;正文，请查看附件。&quot;</span></span><br><span class="line">    yag.send(<span class="string">&#x27;receiver@126.com&#x27;</span>, subject, contents, report)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;email has send out !&#x27;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 定义测试用例的目录为当前目录</span></span><br><span class="line">    test_dir = <span class="string">&#x27;./test_case&#x27;</span></span><br><span class="line">    suit = unittest.defaultTestLoader.discover(test_dir, pattern=<span class="string">&#x27;test_*.py&#x27;</span>)</span><br><span class="line">    <span class="comment"># 获取当前日期和时间</span></span><br><span class="line">    now_time = time.strftime(<span class="string">&quot;%Y-%m-%d %H_%M_%S&quot;</span>)</span><br><span class="line">    html_report = <span class="string">&#x27;./test_report/&#x27;</span> + now_time + <span class="string">&#x27;result.html&#x27;</span></span><br><span class="line">    fp = <span class="built_in">open</span>(html_report, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">    <span class="comment"># 调用HTMLTestRunner，运行测试用例</span></span><br><span class="line">    runner = HTMLTestRunner(stream=fp,title=<span class="string">&quot;百度搜索测试报告&quot;</span>,description=<span class="string">&quot;运行环境：Windows 10, Chrome 浏览器&quot;</span>)</span><br><span class="line">    runner.run(suit)</span><br><span class="line">    fp.close()</span><br><span class="line">    send_mail(html_report)  <span class="comment"># 发送报告</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>cclv
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" title="HTML测试报告">http://example.com/2022/11/21/HTML测试报告/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" rel="prev" title="unittest执行用例">
+                  <i class="fa fa-chevron-left"></i> unittest执行用例
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cclv</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
