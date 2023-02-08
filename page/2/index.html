@@ -156,18 +156,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,121 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/07/python%E5%A4%84%E7%90%86csv%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/07/python%E5%A4%84%E7%90%86csv%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">python处理csv文件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-07 09:53:53" itemprop="dateCreated datePublished" datetime="2022-11-07T09:53:53+08:00">2022-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-11-10 10:26:49" itemprop="dateModified" datetime="2022-11-10T10:26:49+08:00">2022-11-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">处理Excel文件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="1-CSV文件介绍"><a href="#1-CSV文件介绍" class="headerlink" title="1.CSV文件介绍"></a>1.CSV文件介绍</h3><p>CSV（Comma Separated Values）全称逗号分隔值文件是一种简单、通用的文件格式，被广泛的应用于应用程序（数据库、电子表格等）数据的导入和导出以及异构系统之间的数据交换。因为CSV是纯文本文件，不管是什么操作系统和编程语言都是可以处理纯文本的，而且很多编程语言中都提供了对读写CSV文件的支持，因此CSV格式在数据处理和数据科学中被广泛应用。</p>
+<p>CSV文件有以下特点：</p>
+<ol>
+<li>纯文本，使用某种字符集（如<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ASCII">ASCII</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Unicode">Unicode</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/GB2312">GB2312</a>）等）；</li>
+<li>由一条条的记录组成（典型的是每行一条记录）；</li>
+<li>每条记录被分隔符（如逗号、分号、制表符等）分隔为字段（列）；</li>
+<li>每条记录都有同样的字段序列。</li>
+</ol>
+<p>CSV文件可以使用文本编辑器或类似于Excel电子表格这类工具打开和编辑，当使用Excel这类电子表格打开CSV文件时，你甚至感觉不到CSV和Excel文件的区别。很多数据库系统都支持将数据导出到CSV文件中，当然也支持从CSV文件中读入数据保存到数据库中，这些内容并不是现在要讨论的重点。</p>
+<h3 id="2-将数据写入CSV文件"><a href="#2-将数据写入CSV文件" class="headerlink" title="2.将数据写入CSV文件"></a>2.将数据写入CSV文件</h3><p>现有五个学生三门课程的考试成绩需要保存到一个CSV文件中，要达成这个目标，可以使用Python标准库中的<code>csv</code>模块，该模块的<code>writer</code>函数会返回一个<code>csvwriter</code>对象，通过该对象的<code>writerow</code>或<code>writerows</code>方法就可以将数据写入到CSV文件中，具体的代码如下所示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    writer = csv.writer(file)</span><br><span class="line">    writer.writerow([<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>])</span><br><span class="line">    names = [<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">        scores = [random.randrange(<span class="number">50</span>, <span class="number">101</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)]</span><br><span class="line">        scores.insert(<span class="number">0</span>, name)</span><br><span class="line">        writer.writerow(scores)</span><br></pre></td></tr></table></figure>
+
+<p>生成的CSV文件的内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">姓名,语文,数学,英语</span><br><span class="line">关羽,98,86,61</span><br><span class="line">张飞,86,58,80</span><br><span class="line">赵云,95,73,70</span><br><span class="line">马超,83,97,55</span><br><span class="line">黄忠,61,54,87</span><br></pre></td></tr></table></figure>
+
+<p>需要说明的是上面的<code>writer</code>函数，除了传入要写入数据的文件对象外，还可以<code>dialect</code>参数，它表示CSV文件的方言，默认值是<code>excel</code>。除此之外，还可以通过<code>delimiter</code>、<code>quotechar</code>、<code>quoting</code>参数来指定分隔符（默认是逗号）、包围值的字符（默认是双引号）以及包围的方式。其中，包围值的字符主要用于当字段中有特殊符号时，通过添加包围值的字符可以避免二义性。大家可以尝试将上面第5行代码修改为下面的代码，然后查看生成的CSV文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">writer = csv.writer(file, delimiter=<span class="string">&#x27;|&#x27;</span>, quoting=csv.QUOTE_ALL)</span><br></pre></td></tr></table></figure>
+
+<p>生成的CSV文件的内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;姓名&quot;|&quot;语文&quot;|&quot;数学&quot;|&quot;英语&quot;</span><br><span class="line">&quot;关羽&quot;|&quot;88&quot;|&quot;64&quot;|&quot;65&quot;</span><br><span class="line">&quot;张飞&quot;|&quot;76&quot;|&quot;93&quot;|&quot;79&quot;</span><br><span class="line">&quot;赵云&quot;|&quot;78&quot;|&quot;55&quot;|&quot;76&quot;</span><br><span class="line">&quot;马超&quot;|&quot;72&quot;|&quot;77&quot;|&quot;68&quot;</span><br><span class="line">&quot;黄忠&quot;|&quot;70&quot;|&quot;72&quot;|&quot;51&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-从CSV文件读取数据"><a href="#3-从CSV文件读取数据" class="headerlink" title="3.从CSV文件读取数据"></a>3.从CSV文件读取数据</h3><p>如果要读取刚才创建的CSV文件，可以使用下面的代码，通过<code>csv</code>模块的<code>reader</code>函数可以创建出<code>csvreader</code>对象，该对象是一个迭代器，可以通过<code>next</code>函数或<code>for-in</code>循环读取到文件中的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    reader = csv.reader(file, delimiter=<span class="string">&#x27;|&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> data_list <span class="keyword">in</span> reader:</span><br><span class="line">        <span class="built_in">print</span>(reader.line_num, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> elem <span class="keyword">in</span> data_list:</span><br><span class="line">            <span class="built_in">print</span>(elem, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：上面的代码对<code>csvreader</code>对象做<code>for</code>循环时，每次会取出一个列表对象，该列表对象包含了一行中所有的字段。</p>
+</blockquote>
+<h3 id="4-简单的总结"><a href="#4-简单的总结" class="headerlink" title="4.简单的总结"></a>4.简单的总结</h3><p>将来如果大家使用Python做数据分析，很有可能会用到名为<code>pandas</code>的三方库，它是Python数据分析的神器之一。<code>pandas</code>中封装了名为<code>read_csv</code>和<code>to_csv</code>的函数用来读写CSV文件，其中<code>read_CSV</code>会将读取到的数据变成一个<code>DataFrame</code>对象，而<code>DataFrame</code>就是<code>pandas</code>库中最重要的类型，它封装了一系列用于数据处理的方法（清洗、转换、聚合等）；而<code>to_csv</code>会将<code>DataFrame</code>对象中的数据写入CSV文件，完成数据的持久化。<code>read_csv</code>函数和<code>to_csv</code>函数远远比原生的<code>csvreader</code>和<code>csvwriter</code>强大。</p>
+
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -459,7 +574,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

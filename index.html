@@ -156,18 +156,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,122 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/08/Linux%E5%91%BD%E4%BB%A4%E7%A5%9E%E5%99%A8lsof/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/02/08/Linux%E5%91%BD%E4%BB%A4%E7%A5%9E%E5%99%A8lsof/" class="post-title-link" itemprop="url">Linux命令lsof</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-02-08 15:23:49 / 修改时间：16:02:23" itemprop="dateCreated datePublished" datetime="2023-02-08T15:23:49+08:00">2023-02-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">linux基础</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="1-lsof简介"><a href="#1-lsof简介" class="headerlink" title="1.lsof简介"></a>1.lsof简介</h4><p>lsof(list open  files)可以列出当前系统中进程打开的所有文件，在Linux环境下，我们可以理解为一切(包括网络套接口)皆文件。在实际使用过程中，lsof是一款非常强大的系统监控和系统诊断工具。在终端下输入lsof 即可显示系统打开的文件， lsof 一般需要访问核心内存和各种文件，所以必须以 root 用户的身份运行它才能够充分地发挥其功能。</p>
+<h4 id="2-lsof使用"><a href="#2-lsof使用" class="headerlink" title="2.lsof使用"></a>2.lsof使用</h4><h5 id="2-lsof-h-显示使用方法"><a href="#2-lsof-h-显示使用方法" class="headerlink" title="2.lsof -h 显示使用方法"></a>2.lsof -h 显示使用方法</h5><p><img src="/../imags/$%7Bfiilename%7D/lsof.png" alt="lsof"></p>
+<p>2.2终端下输入lsof命令，打开前三个文件</p>
+<p><img src="/../imags/$%7Bfiilename%7D/lsof_head.jpg" alt="lsof_head"></p>
+<p>2.3lsof输出每列含义如下</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">COMMAND：进程的名称</span><br><span class="line">PID：进程标识符</span><br><span class="line">TID：任务 ID。Linux 下 TID 为空表示该行为进程</span><br><span class="line">USER：进程所有者</span><br><span class="line">FD：文件描述符。主要有：</span><br><span class="line">	cwd：应用程序当前工作目录，这是该应用程序启动的目录，除非它本身对这个目录进行更改</span><br><span class="line">	txt：该类型的文件是程序代码，如应用程序二进制文件本身或共享库，如上列表中显示的 /sbin/init 程序</span><br><span class="line">	lnn：库引用（AIX）</span><br><span class="line">	err：FD 信息错误</span><br><span class="line">	jld：监狱目录（FreeBSD）</span><br><span class="line">	ltx：共享库文本（代码和数据）</span><br><span class="line">	mxx：十六进制内存映射类型号 xx</span><br><span class="line">	m86：DOS合并映射文件</span><br><span class="line">	mem：内存映射文件</span><br><span class="line">	mmap：内存映射设备</span><br><span class="line">	pd：父目录</span><br><span class="line">	rtd：根目录</span><br><span class="line">	tr：内核跟踪文件（OpenBSD）</span><br><span class="line">	v86：VP/ix 映射文件</span><br><span class="line">	0：标准输出</span><br><span class="line">	1：标准输入</span><br><span class="line">	2：标准错误</span><br><span class="line">	文件描述符后一般还跟着文件状态模式：</span><br><span class="line">	r：只读模式</span><br><span class="line">	w：写入模式</span><br><span class="line">	u：读写模式</span><br><span class="line">	空格：文件的状态模式为 unknow，且没有锁定</span><br><span class="line">	-：文件的状态模式为 unknow，且被锁定</span><br><span class="line">	</span><br><span class="line">	同时在文件状态模式后面，还跟着相关的锁：</span><br><span class="line">	N：对于未知类型的 Solaris NFS 锁</span><br><span class="line">	r：文件部分的读锁</span><br><span class="line">	R：整个文件的读锁</span><br><span class="line">	w：文件的部分写锁</span><br><span class="line">	W：整个文件的写锁</span><br><span class="line">	u：任何长度的读写锁</span><br><span class="line">	U：用于未知类型的锁</span><br><span class="line">	x：用于部分文件上的 SCO OpenServer Xenix 锁</span><br><span class="line">	X：用于整个文件上的 SCO OpenServer Xenix 锁</span><br><span class="line">	space：无锁</span><br><span class="line">TYPE：文件类型。常见的文件类型有：</span><br><span class="line">	REG：普通文件</span><br><span class="line">	DIR：表示目录</span><br><span class="line">	CHR：表示字符类型</span><br><span class="line">	BLK：块设备类型</span><br><span class="line">	UNIX：UNIX 域套接字</span><br><span class="line">	FIFO：先进先出队列</span><br><span class="line">	IPv4：IPv4 套接字</span><br><span class="line">DEVICE：磁盘名称</span><br><span class="line">SIZE：文件的大小或文件偏移量（以字节为单位）</span><br><span class="line">NODE：索引节点</span><br><span class="line">NAME：打开文件的确切名称</span><br></pre></td></tr></table></figure>
+
+<p>2.4 Linux上常用的几种用法</p>
+<p>lsof -i  显示所有网络连接</p>
+<p>lsof  filename 显示打开指定文件的所有进程</p>
+<p>lsof -a 表示两个参数都必须满足时才显示结果</p>
+<p>lsof -c string   显示COMMAND列中包含指定字符的进程所有打开的文件</p>
+<p>lsof -u username  显示所属user进程打开的文件</p>
+<p>lsof -g gid 显示归属gid的进程情况</p>
+<p>lsof +d &#x2F;DIR&#x2F; 显示目录下被进程打开的文件</p>
+<p>lsof +D &#x2F;DIR&#x2F; 同上，但是会搜索目录下的所有目录，时间相对较长</p>
+<p>lsof -d FD 显示指定文件描述符的进程</p>
+<p>lsof -n 不将IP转换为hostname，缺省是不加上-n参数</p>
+<p>lsof -i 用以显示符合条件的进程情况</p>
+<p>2.5 显示指定程序的端口号</p>
+<p><img src="/../imags/$%7Bfiilename%7D/lsof_i.jpg" alt="lsof_i"></p>
+<h4 id="3-Lsof解决Device-is-busy问题"><a href="#3-Lsof解决Device-is-busy问题" class="headerlink" title="3.Lsof解决Device is busy问题"></a>3.Lsof解决Device is busy问题</h4><p>在系统运维过程中，我们会遇到磁盘卸载报umount: &#x2F;home: device is busy之类的提示</p>
+<p><img src="/../imags/$%7Bfiilename%7D/umount.jpg" alt="umount"></p>
+<h5 id="3-1-使用lsof命令找出占用磁盘的进程"><a href="#3-1-使用lsof命令找出占用磁盘的进程" class="headerlink" title="3.1 使用lsof命令找出占用磁盘的进程"></a>3.1 使用lsof命令找出占用磁盘的进程</h5><p><img src="/../imags/$%7Bfiilename%7D/lsof_home.jpg" alt="lsof_home"></p>
+<p>直接kill掉此进程(kill -9 5689)，umount &#x2F;home&#x2F;后目录成功卸载</p>
+<p>umount -l &#x2F;home 强行解除挂载</p>
+<p>fuser  -mv -k &#x2F;homeh直接杀死占用磁盘的进程</p>
+<p>3.2 <strong>Lsof解决文件已删除空间未释放问题</strong></p>
+<p>磁盘空间达到100%会导致数据无法正常写入文件造成程序异常，如下&#x2F;home空间达到100%，一般的解决方法是先删除大文件，然后有必要的情况下对磁盘进行扩容。</p>
+<p>按照排查步骤，先进入&#x2F;home目录查找占用磁盘的大文件（命令du -h –max-depth&#x3D;1 &#x2F;home），如下发现&#x2F;home目录下并没有占用空间大的文件和目录。</p>
+<p>为什么磁盘空间显示占用100%呢？原因是磁盘上文件已经被删除，但是存在进程仍然占用这些文件，因此其原来占用的磁盘空间并没有被释放，当然重启操作系统，空间会被释放出来，但是重启并不是最好的解决方法。</p>
+<p>lsof -n | grep delete检查出占用文件的进程</p>
+<p><img src="/../imags/$%7Bfiilename%7D/delete.jpg" alt="delete"></p>
+<p>从进程显示上可以看出，&#x2F;home目录下占用文件已经删除，仍然有3个进程在占用，我们采用kill方式杀死进程，释放空间。</p>
+<p><img src="/../imags/$%7Bfiilename%7D/kill.jpg" alt="kill"></p>
+
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1138,121 +1254,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/07/python%E5%A4%84%E7%90%86csv%E6%96%87%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="cclv">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月明星稀">
-      <meta itemprop="description" content="我的第一个博客搭建">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 月明星稀">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/07/python%E5%A4%84%E7%90%86csv%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">python处理csv文件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-11-07 09:53:53" itemprop="dateCreated datePublished" datetime="2022-11-07T09:53:53+08:00">2022-11-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-10 10:26:49" itemprop="dateModified" datetime="2022-11-10T10:26:49+08:00">2022-11-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">处理Excel文件</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="1-CSV文件介绍"><a href="#1-CSV文件介绍" class="headerlink" title="1.CSV文件介绍"></a>1.CSV文件介绍</h3><p>CSV（Comma Separated Values）全称逗号分隔值文件是一种简单、通用的文件格式，被广泛的应用于应用程序（数据库、电子表格等）数据的导入和导出以及异构系统之间的数据交换。因为CSV是纯文本文件，不管是什么操作系统和编程语言都是可以处理纯文本的，而且很多编程语言中都提供了对读写CSV文件的支持，因此CSV格式在数据处理和数据科学中被广泛应用。</p>
-<p>CSV文件有以下特点：</p>
-<ol>
-<li>纯文本，使用某种字符集（如<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ASCII">ASCII</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Unicode">Unicode</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/GB2312">GB2312</a>）等）；</li>
-<li>由一条条的记录组成（典型的是每行一条记录）；</li>
-<li>每条记录被分隔符（如逗号、分号、制表符等）分隔为字段（列）；</li>
-<li>每条记录都有同样的字段序列。</li>
-</ol>
-<p>CSV文件可以使用文本编辑器或类似于Excel电子表格这类工具打开和编辑，当使用Excel这类电子表格打开CSV文件时，你甚至感觉不到CSV和Excel文件的区别。很多数据库系统都支持将数据导出到CSV文件中，当然也支持从CSV文件中读入数据保存到数据库中，这些内容并不是现在要讨论的重点。</p>
-<h3 id="2-将数据写入CSV文件"><a href="#2-将数据写入CSV文件" class="headerlink" title="2.将数据写入CSV文件"></a>2.将数据写入CSV文件</h3><p>现有五个学生三门课程的考试成绩需要保存到一个CSV文件中，要达成这个目标，可以使用Python标准库中的<code>csv</code>模块，该模块的<code>writer</code>函数会返回一个<code>csvwriter</code>对象，通过该对象的<code>writerow</code>或<code>writerows</code>方法就可以将数据写入到CSV文件中，具体的代码如下所示。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    writer = csv.writer(file)</span><br><span class="line">    writer.writerow([<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>])</span><br><span class="line">    names = [<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">        scores = [random.randrange(<span class="number">50</span>, <span class="number">101</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)]</span><br><span class="line">        scores.insert(<span class="number">0</span>, name)</span><br><span class="line">        writer.writerow(scores)</span><br></pre></td></tr></table></figure>
-
-<p>生成的CSV文件的内容。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">姓名,语文,数学,英语</span><br><span class="line">关羽,98,86,61</span><br><span class="line">张飞,86,58,80</span><br><span class="line">赵云,95,73,70</span><br><span class="line">马超,83,97,55</span><br><span class="line">黄忠,61,54,87</span><br></pre></td></tr></table></figure>
-
-<p>需要说明的是上面的<code>writer</code>函数，除了传入要写入数据的文件对象外，还可以<code>dialect</code>参数，它表示CSV文件的方言，默认值是<code>excel</code>。除此之外，还可以通过<code>delimiter</code>、<code>quotechar</code>、<code>quoting</code>参数来指定分隔符（默认是逗号）、包围值的字符（默认是双引号）以及包围的方式。其中，包围值的字符主要用于当字段中有特殊符号时，通过添加包围值的字符可以避免二义性。大家可以尝试将上面第5行代码修改为下面的代码，然后查看生成的CSV文件。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">writer = csv.writer(file, delimiter=<span class="string">&#x27;|&#x27;</span>, quoting=csv.QUOTE_ALL)</span><br></pre></td></tr></table></figure>
-
-<p>生成的CSV文件的内容。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;姓名&quot;|&quot;语文&quot;|&quot;数学&quot;|&quot;英语&quot;</span><br><span class="line">&quot;关羽&quot;|&quot;88&quot;|&quot;64&quot;|&quot;65&quot;</span><br><span class="line">&quot;张飞&quot;|&quot;76&quot;|&quot;93&quot;|&quot;79&quot;</span><br><span class="line">&quot;赵云&quot;|&quot;78&quot;|&quot;55&quot;|&quot;76&quot;</span><br><span class="line">&quot;马超&quot;|&quot;72&quot;|&quot;77&quot;|&quot;68&quot;</span><br><span class="line">&quot;黄忠&quot;|&quot;70&quot;|&quot;72&quot;|&quot;51&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-从CSV文件读取数据"><a href="#3-从CSV文件读取数据" class="headerlink" title="3.从CSV文件读取数据"></a>3.从CSV文件读取数据</h3><p>如果要读取刚才创建的CSV文件，可以使用下面的代码，通过<code>csv</code>模块的<code>reader</code>函数可以创建出<code>csvreader</code>对象，该对象是一个迭代器，可以通过<code>next</code>函数或<code>for-in</code>循环读取到文件中的数据。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    reader = csv.reader(file, delimiter=<span class="string">&#x27;|&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> data_list <span class="keyword">in</span> reader:</span><br><span class="line">        <span class="built_in">print</span>(reader.line_num, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> elem <span class="keyword">in</span> data_list:</span><br><span class="line">            <span class="built_in">print</span>(elem, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>注意</strong>：上面的代码对<code>csvreader</code>对象做<code>for</code>循环时，每次会取出一个列表对象，该列表对象包含了一行中所有的字段。</p>
-</blockquote>
-<h3 id="4-简单的总结"><a href="#4-简单的总结" class="headerlink" title="4.简单的总结"></a>4.简单的总结</h3><p>将来如果大家使用Python做数据分析，很有可能会用到名为<code>pandas</code>的三方库，它是Python数据分析的神器之一。<code>pandas</code>中封装了名为<code>read_csv</code>和<code>to_csv</code>的函数用来读写CSV文件，其中<code>read_CSV</code>会将读取到的数据变成一个<code>DataFrame</code>对象，而<code>DataFrame</code>就是<code>pandas</code>库中最重要的类型，它封装了一系列用于数据处理的方法（清洗、转换、聚合等）；而<code>to_csv</code>会将<code>DataFrame</code>对象中的数据写入CSV文件，完成数据的持久化。<code>read_csv</code>函数和<code>to_csv</code>函数远远比原生的<code>csvreader</code>和<code>csvwriter</code>强大。</p>
-
-      
-    </div>
-
-    
-    
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1266,7 +1267,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
