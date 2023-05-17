@@ -20,27 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="1. python的@property是python的一种装饰器，是用来修饰方法的1.1 作用使用@property装饰器来创建只读属性，@property装饰器会将方法转换为相同名称的只读属性,可以与所定义的属性配合使用，这样可以防止属性被修改。 1.2  修饰方法，使方法可以像属性一样访问1234567891011class DataSet(object):  @property  def m">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2022/10/11/hello-world/index.html">
+<meta property="og:title" content="python @property的使用">
+<meta property="og:url" content="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="月明星稀">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="1. python的@property是python的一种装饰器，是用来修饰方法的1.1 作用使用@property装饰器来创建只读属性，@property装饰器会将方法转换为相同名称的只读属性,可以与所定义的属性配合使用，这样可以防止属性被修改。 1.2  修饰方法，使方法可以像属性一样访问1234567891011class DataSet(object):  @property  def m">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-10-11T09:04:58.133Z">
-<meta property="article:modified_time" content="2022-10-11T09:04:58.133Z">
+<meta property="article:published_time" content="2023-05-17T05:45:05.000Z">
+<meta property="article:modified_time" content="2023-05-17T06:07:23.024Z">
 <meta property="article:author" content="cclv">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/2022/10/11/hello-world/">
+<link rel="canonical" href="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/10/11/hello-world/","path":"2022/10/11/hello-world/","title":"Hello World"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/","path":"2023/05/17/python-property的使用/","title":"python @property的使用"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hello World | 月明星稀</title>
+<title>python @property的使用 | 月明星稀</title>
   
 
 
@@ -144,7 +145,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-python%E7%9A%84-property%E6%98%AFpython%E7%9A%84%E4%B8%80%E7%A7%8D%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%8C%E6%98%AF%E7%94%A8%E6%9D%A5%E4%BF%AE%E9%A5%B0%E6%96%B9%E6%B3%95%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text">1. python的@property是python的一种装饰器，是用来修饰方法的</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-%E4%BD%9C%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-%E4%BF%AE%E9%A5%B0%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%BF%E6%96%B9%E6%B3%95%E5%8F%AF%E4%BB%A5%E5%83%8F%E5%B1%9E%E6%80%A7%E4%B8%80%E6%A0%B7%E8%AE%BF%E9%97%AE"><span class="nav-number">1.2.</span> <span class="nav-text">1.2  修饰方法，使方法可以像属性一样访问</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-%E4%B8%8D%E5%8A%A0%E6%8B%AC%E5%8F%B7"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 不加括号</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E4%B8%8E%E6%89%80%E5%AE%9A%E4%B9%89%E7%9A%84%E5%B1%9E%E6%80%A7%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%BF%99%E6%A0%B7%E5%8F%AF%E4%BB%A5%E9%98%B2%E6%AD%A2%E5%B1%9E%E6%80%A7%E8%A2%AB%E4%BF%AE%E6%94%B9"><span class="nav-number">2.</span> <span class="nav-text">2. 与所定义的属性配合使用，这样可以防止属性被修改</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -221,7 +222,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/11/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -234,12 +235,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Hello World | 月明星稀">
+      <meta itemprop="name" content="python @property的使用 | 月明星稀">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          python @property的使用
         </h1>
 
         <div class="post-meta-container">
@@ -249,8 +250,18 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-10-11 17:04:58" itemprop="dateCreated datePublished" datetime="2022-10-11T17:04:58+08:00">2022-10-11</time>
+      <time title="创建时间：2023-05-17 13:45:05 / 修改时间：14:07:23" itemprop="dateCreated datePublished" datetime="2023-05-17T13:45:05+08:00">2023-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
     </span>
 
   
@@ -270,19 +281,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h4 id="1-python的-property是python的一种装饰器，是用来修饰方法的"><a href="#1-python的-property是python的一种装饰器，是用来修饰方法的" class="headerlink" title="1. python的@property是python的一种装饰器，是用来修饰方法的"></a>1. python的@property是python的一种装饰器，是用来修饰方法的</h4><h5 id="1-1-作用"><a href="#1-1-作用" class="headerlink" title="1.1 作用"></a>1.1 作用</h5><p>使用@property装饰器来创建<strong>只读属性</strong>，@property装饰器会将<strong>方法</strong>转换为相同名称的<strong>只读属性</strong>,可以与所定义的属性配合使用，这样可以防止属性被修改。</p>
+<h5 id="1-2-修饰方法，使方法可以像属性一样访问"><a href="#1-2-修饰方法，使方法可以像属性一样访问" class="headerlink" title="1.2  修饰方法，使方法可以像属性一样访问"></a>1.2  修饰方法，使方法可以像属性一样访问</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataSet</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"><span class="meta">  @property</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method_with_property</span>(<span class="params">self</span>): <span class="comment">##含有@property</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">15</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method_without_property</span>(<span class="params">self</span>): <span class="comment">##不含@property</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">15</span></span><br><span class="line"></span><br><span class="line">l = DataSet()</span><br><span class="line"><span class="built_in">print</span>(l.method_with_property) <span class="comment"># 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。</span></span><br><span class="line"><span class="built_in">print</span>(l.method_without_property())  <span class="comment">#没有加@property , 必须使用正常的调用方法的形式，即在后面加()</span></span><br><span class="line"><span class="comment"># 两个输出都为15</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>如果使用property进行修饰后，又在调用的时候，方法后面添加了()， 那么就会显示错误信息：TypeError: ‘int’ object  is not callable，也就是说添加@property  后，这个方法就变成了一个属性，如果后面加入了()，那么就是当作函数来调用，而它却不是callable（可调用）的。</p>
+<h5 id="1-3-不加括号"><a href="#1-3-不加括号" class="headerlink" title="1.3 不加括号"></a>1.3 不加括号</h5><p>没有使用property修饰，它是一种方法，如果把括号去掉，不会报错输出的就会是方法存放的地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataSet</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method_without_property</span>(<span class="params">self</span>): <span class="comment">##不含@property</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">15</span></span><br><span class="line">l = DataSet()</span><br><span class="line"><span class="built_in">print</span>(l.method_without_property） <span class="comment">#没有加@property , 必须使用正常的调用方法的形式，即在后面加()</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h4 id="2-与所定义的属性配合使用，这样可以防止属性被修改"><a href="#2-与所定义的属性配合使用，这样可以防止属性被修改" class="headerlink" title="2. 与所定义的属性配合使用，这样可以防止属性被修改"></a>2. 与所定义的属性配合使用，这样可以防止属性被修改</h4><p>​        由于python进行属性的定义时，没办法设置私有属性，因此要通过@property的方法来进行设置。这样可以隐藏属性名，让用户进行使用的时候无法随意修改。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataSet</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self._images = <span class="number">1</span></span><br><span class="line">        self._labels = <span class="number">2</span> <span class="comment">#定义属性的名称</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">images</span>(<span class="params">self</span>): <span class="comment">#方法加入@property后，这个方法相当于一个属性，这个属性可以让用户进行使用，而且用户有没办法随意修改。</span></span><br><span class="line">        <span class="keyword">return</span> self._images </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">labels</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self._labels</span><br><span class="line">l = DataSet()</span><br><span class="line"><span class="comment">#用户进行属性调用的时候，直接调用images即可，而不用知道属性名_images，因此用户无法更改属性，从而保护了类的属性。</span></span><br><span class="line"><span class="built_in">print</span>(l.images) <span class="comment"># 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>总结：类中定义私有属性有两种方式：一种用单下划线，表示这个属性是类的私有属性，不希望被外部访问到，但仅仅是不希望，还是可以被访问的；第二种是双下划线，表示这个属性就是类的私有属性，只能在类中被使用，不可以在实例化的对象中去使用。</p>
 
     </div>
 
@@ -311,7 +320,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://example.com/2022/10/11/hello-world/" title="Hello World">http://example.com/2022/10/11/hello-world/</a>
+      <a href="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" title="python @property的使用">http://example.com/2023/05/17/python-property的使用/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -319,16 +328,19 @@
 </ul>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" rel="prev" title="pytest_parametrize()参数化">
+                  <i class="fa fa-chevron-left"></i> pytest_parametrize()参数化
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/10/12/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" rel="next" title="测试文章">
-                  测试文章 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

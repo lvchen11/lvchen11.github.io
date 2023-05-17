@@ -156,18 +156,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,98 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">python @property的使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-05-17 13:45:05 / 修改时间：14:07:23" itemprop="dateCreated datePublished" datetime="2023-05-17T13:45:05+08:00">2023-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="1-python的-property是python的一种装饰器，是用来修饰方法的"><a href="#1-python的-property是python的一种装饰器，是用来修饰方法的" class="headerlink" title="1. python的@property是python的一种装饰器，是用来修饰方法的"></a>1. python的@property是python的一种装饰器，是用来修饰方法的</h4><h5 id="1-1-作用"><a href="#1-1-作用" class="headerlink" title="1.1 作用"></a>1.1 作用</h5><p>使用@property装饰器来创建<strong>只读属性</strong>，@property装饰器会将<strong>方法</strong>转换为相同名称的<strong>只读属性</strong>,可以与所定义的属性配合使用，这样可以防止属性被修改。</p>
+<h5 id="1-2-修饰方法，使方法可以像属性一样访问"><a href="#1-2-修饰方法，使方法可以像属性一样访问" class="headerlink" title="1.2  修饰方法，使方法可以像属性一样访问"></a>1.2  修饰方法，使方法可以像属性一样访问</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataSet</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"><span class="meta">  @property</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method_with_property</span>(<span class="params">self</span>): <span class="comment">##含有@property</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">15</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method_without_property</span>(<span class="params">self</span>): <span class="comment">##不含@property</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">15</span></span><br><span class="line"></span><br><span class="line">l = DataSet()</span><br><span class="line"><span class="built_in">print</span>(l.method_with_property) <span class="comment"># 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。</span></span><br><span class="line"><span class="built_in">print</span>(l.method_without_property())  <span class="comment">#没有加@property , 必须使用正常的调用方法的形式，即在后面加()</span></span><br><span class="line"><span class="comment"># 两个输出都为15</span></span><br></pre></td></tr></table></figure>
+
+<p>如果使用property进行修饰后，又在调用的时候，方法后面添加了()， 那么就会显示错误信息：TypeError: ‘int’ object  is not callable，也就是说添加@property  后，这个方法就变成了一个属性，如果后面加入了()，那么就是当作函数来调用，而它却不是callable（可调用）的。</p>
+<h5 id="1-3-不加括号"><a href="#1-3-不加括号" class="headerlink" title="1.3 不加括号"></a>1.3 不加括号</h5><p>没有使用property修饰，它是一种方法，如果把括号去掉，不会报错输出的就会是方法存放的地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataSet</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method_without_property</span>(<span class="params">self</span>): <span class="comment">##不含@property</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">15</span></span><br><span class="line">l = DataSet()</span><br><span class="line"><span class="built_in">print</span>(l.method_without_property） <span class="comment">#没有加@property , 必须使用正常的调用方法的形式，即在后面加()</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-与所定义的属性配合使用，这样可以防止属性被修改"><a href="#2-与所定义的属性配合使用，这样可以防止属性被修改" class="headerlink" title="2. 与所定义的属性配合使用，这样可以防止属性被修改"></a>2. 与所定义的属性配合使用，这样可以防止属性被修改</h4><p>​        由于python进行属性的定义时，没办法设置私有属性，因此要通过@property的方法来进行设置。这样可以隐藏属性名，让用户进行使用的时候无法随意修改。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataSet</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self._images = <span class="number">1</span></span><br><span class="line">        self._labels = <span class="number">2</span> <span class="comment">#定义属性的名称</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">images</span>(<span class="params">self</span>): <span class="comment">#方法加入@property后，这个方法相当于一个属性，这个属性可以让用户进行使用，而且用户有没办法随意修改。</span></span><br><span class="line">        <span class="keyword">return</span> self._images </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">labels</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self._labels</span><br><span class="line">l = DataSet()</span><br><span class="line"><span class="comment">#用户进行属性调用的时候，直接调用images即可，而不用知道属性名_images，因此用户无法更改属性，从而保护了类的属性。</span></span><br><span class="line"><span class="built_in">print</span>(l.images) <span class="comment"># 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。</span></span><br></pre></td></tr></table></figure>
+
+<p>总结：类中定义私有属性有两种方式：一种用单下划线，表示这个属性是类的私有属性，不希望被外部访问到，但仅仅是不希望，还是可以被访问的；第二种是双下划线，表示这个属性就是类的私有属性，只能在类中被使用，不可以在实例化的对象中去使用。</p>
+
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1170,89 +1262,6 @@
           <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#多窗口切换</span></span><br><span class="line"><span class="comment"># 在页面操作过程中，有时单击某个链接会弹出新的窗口，这时就需要切换到新打开的窗口中进行操作。WebDriver 提供的switch_to.window()方法可以实现在不同的窗口间切换。</span></span><br><span class="line"><span class="comment"># current_window_handle：获得当前窗口句柄。window_handles：返回所有窗口的句柄到当前会话。switch_to.window()：切换到相应的窗口。</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_window</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line">    <span class="comment">#获取百度搜索窗口句柄</span></span><br><span class="line">    search_window = driver.current_window_handle</span><br><span class="line">    driver.implicitly_wait(<span class="number">10</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;s-top-loginbtn&quot;</span>).click()</span><br><span class="line">    driver.implicitly_wait(<span class="number">10</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;TANGRAM__PSP_11__regLink&#x27;</span>).click()</span><br><span class="line">    time.sleep(<span class="number">5</span>)</span><br><span class="line">    all_handles = driver.window_handles</span><br><span class="line">    <span class="comment">#进入注册窗口：暂时不适用，百度需要验证码才可以</span></span><br><span class="line">    <span class="keyword">for</span> handle <span class="keyword">in</span> all_handles:</span><br><span class="line">        <span class="keyword">if</span> handle != search_window:</span><br><span class="line">            driver.switch_to.window(handle)</span><br><span class="line">            <span class="built_in">print</span>(driver.title)</span><br><span class="line">            driver.find_element_by_id(<span class="string">&#x27;TANGRAM__PSP_11__userName&#x27;</span>).send_keys(<span class="string">&#x27;1fafa720fa6&#x27;</span>)</span><br><span class="line">            driver.find_element_by_id(<span class="string">&#x27;TANGRAM__PSP_11__password&#x27;</span>).send_keys(<span class="string">&#x27;1fa77242226&#x27;</span>)</span><br><span class="line">            time.sleep(<span class="number">5</span>)</span><br><span class="line">            <span class="comment">#关闭当前窗口</span></span><br><span class="line">            driver.close()</span><br><span class="line">        <span class="comment"># 回到搜索窗口</span></span><br><span class="line">        driver.switch_to.window(search_window)</span><br><span class="line">        <span class="built_in">print</span>(driver.title)</span><br><span class="line">        driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="comment">#警告框处理</span></span><br><span class="line"><span class="comment"># 在 WebDriver 中处理JavaScript 生成的alert、confirm 和prompt 十分简单，具体做法是，</span></span><br><span class="line"><span class="comment"># 首先使用switch_to.alert()方法定位，然后使用text、accept、dismiss、send_keys 等进行操作。</span></span><br><span class="line"><span class="comment"># text：返回alert、confirm、prompt 中的文字信息。</span></span><br><span class="line"><span class="comment"># accept()：接受现有警告框。</span></span><br><span class="line"><span class="comment"># dismiss()：解散现有警告框。</span></span><br><span class="line"><span class="comment"># send_keys()：在警告框中输入文本（如果可以输入的话）</span></span><br><span class="line"><span class="comment">#可以使用 switch_to.alert()方法为百度搜索设置弹窗</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_alert</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&#x27;https://www.baidu.com&#x27;</span>)</span><br><span class="line">    <span class="comment"># 打开搜索设置</span></span><br><span class="line">    <span class="comment"># link = driver.find_element_by_link_text(&#x27;设置&#x27;).click()</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;s-usersetting-top&#x27;</span>).click()</span><br><span class="line">    driver.find_element_by_link_text(<span class="string">&quot;搜索设置&quot;</span>).click()</span><br><span class="line">    sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 保存设置</span></span><br><span class="line">    driver.find_element_by_class_name(<span class="string">&quot;prefpanelgo&quot;</span>).click()</span><br><span class="line">    <span class="comment"># 获取警告框</span></span><br><span class="line">    alert = driver.switch_to.alert</span><br><span class="line">    <span class="comment"># 获取警告框提示信息</span></span><br><span class="line">    alert_text = alert.text</span><br><span class="line">    <span class="built_in">print</span>(alert_text)</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    <span class="comment"># 接取警告框</span></span><br><span class="line">    alert.accept()</span><br><span class="line">    driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下拉框处理</span></span><br><span class="line"><span class="comment"># WebDriver 提供了Select 类来处理下拉框。</span></span><br><span class="line"><span class="comment"># Select类：用于定位&lt;select&gt;标签。</span></span><br><span class="line"><span class="comment"># select_by_value()：通过value值定位下拉选项。</span></span><br><span class="line"><span class="comment"># select_by_visible_text()：通过text值定位下拉选项。</span></span><br><span class="line"><span class="comment"># select_by_index()：根据下拉选项的索引进行选择。第一个选项为0，第二个选项为1。</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_select</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    path = <span class="string">r&#x27;D:\7z\py\html\select.html&#x27;</span></span><br><span class="line">    driver.get(path)</span><br><span class="line">    <span class="comment"># 通过显示等待的方法判断元素是否出现</span></span><br><span class="line">    WebDriverWait(driver, <span class="number">10</span>).until(EC.visibility_of_element_located((By.NAME, <span class="string">&quot;anjing&quot;</span>)))</span><br><span class="line">    select = driver.find_element_by_name(<span class="string">&#x27;anjing&#x27;</span>)</span><br><span class="line">    <span class="comment"># 根据下标进行选择，从0开始</span></span><br><span class="line">    Select(select).select_by_index(<span class="number">1</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 根据value的值选择</span></span><br><span class="line">    Select(select).select_by_value(<span class="string">&#x27;daily&#x27;</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 根基text选择</span></span><br><span class="line">    Select(select).select_by_visible_text(<span class="string">&#x27;关注了吗？&#x27;</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 判断选择是否预期</span></span><br><span class="line">    WebDriverWait(driver, <span class="number">20</span>).until(EC.element_located_to_be_selected((By.XPATH, <span class="string">&#x27;//*[contains(text(),&quot;关注了&quot;)]&#x27;</span>)))</span><br><span class="line">    driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="comment">#上传文件</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_upfile</span>():</span><br><span class="line">    file_path = os.path.abspath(<span class="string">r&#x27;D:\7z\py\html&#x27;</span>)</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    upload_page = <span class="string">r&#x27;D:\7z\py\html\select.html&#x27;</span></span><br><span class="line">    driver.get(upload_page)</span><br><span class="line">    <span class="comment"># 定位上传按钮，添加本地文件</span></span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;inputfile&quot;</span>).send_keys(file_path + <span class="string">&#x27;/day02.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#操作cookie</span></span><br><span class="line"><span class="comment"># WebDriver 操作Cookie 的方法如下。</span></span><br><span class="line"><span class="comment"># get_cookies()：获得所有Cookie。</span></span><br><span class="line"><span class="comment"># get_cookie(name)：返回字典中key 为“name”的Cookie。</span></span><br><span class="line"><span class="comment"># add_cookie(cookie_dict)：添加 Cookie。</span></span><br><span class="line"><span class="comment"># delete_cookie(name,optionsString)：删除名为OpenString 的Cookie。</span></span><br><span class="line"><span class="comment"># delete_all_cookies()：删除所有Cookie。</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_cookie</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;http://www.baidu.com&quot;</span>)</span><br><span class="line">    <span class="comment"># 获得所有Cookie 信息并打印</span></span><br><span class="line">    cookie = driver.get_cookies()</span><br><span class="line">    <span class="built_in">print</span>(cookie)</span><br><span class="line">    <span class="comment"># 添加Cookie 信息</span></span><br><span class="line">    driver.add_cookie(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;key-aaaaaaa&#x27;</span>, <span class="string">&#x27;value&#x27;</span>: <span class="string">&#x27;value-bbbbbb&#x27;</span>&#125;)</span><br><span class="line">    <span class="comment"># 遍历指定的Cookies</span></span><br><span class="line">    <span class="keyword">for</span> cookie <span class="keyword">in</span> driver.get_cookies():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;%s -&gt; %s&quot;</span> % (cookie[<span class="string">&#x27;name&#x27;</span>], cookie[<span class="string">&#x27;value&#x27;</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment">#调用javascript,实现浏览器滚动条的拖动效果</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_move</span>():</span><br><span class="line">    <span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;http://www.baidu.com&quot;</span>)</span><br><span class="line">    <span class="comment">#，通过set_window_size()方法将浏览器窗口设置为固定宽、高显示,目的是让窗口出现水平和垂直滚动条</span></span><br><span class="line">    driver.set_window_size(<span class="number">800</span>, <span class="number">600</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(<span class="string">&quot;selenium&quot;</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">    <span class="comment"># 通过JavaScript 设置浏览器窗口的滚动条位置</span></span><br><span class="line">    js = <span class="string">&quot;window.scrollTo(100,450);&quot;</span></span><br><span class="line">    driver.execute_script(js)</span><br><span class="line">    time.sleep(<span class="number">4</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_picture</span>():</span><br><span class="line">    <span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line">    <span class="comment"># 截取当前窗口，指定截图图片的保存位置</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h4 id="html代码"><a href="#html代码" class="headerlink" title="html代码"></a>html代码</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">&lt;title&gt;上传表单&lt;/title&gt;</span><br><span class="line">#上传文件</span><br><span class="line">&lt;link href=&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span><br><span class="line">rel=&quot;stylesheet&quot; &gt;</span><br><span class="line">&lt;script src=&quot;https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div class=&quot;jumbotron&quot;&gt;</span><br><span class="line">&lt;form class=&quot;form-inline&quot; role=&quot;form&quot;&gt;</span><br><span class="line">&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">&lt;label class=&quot;sr-only&quot; for=&quot;name&quot;&gt;名称&lt;/label&gt;</span><br><span class="line">&lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;name&quot;</span><br><span class="line">placeholder=&quot;请输入名称&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">&lt;label class=&quot;sr-only&quot; for=&quot;inputfile&quot;&gt;文件输入&lt;/label&gt;</span><br><span class="line">&lt;input type=&quot;file&quot; id=&quot;inputfile&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;提交&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"># select 选择</span><br><span class="line">&lt;form&gt;</span><br><span class="line">&lt;center&gt;</span><br><span class="line">&lt;select name=&quot;anjing&quot;&gt;</span><br><span class="line">&lt;option value=&quot;boke&quot;&gt;请关注今日天气&lt;/option&gt;</span><br><span class="line">&lt;option value=&quot;study&quot;&gt;今天大雨&lt;/option&gt;</span><br><span class="line">&lt;option value=&quot;daily&quot;&gt;写写什么&lt;/option&gt;</span><br><span class="line">&lt;option value=&quot;like&quot;&gt;喜欢的食物&lt;/option&gt;</span><br><span class="line">&lt;option value=&quot;attention&quot;&gt;关注点在哪里&lt;/option&gt;</span><br><span class="line">&lt;/center&gt;</span><br><span class="line">&lt;/select&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-
-    
-    
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="cclv">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月明星稀">
-      <meta itemprop="description" content="我的第一个博客搭建">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 月明星稀">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/11/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" class="post-title-link" itemprop="url">selenium时间等待</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-11-11 09:36:49 / 修改时间：15:39:34" itemprop="dateCreated datePublished" datetime="2022-11-11T09:36:49+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/selenium/" itemprop="url" rel="index"><span itemprop="name">selenium</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="获得验证信息"><a href="#获得验证信息" class="headerlink" title="获得验证信息"></a>获得验证信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.wait <span class="keyword">import</span> WebDriverWait</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_title</span>():</span><br><span class="line">    <span class="comment">#title：用于获取当前页面的标题</span></span><br><span class="line">    <span class="comment">#current_url：用于获取当前页面的URL</span></span><br><span class="line">    <span class="comment">#text：用于获取当前页面的文本信息</span></span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Before search================&#x27;</span>)</span><br><span class="line">    <span class="comment"># 打印当前页面title</span></span><br><span class="line">    title = driver.title</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;title:&quot;</span> + title) <span class="comment">#title:百度一下，你就知道</span></span><br><span class="line">    <span class="comment"># 打印当前页面URL</span></span><br><span class="line">    now_url = driver.current_url</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;URL:&quot;</span> + now_url) <span class="comment"># URL:https://www.baidu.com/</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(<span class="string">&quot;selenium&quot;</span>)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">    sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;After search================&#x27;</span>)</span><br><span class="line">    <span class="comment"># 再次打印当前页面title</span></span><br><span class="line">    title = driver.title</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;title:&quot;</span> + title) <span class="comment">#selenium_百度搜索</span></span><br><span class="line">    <span class="comment"># 再次打印当前页面URL</span></span><br><span class="line">    now_url = driver.current_url</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;URL:&quot;</span> + now_url)</span><br><span class="line">    <span class="comment"># 获取搜索结果条数</span></span><br><span class="line">    <span class="comment"># num = driver.find_element_by_class_name(&#x27;nums&#x27;).text</span></span><br><span class="line">    num = driver.find_element_by_css_selector(<span class="string">&#x27;.hint_PIwZX.c_font_2AD7M&#x27;</span>).text</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;result:&quot;</span> + num) <span class="comment">#result:百度为您找到相关结果约100,000,000个</span></span><br><span class="line">    driver.quit()</span><br></pre></td></tr></table></figure>
-<h4 id="显示等待和隐士等待"><a href="#显示等待和隐士等待" class="headerlink" title="显示等待和隐士等待"></a>显示等待和隐士等待</h4><p> <img src="/2022/11/11/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/%E9%A2%84%E6%9C%9F%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95.jpg" alt="显示等待"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># WebDriverWait 类是WebDriver 提供的等待方法。在设置时间内，默认每隔一段时间检</span></span><br><span class="line"><span class="comment"># 测一次当前页面元素是否存在，如果超过设置时间仍检测不到，则抛出异常。具体格式如下</span></span><br><span class="line"><span class="comment"># WebDriverWait(driver, timeout, poll_frequency=0.5, ignored_exceptions=None)</span></span><br><span class="line"><span class="comment"># driver：浏览器驱动。</span></span><br><span class="line"><span class="comment"># timeout：最长超时时间，默认以秒为单位。</span></span><br><span class="line"><span class="comment"># poll_frequency：检测的间隔（步长）时间，默认为0.5s。</span></span><br><span class="line"><span class="comment"># ignored_exceptions：超时后的异常信息，默认情况下抛出NoSuchElementException异常。</span></span><br><span class="line"><span class="comment"># WebDriverWait()一般与until()或until_not()方法配合使用，下面是until()和until_not()方法的说明。until(method, message=″)</span></span><br><span class="line"><span class="comment"># 调用该方法提供的驱动程序作为一个参数，直到返回值为True。until_not(method, message=″)调用该方法提供的驱动程序作为一个参数，直到返回值为False。</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_time</span>():</span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line">    driver.get(<span class="string">&quot;http://www.baidu.com&quot;</span>)</span><br><span class="line">    element = WebDriverWait(driver, <span class="number">5</span>, <span class="number">0.5</span>).until(</span><br><span class="line">        expected_conditions.visibility_of_element_located((By.ID, <span class="string">&quot;kw&quot;</span>))</span><br><span class="line">    )</span><br><span class="line">    element.send_keys(<span class="string">&#x27;selenium&#x27;</span>)</span><br><span class="line">    driver.implicitly_wait(<span class="number">10</span>) <span class="comment">#隐式等待</span></span><br><span class="line">    driver.quit()</span><br></pre></td></tr></table></figure>
       
     </div>
 
