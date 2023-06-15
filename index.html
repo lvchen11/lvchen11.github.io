@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,123 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" class="post-title-link" itemprop="url">JMeter中使用“用户参数”实现参数化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-06-15 17:22:07 / 修改时间：17:47:54" itemprop="dateCreated datePublished" datetime="2023-06-15T17:22:07+08:00">2023-06-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/jmeter/" itemprop="url" rel="index"><span itemprop="name">jmeter</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="1-用户参数组件介绍"><a href="#1-用户参数组件介绍" class="headerlink" title="1. 用户参数组件介绍"></a>1. <strong>用户参数组件介绍</strong></h4><p>​	用户参数（User  Parameter）组件在前置处理器元件中添加，前置处理器的作用是在取样器发出请求之前，执行一些操作。即：如果将前置处理器附加到取样器元件中，则它将在该取样器元件运行之前执行。常用操作如：取样器参数设置、环境变量设置、脚本预处理等。之前我们介绍过，JMeter中常用的参数化方式有四种：1、CSV数据文件设置（CSV Data Set Config）：这种方式是通常所指的参数化。数据存储在文件中，该种参数化方式取值范围大，灵活性强，适用于大量测试数据时的使用。</p>
+<h5 id="1-1-用户参数（User-Parameter）"><a href="#1-1-用户参数（User-Parameter）" class="headerlink" title="1.1 用户参数（User Parameter）"></a>1.1 用户参数（User Parameter）</h5><p>​		适用于参数取值范围很小，需要少量测试数据时使用。</p>
+<h5 id="1-2-用户自定义变量（User-Defined-Variables）"><a href="#1-2-用户自定义变量（User-Defined-Variables）" class="headerlink" title="1.2 用户自定义变量（User Defined Variables）"></a>1.2 用户自定义变量（User Defined Variables）</h5><p>​		更多用于设置全局变量，常用于数据库地址，测试环境、开发环境地址等常量配置。</p>
+<h5 id="1-3-函数助手"><a href="#1-3-函数助手" class="headerlink" title="1.3  函数助手"></a>1.3  函数助手</h5><p>​		可使用函数生成随机数字和随机字符串实现参数化。本文以前置处理器中的<strong>用户参数</strong>组件为例，实现JMeter中的参数化。</p>
+<h4 id="2-用户参数界面介绍"><a href="#2-用户参数界面介绍" class="headerlink" title="2. 用户参数界面介绍"></a>2. <strong>用户参数界面介绍</strong></h4><p>​	<strong>用户参数</strong>组件添加方式：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p><img src="/../imags/$%7Bfiilename%7D/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
+<p>界面说明：</p>
+<ul>
+<li><strong>名称</strong>：用户参数组件的自定义名称，见名知意最好。</li>
+<li><strong>注释</strong>：即添加一些备注信息，对该用户参数组件的简短说明，以便后期回顾时查看。</li>
+<li><strong>每次迭代更新一次</strong>：不同的线程需要应用不同的用户数据，这时就需要勾选此选项。也就是根据线程组里设置的线程数，每个线程调用不同的用户数据，依次取值。但是我实际操作中，勾选不勾选都能够依次取值。（如果修改线程组界面中的循环次数，勾不勾选，都只用一个用户的值。）</li>
+<li><strong>添加变量</strong>：横着添加一行变量信息，此变量会应用于每个用户。</li>
+<li><strong>删除变量</strong>：删除所选中的一行数据。</li>
+<li><strong>添加用户</strong>：竖着添加一个用户信息，一个用户就是一组测试数据。</li>
+<li><strong>删除用户</strong>：删除所选中的一列数据。</li>
+<li><strong>向上和向下按钮</strong>：就是上下移动所选中变量的位置。</li>
+</ul>
+<h4 id="3-使用“用户参数”组件实现参数化"><a href="#3-使用“用户参数”组件实现参数化" class="headerlink" title="3. 使用“用户参数”组件实现参数化"></a>3. <strong>使用“用户参数”组件实现参数化</strong></h4><p>​	需求，实现批量新建和删除标签</p>
+<h5 id="3-1测试计划内包含的元件"><a href="#3-1测试计划内包含的元件" class="headerlink" title="3.1测试计划内包含的元件"></a>3.1<strong>测试计划内包含的元件</strong></h5><p><strong>添加元件操作步骤</strong>：</p>
+<p>​	1、创建测试计划</p>
+<p>​	2、创建线程组：选中“测试计划”右键—&gt;添加—&gt;线程（用户）—&gt;线程组。</p>
+<p>​	3、在线程组中，添加取样器”HTTP请求“组件：选中“线程组”右键—&gt;添加—&gt;取样器—&gt; HTTP请求。</p>
+<p>​	4、在取样器中，添加前置处理器“用户参数”组件：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p>​	5、在线程组中，添加监听器察看结果树组件：查看结果，选中“线程组”右键—&gt;添加—&gt;监听器—&gt;察看结果树。</p>
+<p>最终测试计划中的元件如下：</p>
+<p><img src="/../imags/$%7Bfiilename%7D/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA-16868214883341-16868214939582.jpg" alt="标签新建"></p>
+<h5 id="3-2-线程组元件内容"><a href="#3-2-线程组元件内容" class="headerlink" title="3.2 线程组元件内容"></a>3.2 <strong>线程组元件内容</strong></h5><p><img src="/../imags/$%7Bfiilename%7D/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E5%8C%96_%E7%BA%BF%E7%A8%8B%E6%95%B0.jpg" alt="用户参数化_线程数"></p>
+<h5 id="3-3-HTTP请求组件内容"><a href="#3-3-HTTP请求组件内容" class="headerlink" title="3.3 HTTP请求组件内容"></a>3.3 <strong>HTTP请求组件内容</strong></h5><p><img src="/../imags/$%7Bfiilename%7D/%E6%A0%87%E7%AD%BEhttp-16868218333803.jpg" alt="标签http"></p>
+<h5 id="3-4-用户参数组件内容"><a href="#3-4-用户参数组件内容" class="headerlink" title="3.4 用户参数组件内容"></a>3.4 <strong>用户参数组件内容</strong></h5><p><img src="/../imags/$%7Bfiilename%7D/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2-16868218867434.jpg" alt="用户参数界面"></p>
+<h4 id="4-脚本运行结果"><a href="#4-脚本运行结果" class="headerlink" title="4. 脚本运行结果"></a>4. <strong>脚本运行结果</strong></h4><p><img src="/../imags/$%7Bfiilename%7D/%E7%BB%93%E6%9E%9C-16868220287815-16868220316206.jpg" alt="结果"></p>
+<h5 id="5-总结优先级说明："><a href="#5-总结优先级说明：" class="headerlink" title="5. 总结优先级说明："></a>5. <strong>总结</strong>优先级说明：</h5><ul>
+<li>线程组下的用户参数组件 优先级高于 测试计划 里的用户自定义变量。</li>
+<li>HTTP 请求下的用户参数组件 优先级高于 **线程组下 **的用户参数组件。</li>
+<li>若有重名参数，优先取优先级高的用户参数。</li>
+<li>若用户参数和用户自定义变量重名，则优先取用户参数组件中的值 。因为配置元件执行完再到前置处理器，所以前置处理器的值会覆盖配置元件中设置的值。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1190,147 +1307,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="cclv">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月明星稀">
-      <meta itemprop="description" content="我的第一个博客搭建">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 月明星稀">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">unittest单元测试框架</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-11-15 13:14:49" itemprop="dateCreated datePublished" datetime="2022-11-15T13:14:49+08:00">2022-11-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-18 14:05:35" itemprop="dateModified" datetime="2022-11-18T14:05:35+08:00">2022-11-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unittest/" itemprop="url" rel="index"><span itemprop="name">unittest</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="unittest功能"><a href="#unittest功能" class="headerlink" title="unittest功能"></a>unittest功能</h4><ol>
-<li>提供测试用例组织和执行</li>
-<li>提供丰富的断言方法</li>
-<li>提供丰富的日志</li>
-</ol>
-<h4 id="基础代码实现"><a href="#基础代码实现" class="headerlink" title="基础代码实现"></a>基础代码实现</h4><p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Calculator</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        self.a = <span class="built_in">int</span>(a)</span><br><span class="line">        self.b = <span class="built_in">int</span>(b)</span><br><span class="line">    <span class="comment"># 加法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a + self.b</span><br><span class="line">    <span class="comment"># 减法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sub</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a - self.b</span><br><span class="line">    <span class="comment"># 乘法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">mul</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a * self.b</span><br><span class="line">    <span class="comment"># 除法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">div</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a / self.b</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_add</span>():</span><br><span class="line">    c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">    result = c.add()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">8</span>, <span class="string">&#x27;加法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_sub</span>():</span><br><span class="line">    c = Calculator(<span class="number">7</span>, <span class="number">2</span>)</span><br><span class="line">    result = c.sub()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">5</span>, <span class="string">&#x27;减法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_mul</span>():</span><br><span class="line">    c = Calculator(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">    result = c.mul()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">10</span>, <span class="string">&#x27;乘法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_div</span>():</span><br><span class="line">    c = Calculator(<span class="number">6</span>, <span class="number">2</span>)</span><br><span class="line">    result = c.div()</span><br><span class="line">    <span class="keyword">assert</span> result == <span class="number">3</span>, <span class="string">&#x27;除法运算失败!&#x27;</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    test_add()</span><br><span class="line">    test_sub()</span><br><span class="line">    test_mul()</span><br><span class="line">    test_div()</span><br></pre></td></tr></table></figure>
-
-<p>这样的测试存在着一些问题。首先，我们需要自己定义断言失败的提示；其次，当<br>测试函数运行失败后，后面的测试函数将不再执行；最后，执行结果无法统计	</p>
-<h5 id="通过-unittest-单元测试框架重新编写测试用例"><a href="#通过-unittest-单元测试框架重新编写测试用例" class="headerlink" title="通过 unittest 单元测试框架重新编写测试用例"></a>通过 unittest 单元测试框架重新编写测试用例</h5><p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestCalculator</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">        result = c.add()</span><br><span class="line">        self.assertEqual(result, <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_sub</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">7</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.sub()</span><br><span class="line">        self.assertEqual(result, <span class="number">5</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_mul</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">        result = c.mul()</span><br><span class="line">        self.assertEqual(result, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_div</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">6</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.div()</span><br><span class="line">        self.assertEqual(result, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>创建一个测试类，这里为TestCalculator 类，必须要继承unittest 模块的TestCase类。</li>
-<li>创建一个测试方法，该方法必须以“test”开头。</li>
-<li>通过unittest 提供的assertEqual()方法来断言结果是否与预期结果相同。该方法由TestCase 父类提供，由于继承了该类，所以可以通过self 调用。</li>
-<li>最后，调用unittest 的main()来执行测试用例，它会按照前面的两条规则查找测试用例并执行。</li>
-</ol>
-<h5 id="四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。"><a href="#四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。" class="headerlink" title="四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。"></a>四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。</h5><ol>
-<li>Test Case 是最小的测试单元，用于检查特定输入集合的特定返回值。unittest 提供了TestCase 基类，我们创建的测试类需要继承该基类，它可以用来创建新的测试用例。</li>
-<li>测试套件是测试用例、测试套件或两者的集合，用于组装一组要运行的测试。unittest提供了TestSuite 类来创建测试套件。</li>
-<li>Test Runner 是一个组件，用于协调测试的执行并向用户提供结果。Test Runner 可以使用图形界面、文本界面或返回特殊值来展示执行测试的结果。unittest 提供了TextTestRunner类运行测试用例，为了生成HTML 格式的测试报告，后面会选择使用HTMLTestRunner 运行类。</li>
-<li>Test Fixture 代表执行一个或多个测试所需的环境准备，以及关联的清理动作。例如，创建临时或代理数据库、目录，或启动服务器进程,unittest 中提供了setUp()&#x2F;tearDown()、setUpClass()&#x2F;tearDownClass()等方法来完成这些操作</li>
-</ol>
-<p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestCalculator</span>(unittest.TestCase):</span><br><span class="line">    <span class="comment"># 测试用例前置动作</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test start:&quot;</span>)</span><br><span class="line">    <span class="comment"># 测试用例后置动作</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDown</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test end&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">        result = c.add()</span><br><span class="line">        self.assertEqual(result, <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_sub</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">7</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.sub()</span><br><span class="line">        self.assertEqual(result, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_mul</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">        result = c.mul()</span><br><span class="line">        self.assertEqual(result, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_div</span>(<span class="params">self</span>):</span><br><span class="line">        c = Calculator(<span class="number">6</span>, <span class="number">2</span>)</span><br><span class="line">        result = c.div()</span><br><span class="line">        self.assertEqual(result, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"><span class="comment"># 创建测试套件</span></span><br><span class="line">    suit = unittest.TestSuite()</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_add&quot;</span>))</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_sub&quot;</span>))</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_mul&quot;</span>))</span><br><span class="line">    suit.addTest(TestCalculator(<span class="string">&quot;test_div&quot;</span>))</span><br><span class="line"><span class="comment"># 创建测试运行器</span></span><br><span class="line">    runner = unittest.TextTestRunner()</span><br><span class="line">    runner.run(suit)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>首先，创建一个测试类并继承TestCase 类，在该类下面创建一条以“test”开头的方法为测试用例</li>
-<li>在测试类中增加了 setUp()&#x2F;tearDown()方法，用于定义测试用例的前置和后置动作。在当前测试中暂时用不上，这里定义了一些简单的打印</li>
-<li>抛弃了unittest 提供的main()方法，而是调用TestSuite 类下面addTest()来添加测试用例。因为一次只能添加一条用例，所以需要指定测试类及测试方法。然后，再调用TextTestRunner 类下面的run()运行测试套件。</li>
-<li>优点：相比main()方法。测试用例的执行顺序可以由测试套件的添加顺序控制，而main()方法只能按照测试类、方法的名称来执行测试用例。例如，TestA 类比TestB 类先执行，test_add()用例比test_div()用例先执行。</li>
-<li>其次，当一个测试文件中有很多测试用例时，并不是每次都要执行所有的测试用例，尤其是比较耗时的UI 自动化测试。因而通过测试套件和测试运行器可以灵活地控制要执行的测试用例。</li>
-</ul>
-<h5 id="断言方法"><a href="#断言方法" class="headerlink" title="断言方法"></a>断言方法</h5><p><img src="/imags/$%7Bfiilename%7D/%E6%96%AD%E8%A8%80%E6%96%B9%E6%B3%95.jpg"></p>
-<p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestAssert</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_equal</span>(<span class="params">self</span>):</span><br><span class="line">        self.assertEqual(<span class="number">2</span>+<span class="number">52</span>, <span class="number">4</span>)</span><br><span class="line">        self.assertEqual(<span class="string">&quot;pytgn&quot;</span>, <span class="string">&quot;python&quot;</span>)</span><br><span class="line">        self.assertNotEqual(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;python&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_in</span>(<span class="params">self</span>):</span><br><span class="line">        self.assertIn(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">        self.assertNotIn(<span class="string">&quot;hi&quot;</span>, <span class="string">&quot;hello&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_true</span>(<span class="params">self</span>):</span><br><span class="line">        self.assertTrue(<span class="literal">True</span>)</span><br><span class="line">        self.assertFalse(<span class="literal">False</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
-
-<h5 id="测试用例的组织与discover-方法"><a href="#测试用例的组织与discover-方法" class="headerlink" title="测试用例的组织与discover 方法"></a>测试用例的组织与discover 方法</h5><p>针对 Calculator 类所编写的测试用例存在的问题：一个功能对应一条测试用例不够的；其次测试用例的划分，建议一个测试类对应一个被测试功能</p>
-<p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Calculator</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        self.a = <span class="built_in">int</span>(a)</span><br><span class="line">        self.b = <span class="built_in">int</span>(b)</span><br><span class="line">    <span class="comment"># 加法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a + self.b</span><br><span class="line">    <span class="comment"># 减法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sub</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a - self.b</span><br><span class="line">    <span class="comment"># 乘法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">mul</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a * self.b</span><br><span class="line">    <span class="comment"># 除法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">div</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.a / self.b</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestAdd</span>(unittest.TestCase):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; add()方法测试&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add_integer</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 整数相加测试&quot;&quot;&quot;</span></span><br><span class="line">        c = Calculator(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">        self.assertEqual(c.add(), <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add_decimals</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 小数相加测试&quot;&quot;&quot;</span></span><br><span class="line">        c = Calculator(<span class="number">3.2</span>, <span class="number">5.5</span>)</span><br><span class="line">        self.assertEqual(c.add(), <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_add_string</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 字符串整数相加测试&quot;&quot;&quot;</span></span><br><span class="line">        c = Calculator(<span class="string">&quot;7&quot;</span>, <span class="string">&quot;9&quot;</span>)</span><br><span class="line">        self.assertEqual(c.add(), <span class="number">16</span>)</span><br><span class="line">    <span class="comment"># ……</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestSub</span>(unittest.TestCase):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; sub()方法测试&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># ……</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
-
-<h5 id="判断某年是否为闰年"><a href="#判断某年是否为闰年" class="headerlink" title="判断某年是否为闰年"></a>判断某年是否为闰年</h5><p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LeapYear</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算某年是否为闰年&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span> (self, year):</span><br><span class="line">        self.year = <span class="built_in">int</span>(year)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">answer</span>(<span class="params">self</span>):</span><br><span class="line">        year = self.year</span><br><span class="line">        <span class="keyword">if</span> year % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> year % <span class="number">400</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># 整百年能被400 整除的是闰年</span></span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;不是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> year % <span class="number">4</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># 非整百年能被4 整除的是闰年</span></span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&#123;0&#125;不是闰年&quot;</span>.<span class="built_in">format</span>(year)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestLeapYear</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2000</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2000</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2000是闰年&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2004</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2004</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2004是闰年&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2017</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2017</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2017不是闰年&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2100</span>(<span class="params">self</span>):</span><br><span class="line">        ly = LeapYear(<span class="number">2100</span>)</span><br><span class="line">        self.assertEqual(ly.answer(), <span class="string">&quot;2100不是闰年&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
-
-<h5 id="如何执行多个测试文件"><a href="#如何执行多个测试文件" class="headerlink" title="如何执行多个测试文件"></a>如何执行多个测试文件</h5><p>unittest 中的TestLoader 类提供的discover()方法可以从多个文件中查找测试用例。</p>
-<p>该类根据各种标准加载测试用例，并将它们返回给测试套件。正常情况下，不需要创建这个类的实例。unittest 提供了可以共享的defaultTestLoader 类，可以使用其子类或方法创建实例，discover()方法就是其中之一。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">discover(start_dir，pattern=<span class="string">&#x27;test*.py&#x27;</span>，top_level_dir=<span class="literal">None</span>)</span><br><span class="line">找到指定目录及其子目录下的所有测试模块，只有匹配的文件名才能被加载。如果启动的不是顶层目录，那么顶层目录必须单独指定。</span><br><span class="line">	start_dir ：待测试的模块名或测试用例目录。</span><br><span class="line">	pattern=<span class="string">&#x27;test*.py&#x27;</span> ：测试用例文件名的匹配原则。此处匹配文件名以“test”开头的“.py”类型的文件，星号“*”表示任意多个字符。</span><br><span class="line">	top_level_dir=<span class="literal">None</span>：测试模块的顶层目录，如果没有顶层目录，则默认为<span class="literal">None</span>。</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line">test_dir = <span class="string">&#x27;../test1107&#x27;</span></span><br><span class="line">suits = unittest.defaultTestLoader.discover(test_dir, pattern=<span class="string">&#x27;test_unit*.py&#x27;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    runner = unittest.TextTestRunner()</span><br><span class="line">    runner.run(suits)</span><br></pre></td></tr></table></figure>
-
-<p>discover()方法会自动根据测试用例目录（test_dir）查找测试用例文件（test*.py），并将找到的测试用例添加到测试套件中，因此，可以直接通过run()方法执行测试套件suits。这种方式极大地简化了测试用例的查找，我们需要做的就是按照文件的匹配规则创建测试文件即可。</p>
-
-      
-    </div>
-
-    
-    
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
