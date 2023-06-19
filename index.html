@@ -156,18 +156,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,177 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="cclv">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月明星稀">
+      <meta itemprop="description" content="我的第一个博客搭建">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 月明星稀">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">接口测试学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-06-19 09:28:09 / 修改时间：09:49:14" itemprop="dateCreated datePublished" datetime="2023-06-19T09:28:09+08:00">2023-06-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">接口测试</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="1-HTTP-与-HTTPS-的概念"><a href="#1-HTTP-与-HTTPS-的概念" class="headerlink" title="1. HTTP 与 HTTPS 的概念"></a>1. HTTP 与 HTTPS 的概念</h4><ul>
+<li><p>HTTP</p>
+</li>
+<li><ul>
+<li>超文本传输协议</li>
+<li>是一个基于请求与响应，无状态的，应用层的协议</li>
+<li>常基于 TCP&#x2F;IP 协议传输数据</li>
+<li>以明文方式发送内容</li>
+</ul>
+</li>
+<li><p>HTTPS</p>
+</li>
+<li><ul>
+<li>安全套接字层超文本传输协议</li>
+<li>通过计算机网络进行安全通信的传输协议</li>
+<li>在 HTTP 的基础上加入了 SSL&#x2F;TLS 协议</li>
+<li><code>HTTP + 加密 + 认证 + 完整性保护 = HTTPS</code></li>
+</ul>
+</li>
+<li><p><img src="/../imags/$%7Bfiilename%7D/https%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.jpg" alt="https通信过程"><img src="/../imags/$%7Bfiilename%7D/%E4%BC%A0%E8%BE%93.jpg" alt="传输"></p>
+</li>
+</ul>
+<h4 id="2-HTTP-与-HTTPS-的区别"><a href="#2-HTTP-与-HTTPS-的区别" class="headerlink" title="2. HTTP 与 HTTPS 的区别"></a>2. HTTP 与 HTTPS 的区别</h4><ol>
+<li><p>HTTPS 比 HTTP 更安全</p>
+<ul>
+<li><p>HTTP 是超文本传输协议，连接简单无状态，信息明文传输</p>
+</li>
+<li><p>HTTPS 通过 SSL&#x2F;TLS 提供安全方式</p>
+</li>
+</ul>
+</li>
+<li><p>HTTP 和 HTTPS 使用完全不同的连接方式</p>
+</li>
+<li><p>HTTP 和 HTTPS 用的端口也不一样</p>
+<ul>
+<li><p>HTTP 是 80 端口</p>
+</li>
+<li><p>HTTPS 是 443 端口</p>
+</li>
+</ul>
+</li>
+<li><p>HTTPS 协议需要到 CA 申请证书，可能需要一定费用</p>
+</li>
+</ol>
+<h4 id="3-get、post区别"><a href="#3-get、post区别" class="headerlink" title="3.get、post区别"></a>3.get、post区别</h4><p><img src="/../imags/$%7Bfiilename%7D/%E5%8C%BA%E5%88%AB.jpg" alt="区别"></p>
+<ul>
+<li><p>HTTP 的 method 字段不同</p>
+</li>
+<li><p>POST 可以附加 body，可以支持 form、json、xml、binary 等各种数据格式</p>
+</li>
+<li><p>行业通用的规范</p>
+</li>
+<li><ul>
+<li>无状态变化的建议使用 GET 请求</li>
+<li>数据的写入与状态修改建议用 POST</li>
+</ul>
+</li>
+<li><p>传送数据量不同</p>
+</li>
+<li><p>安全性不同</p>
+</li>
+</ul>
+<h4 id="4-session、cookie、token的区别"><a href="#4-session、cookie、token的区别" class="headerlink" title="4 session、cookie、token的区别"></a>4 session、cookie、token的区别</h4><ul>
+<li>Session：数据存储到服务端，只把关联数据的一个加密串放到 Cookie 中标记</li>
+<li>Cookie：浏览器接受服务器的 Set-Cookie 指令，并把 cookie 保存到电脑上，每个网站保存的 cookie 只作用于自己的网站</li>
+<li>Token：是一个用户请求时附带的请求字段，用于验证身份与权限</li>
+</ul>
+<h5 id="4-1-session的实现机制"><a href="#4-1-session的实现机制" class="headerlink" title="4.1 session的实现机制"></a>4.1 session的实现机制</h5><p>​		服务器创建 Session 出来后，会把 Session id，以 Cookie 的形式回写给客户端  浏览器，这样，只要客户端的浏览器不关，再去访问服务器时，都会带着 Session id ，服务器发现客户机浏览器带 Session id  过来了，就会使用内存中与之对应的 Session 为之服务。(Session 会存在服务器)</p>
+<p><img src="/../imags/$%7Bfiilename%7D/session.jpg" alt="session"></p>
+<h5 id="4-2-cookie-实现机制"><a href="#4-2-cookie-实现机制" class="headerlink" title="4.2 cookie 实现机制"></a>4.2 cookie 实现机制</h5><ul>
+<li>Cookie 通过在客户端记录信息确定用户身份，</li>
+<li>Cookie 由服务器生成，发送给浏览器，浏览器把 Cookie 以 kv 形式保存到某个目录下的文本文件内，下一次请求同一网站时会把该 Cookie 发送给服务器。</li>
+</ul>
+<p><img src="/../imags/$%7Bfiilename%7D/cookie%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.jpg" alt="cookie实现机制"></p>
+<h5 id="4-3-Token-的原理"><a href="#4-3-Token-的原理" class="headerlink" title="4.3 Token 的原理"></a>4.3 Token 的原理</h5><ul>
+<li><p>基于 Token 的身份验证是无状态的，我们不将用户信息存在服务器或 Session 中。这解决了在服务端存储信息时的许多问题 NoSession 意味着你的程序可以根据需要去增减机器，而不用去担心用户是否登录。</p>
+</li>
+<li><p>基于 Token 的身份验证的过程如下:</p>
+</li>
+<li><ul>
+<li>用户发送数据请求</li>
+<li>程序验证</li>
+<li>程序返回一个签名的 token 给客户端</li>
+<li>客户端储存 token，并且每次用于每次发送请求。</li>
+<li>服务端验证 token 并返回数据。</li>
+</ul>
+</li>
+</ul>
+<p>​	token 通常在 HTTP 的头部发送给服务端</p>
+<h5 id="4-4-Session-Cookie-Token-的工作原理"><a href="#4-4-Session-Cookie-Token-的工作原理" class="headerlink" title="4.4 Session,Cookie,Token 的工作原理"></a>4.4 Session,Cookie,Token 的工作原理</h5><p><img src="/../imags/$%7Bfiilename%7D/%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.jpg" alt="工作原理"></p>
+
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1175,117 +1346,6 @@
 
 
 
-
-      
-    </div>
-
-    
-    
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="cclv">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月明星稀">
-      <meta itemprop="description" content="我的第一个博客搭建">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 月明星稀">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" class="post-title-link" itemprop="url">unittest执行用例</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-11-18 10:26:22 / 修改时间：13:47:08" itemprop="dateCreated datePublished" datetime="2022-11-18T10:26:22+08:00">2022-11-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unittest/" itemprop="url" rel="index"><span itemprop="name">unittest</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="测试用例的执行顺序"><a href="#测试用例的执行顺序" class="headerlink" title="测试用例的执行顺序"></a>测试用例的执行顺序</h4><p>测试用例的执行顺序涉及多个层级：多个测试目录&gt;多个测试文件&gt;多个测试类&gt;多个测试方法（测试用例）</p>
-<p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBdd</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test TestBdd:&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_ccc</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test ccc&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_aaa</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test aaa&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestAdd</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test TestAdd:&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_bbb</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test bbb&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
-
-<p>unittest 默认根据ASCII 码的顺序加载测试用例的（数字与字母的顺序为0<del>9，A</del>Z，a~z），所以TestAdd 类会优先于TestBdd 类被执行，test_aaa()方法会优先于test_ccc()方法被执行，也就是说，它并不是按照测试用例的创建顺序从上到下执行的。</p>
-<p>声明测试套件TestSuite 类，通过addTest()方法按照一定的顺序来加载测试用<br>例。</p>
-<p>现在的执行顺序与addTest()方法加载测试用例的顺序相同。不过，当测试用例非常多时，不推荐用这种方法创建测试套件。最好的方法是通过命名控制执行顺序</p>
-<p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 构造测试集</span></span><br><span class="line">    suite = unittest.TestSuite()</span><br><span class="line">    suite.addTest(TestBdd(<span class="string">&quot;test_aaa&quot;</span>))</span><br><span class="line">    suite.addTest(TestBdd(<span class="string">&quot;test_ccc&quot;</span>))</span><br><span class="line">    suite.addTest(TestAdd(<span class="string">&quot;test_bbb&quot;</span>))</span><br><span class="line">    <span class="comment"># 执行测试</span></span><br><span class="line">    runner = unittest.TextTestRunner()</span><br><span class="line">    runner.run(suite)</span><br></pre></td></tr></table></figure>
-
-<h4 id="执行多级目录的测试用例"><a href="#执行多级目录的测试用例" class="headerlink" title="执行多级目录的测试用例"></a>执行多级目录的测试用例</h4><p>当测试用例的数量达到一定量级时，就要考虑目录划分，</p>
-<p>&#96;&#96;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">test_project</span><br><span class="line">├──/test_case/</span><br><span class="line">│ ├── test_bbb/</span><br><span class="line">│ │ ├── test_ccc/</span><br><span class="line">│ │ │ └── test_c.py</span><br><span class="line">│ │ └── test_b.py</span><br><span class="line">│ ├── test_ddd/</span><br><span class="line">│ │ └── test_d.py</span><br><span class="line">│ └── test_a.py</span><br><span class="line">└─ run_tests.py</span><br></pre></td></tr></table></figure>
-
-<p>对于上面的目录结构，如果将discover()方法中的start_dir 参数定为“.&#x2F;test_case”目<br>录，那么只能加载test_a.py 文件中的测试用例。如何让unittest 查找test_case&#x2F;下子目录中的测试文件呢？方法很简单，就是在每个子目录下放一个__init__.py 文件。<strong>init</strong>.py 文件的作用是将一个目录标记成一个标准的Python 模块。</p>
-<h4 id="跳过测试和预期失败"><a href="#跳过测试和预期失败" class="headerlink" title="跳过测试和预期失败"></a>跳过测试和预期失败</h4><p>&#96;&#96;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import unittest</span><br><span class="line">class MyTest(unittest.TestCase):</span><br><span class="line">    @unittest.skip(&quot;直接跳过测试&quot;)  # unittest.skip(reason)无条件地跳过装饰的测试，需要说明跳过测试的原因</span><br><span class="line">    def test_skip(self):</span><br><span class="line">        print(&quot;test aaa&quot;)</span><br><span class="line">    @unittest.skipIf(3 &gt; 2, &quot;当条件为真时跳过测试&quot;)# unittest.skipIf(condition, reason) 如果条件为真，则跳过装饰的测试。</span><br><span class="line">    def test_skip_if(self):</span><br><span class="line">        print(&#x27;test bbb&#x27;)</span><br><span class="line"></span><br><span class="line">    @unittest.skipUnless(3 &gt; 2, &quot;当条件为真时执行测试&quot;)#unittest.skipUnless(condition, reason)当条件为真时，执行装饰的测试</span><br><span class="line">    def test_skip_unless(self):</span><br><span class="line">        print(&#x27;test ccc&#x27;)</span><br><span class="line"></span><br><span class="line">    @unittest.expectedFailure   #unittest.expectedFailure()不管执行结果是否失败，都将测试标记为失败。</span><br><span class="line">    def test_expected_failure(self):</span><br><span class="line">        self.assertEqual(2, 3)</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">        unittest.main() </span><br></pre></td></tr></table></figure>
-
-<h5 id="Fixture"><a href="#Fixture" class="headerlink" title="Fixture"></a>Fixture</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">setUpModule</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;test module start &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tearDownModule</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;test module end &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;</span>)</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyTest</span>(unittest.TestCase):</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test class start =======&gt;&quot;</span>)</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test class end =======&gt;&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test case start --&gt;&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDown</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test case end --&gt;&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_case1</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test case1&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_case2</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;test case2&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br><span class="line"></span><br><span class="line">setUpModule/tearDownModule：在整个模块的开始与结束时被执行。</span><br><span class="line">setUpClass/tearDownClass：在测试类的开始与结束时被执行。</span><br><span class="line">setUp/tearDown：在测试用例的开始与结束时被执行。</span><br><span class="line">需要注意的是，setUpClass/tearDownClass 为类方法，需要通过@<span class="built_in">classmethod</span> 进行装饰。</span><br><span class="line">另外，方法的参数为cls。其实，cls 与self 并没有什么本质区别，都只表示方法的第一个</span><br><span class="line">参数。</span><br></pre></td></tr></table></figure>
-
-<h4 id="编写web自动化测试"><a href="#编写web自动化测试" class="headerlink" title="编写web自动化测试"></a>编写web自动化测试</h4><p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>):</span><br><span class="line">        self.driver = webdriver.Chrome()</span><br><span class="line">        self.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_selenium</span>(<span class="params">self</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line"></span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(<span class="string">&quot;selenium&quot;</span>)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line">        title = self.driver.title</span><br><span class="line">        self.assertEqual(title, <span class="string">&quot;selenium_百度搜索&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_unittest</span>(<span class="params">self</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line"></span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(<span class="string">&quot;unittest&quot;</span>)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line">        title = self.driver.title</span><br><span class="line">        self.assertEqual(title, <span class="string">&quot;unittest_百度搜索&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDown</span>(<span class="params">self</span>):</span><br><span class="line">        self.driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br><span class="line"> 上面的代码不做过多介绍，都是以 unittest 创建测试类和方法的。方法中的代码是Selenium 脚本,代码存在一些问题，</span><br></pre></td></tr></table></figure>
-
-<p>观察上面代码可以发现，两个测试用例中的步骤是一样的，唯一的区别是搜索的关键字和断言的结果不同，使用模块化，把操作步骤封装成一个方法。</p>
-<p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>):</span><br><span class="line">        self.driver = webdriver.Chrome()</span><br><span class="line">        self.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">baidu_search</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(search_key)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_selenium</span>(<span class="params">self</span>):</span><br><span class="line">        search_key = <span class="string">&quot;selenium&quot;</span></span><br><span class="line">        self.baidu_search(search_key) <span class="comment"># 调用baidu_search方法，直接传入search_key</span></span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_unittest</span>(<span class="params">self</span>):</span><br><span class="line">        search_key = <span class="string">&quot;unittest&quot;</span></span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDown</span>(<span class="params">self</span>):</span><br><span class="line">        self.driver.quit()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br><span class="line"><span class="comment">#baidu_search()方法不会被当作测试用例执行，因为根据unittest 查找和执行测试用例的规则，它只会把以“test”开头的方法当作测试用例</span></span><br></pre></td></tr></table></figure>
-
-<p>减少浏览器的启动和关闭次数</p>
-<p>&#96;&#96;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestBaidu</span>(unittest.TestCase):</span><br><span class="line">    driver = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver = webdriver.Chrome()</span><br><span class="line">        cls.base_url = <span class="string">&quot;https://www.baidu.com&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">baidu_search</span>(<span class="params">self, search_key</span>):</span><br><span class="line">        self.driver.get(self.base_url)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;kw&quot;</span>).send_keys(search_key)</span><br><span class="line">        self.driver.find_element_by_id(<span class="string">&quot;su&quot;</span>).click()</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_selenium</span>(<span class="params">self</span>):</span><br><span class="line">        search_key = <span class="string">&quot;selenium&quot;</span></span><br><span class="line">        self.baidu_search(search_key) <span class="comment"># 调用baidu_search方法，直接传入search_key</span></span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_search_key_unittest</span>(<span class="params">self</span>):</span><br><span class="line">        search_key = <span class="string">&quot;unittest&quot;</span></span><br><span class="line">        self.baidu_search(search_key)</span><br><span class="line">        self.assertEqual(self.driver.title, search_key + <span class="string">&quot;_百度搜索&quot;</span>)</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>):</span><br><span class="line">        cls.driver.quit()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
 
       
     </div>
