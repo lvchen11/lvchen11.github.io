@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>unittest单元测试框架 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="unittest功能 提供测试用例组织和执行 提供丰富的断言方法 提供丰富的日志  基础代码实现&#96;&#96; import unittest class Calculator:     &quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;     def __init__(self, a, b):         self.a &#x3D; int(a)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unittest单元测试框架">
+<meta property="og:url" content="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="unittest功能 提供测试用例组织和执行 提供丰富的断言方法 提供丰富的日志  基础代码实现&#96;&#96; import unittest class Calculator:     &quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;     def __init__(self, a, b):         self.a &#x3D; int(a)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-15T05:14:49.000Z">
+<meta property="article:modified_time" content="2025-02-26T06:27:37.984Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="unittest概念">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-unittest基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2022-11-15T05:14:49.000Z" itemprop="datePublished">2022-11-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/unittest/">unittest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      unittest单元测试框架
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="unittest功能"><a href="#unittest功能" class="headerlink" title="unittest功能"></a>unittest功能</h4><ol>
+<li>提供测试用例组织和执行</li>
+<li>提供丰富的断言方法</li>
+<li>提供丰富的日志</li>
+</ol>
+<h4 id="基础代码实现"><a href="#基础代码实现" class="headerlink" title="基础代码实现"></a>基础代码实现</h4><p>``</p>
+<pre><code class="python">import unittest
+class Calculator:
+    &quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;
+    def __init__(self, a, b):
+        self.a = int(a)
+        self.b = int(b)
+    # 加法
+    def add(self):
+        return self.a + self.b
+    # 减法
+    def sub(self):
+        return self.a - self.b
+    # 乘法
+    def mul(self):
+        return self.a * self.b
+    # 除法
+    def div(self):
+        return self.a / self.b
+
+def test_add():
+    c = Calculator(3, 5)
+    result = c.add()
+    assert result == 8, &#39;加法运算失败!&#39;
+def test_sub():
+    c = Calculator(7, 2)
+    result = c.sub()
+    assert result == 5, &#39;减法运算失败!&#39;
+def test_mul():
+    c = Calculator(3, 3)
+    result = c.mul()
+    assert result == 10, &#39;乘法运算失败!&#39;
+def test_div():
+    c = Calculator(6, 2)
+    result = c.div()
+    assert result == 3, &#39;除法运算失败!&#39;
+if __name__ == &#39;__main__&#39;:
+    test_add()
+    test_sub()
+    test_mul()
+    test_div()
+</code></pre>
+<p>这样的测试存在着一些问题。首先，我们需要自己定义断言失败的提示；其次，当<br>测试函数运行失败后，后面的测试函数将不再执行；最后，执行结果无法统计    </p>
+<h5 id="通过-unittest-单元测试框架重新编写测试用例"><a href="#通过-unittest-单元测试框架重新编写测试用例" class="headerlink" title="通过 unittest 单元测试框架重新编写测试用例"></a>通过 unittest 单元测试框架重新编写测试用例</h5><p>``</p>
+<pre><code class="python">class TestCalculator(unittest.TestCase):
+    def test_add(self):
+        c = Calculator(3, 5)
+        result = c.add()
+        self.assertEqual(result, 8)
+    def test_sub(self):
+        c = Calculator(7, 2)
+        result = c.sub()
+        self.assertEqual(result, 5)
+    def test_mul(self):
+        c = Calculator(3, 3)
+        result = c.mul()
+        self.assertEqual(result, 10)
+    def test_div(self):
+        c = Calculator(6, 2)
+        result = c.div()
+        self.assertEqual(result, 3)
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<ol>
+<li>创建一个测试类，这里为TestCalculator 类，必须要继承unittest 模块的TestCase类。</li>
+<li>创建一个测试方法，该方法必须以“test”开头。</li>
+<li>通过unittest 提供的assertEqual()方法来断言结果是否与预期结果相同。该方法由TestCase 父类提供，由于继承了该类，所以可以通过self 调用。</li>
+<li>最后，调用unittest 的main()来执行测试用例，它会按照前面的两条规则查找测试用例并执行。</li>
+</ol>
+<h5 id="四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。"><a href="#四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。" class="headerlink" title="四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。"></a>四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。</h5><ol>
+<li>Test Case 是最小的测试单元，用于检查特定输入集合的特定返回值。unittest 提供了TestCase 基类，我们创建的测试类需要继承该基类，它可以用来创建新的测试用例。</li>
+<li>测试套件是测试用例、测试套件或两者的集合，用于组装一组要运行的测试。unittest提供了TestSuite 类来创建测试套件。</li>
+<li>Test Runner 是一个组件，用于协调测试的执行并向用户提供结果。Test Runner 可以使用图形界面、文本界面或返回特殊值来展示执行测试的结果。unittest 提供了TextTestRunner类运行测试用例，为了生成HTML 格式的测试报告，后面会选择使用HTMLTestRunner 运行类。</li>
+<li>Test Fixture 代表执行一个或多个测试所需的环境准备，以及关联的清理动作。例如，创建临时或代理数据库、目录，或启动服务器进程,unittest 中提供了setUp()/tearDown()、setUpClass()/tearDownClass()等方法来完成这些操作</li>
+</ol>
+<p>``</p>
+<pre><code class="python">class TestCalculator(unittest.TestCase):
+    # 测试用例前置动作
+    def setUp(self):
+        print(&quot;test start:&quot;)
+    # 测试用例后置动作
+    def tearDown(self):
+        print(&quot;test end&quot;)
+    def test_add(self):
+        c = Calculator(3, 5)
+        result = c.add()
+        self.assertEqual(result, 8)
+    def test_sub(self):
+        c = Calculator(7, 2)
+        result = c.sub()
+        self.assertEqual(result, 5)
+
+    def test_mul(self):
+        c = Calculator(3, 3)
+        result = c.mul()
+        self.assertEqual(result, 10)
+
+    def test_div(self):
+        c = Calculator(6, 2)
+        result = c.div()
+        self.assertEqual(result, 3)
+
+if __name__ == &#39;__main__&#39;:
+# 创建测试套件
+    suit = unittest.TestSuite()
+    suit.addTest(TestCalculator(&quot;test_add&quot;))
+    suit.addTest(TestCalculator(&quot;test_sub&quot;))
+    suit.addTest(TestCalculator(&quot;test_mul&quot;))
+    suit.addTest(TestCalculator(&quot;test_div&quot;))
+# 创建测试运行器
+    runner = unittest.TextTestRunner()
+    runner.run(suit)
+</code></pre>
+<ul>
+<li>首先，创建一个测试类并继承TestCase 类，在该类下面创建一条以“test”开头的方法为测试用例</li>
+<li>在测试类中增加了 setUp()/tearDown()方法，用于定义测试用例的前置和后置动作。在当前测试中暂时用不上，这里定义了一些简单的打印</li>
+<li>抛弃了unittest 提供的main()方法，而是调用TestSuite 类下面addTest()来添加测试用例。因为一次只能添加一条用例，所以需要指定测试类及测试方法。然后，再调用TextTestRunner 类下面的run()运行测试套件。</li>
+<li>优点：相比main()方法。测试用例的执行顺序可以由测试套件的添加顺序控制，而main()方法只能按照测试类、方法的名称来执行测试用例。例如，TestA 类比TestB 类先执行，test_add()用例比test_div()用例先执行。</li>
+<li>其次，当一个测试文件中有很多测试用例时，并不是每次都要执行所有的测试用例，尤其是比较耗时的UI 自动化测试。因而通过测试套件和测试运行器可以灵活地控制要执行的测试用例。</li>
+</ul>
+<h5 id="断言方法"><a href="#断言方法" class="headerlink" title="断言方法"></a>断言方法</h5><p>``</p>
+<pre><code class="python">import unittest
+class TestAssert(unittest.TestCase):
+    def test_equal(self):
+        self.assertEqual(2+52, 4)
+        self.assertEqual(&quot;pytgn&quot;, &quot;python&quot;)
+        self.assertNotEqual(&quot;hello&quot;, &quot;python&quot;)
+    def test_in(self):
+        self.assertIn(&quot;hello&quot;, &quot;hello world&quot;)
+        self.assertNotIn(&quot;hi&quot;, &quot;hello&quot;)
+    def test_true(self):
+        self.assertTrue(True)
+        self.assertFalse(False)
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<h5 id="测试用例的组织与discover-方法"><a href="#测试用例的组织与discover-方法" class="headerlink" title="测试用例的组织与discover 方法"></a>测试用例的组织与discover 方法</h5><p>针对 Calculator 类所编写的测试用例存在的问题：一个功能对应一条测试用例不够的；其次测试用例的划分，建议一个测试类对应一个被测试功能</p>
+<p>``</p>
+<pre><code class="python">class Calculator:
+    &quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;
+    def __init__(self, a, b):
+        self.a = int(a)
+        self.b = int(b)
+    # 加法
+    def add(self):
+        return self.a + self.b
+    # 减法
+    def sub(self):
+        return self.a - self.b
+    # 乘法
+    def mul(self):
+        return self.a * self.b
+    # 除法
+    def div(self):
+        return self.a / self.b
+class TestAdd(unittest.TestCase):
+    &quot;&quot;&quot; add()方法测试&quot;&quot;&quot;
+    def test_add_integer(self):
+        &quot;&quot;&quot; 整数相加测试&quot;&quot;&quot;
+        c = Calculator(3, 5)
+        self.assertEqual(c.add(), 8)
+    def test_add_decimals(self):
+        &quot;&quot;&quot; 小数相加测试&quot;&quot;&quot;
+        c = Calculator(3.2, 5.5)
+        self.assertEqual(c.add(), 8)
+    def test_add_string(self):
+        &quot;&quot;&quot; 字符串整数相加测试&quot;&quot;&quot;
+        c = Calculator(&quot;7&quot;, &quot;9&quot;)
+        self.assertEqual(c.add(), 16)
+    # ……
+
+class TestSub(unittest.TestCase):
+    &quot;&quot;&quot; sub()方法测试&quot;&quot;&quot;
+    pass
+# ……
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<h5 id="判断某年是否为闰年"><a href="#判断某年是否为闰年" class="headerlink" title="判断某年是否为闰年"></a>判断某年是否为闰年</h5><p>``</p>
+<pre><code class="python">class LeapYear:
+    &quot;&quot;&quot;计算某年是否为闰年&quot;&quot;&quot;
+    def __init__ (self, year):
+        self.year = int(year)
+    def answer(self):
+        year = self.year
+        if year % 100 == 0:
+            if year % 400 == 0:
+                # 整百年能被400 整除的是闰年
+                return &quot;&#123;0&#125;是闰年&quot;.format(year)
+            else:
+                return &quot;&#123;0&#125;不是闰年&quot;.format(year)
+        else:
+            if year % 4 == 0:
+                # 非整百年能被4 整除的是闰年
+                return &quot;&#123;0&#125;是闰年&quot;.format(year)
+            else:
+                return &quot;&#123;0&#125;不是闰年&quot;.format(year)
+
+
+
+class TestLeapYear(unittest.TestCase):
+    def test_2000(self):
+        ly = LeapYear(2000)
+        self.assertEqual(ly.answer(), &quot;2000是闰年&quot;)
+    def test_2004(self):
+        ly = LeapYear(2004)
+        self.assertEqual(ly.answer(), &quot;2004是闰年&quot;)
+    def test_2017(self):
+        ly = LeapYear(2017)
+        self.assertEqual(ly.answer(), &quot;2017不是闰年&quot;)
+    def test_2100(self):
+        ly = LeapYear(2100)
+        self.assertEqual(ly.answer(), &quot;2100不是闰年&quot;)
+
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<h5 id="如何执行多个测试文件"><a href="#如何执行多个测试文件" class="headerlink" title="如何执行多个测试文件"></a>如何执行多个测试文件</h5><p>unittest 中的TestLoader 类提供的discover()方法可以从多个文件中查找测试用例。</p>
+<p>该类根据各种标准加载测试用例，并将它们返回给测试套件。正常情况下，不需要创建这个类的实例。unittest 提供了可以共享的defaultTestLoader 类，可以使用其子类或方法创建实例，discover()方法就是其中之一。</p>
+<pre><code class="python">discover(start_dir，pattern=&#39;test*.py&#39;，top_level_dir=None)
+找到指定目录及其子目录下的所有测试模块，只有匹配的文件名才能被加载。如果启动的不是顶层目录，那么顶层目录必须单独指定。
+    start_dir ：待测试的模块名或测试用例目录。
+    pattern=&#39;test*.py&#39; ：测试用例文件名的匹配原则。此处匹配文件名以“test”开头的“.py”类型的文件，星号“*”表示任意多个字符。
+    top_level_dir=None：测试模块的顶层目录，如果没有顶层目录，则默认为None。
+</code></pre>
+<pre><code class="python">import unittest
+test_dir = &#39;../test1107&#39;
+suits = unittest.defaultTestLoader.discover(test_dir, pattern=&#39;test_unit*.py&#39;)
+if __name__ == &#39;__main__&#39;:
+    runner = unittest.TextTestRunner()
+    runner.run(suits)
+</code></pre>
+<p>discover()方法会自动根据测试用例目录（test_dir）查找测试用例文件（test*.py），并将找到的测试用例添加到测试套件中，因此，可以直接通过run()方法执行测试套件suits。这种方式极大地简化了测试用例的查找，我们需要做的就是按照文件的匹配规则创建测试文件即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" data-id="cm7lnedwu001dh4vd1jxdcwbs" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          unittest执行用例
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">selenium多窗口_警告框处理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

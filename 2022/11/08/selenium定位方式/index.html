@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>selenium定位方式 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="项目能正常开展自动化测试的条件1.软件需求变动不频繁 2.项目周期长 3.自动化测试脚本可重复使用  css定位简单语法 常用的定位方式举例import os import time #导入selenium下面的webdriver模块 from selenium import webdriver def test_click():     try:         os.system(&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="selenium定位方式">
+<meta property="og:url" content="http://example.com/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="项目能正常开展自动化测试的条件1.软件需求变动不频繁 2.项目周期长 3.自动化测试脚本可重复使用  css定位简单语法 常用的定位方式举例import os import time #导入selenium下面的webdriver模块 from selenium import webdriver def test_click():     try:         os.system(&quot;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//css%E9%80%89%E6%8B%A9%E5%99%A8.jpg">
+<meta property="article:published_time" content="2022-11-08T09:36:08.000Z">
+<meta property="article:modified_time" content="2022-11-09T07:20:01.643Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="selenium定位">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//css%E9%80%89%E6%8B%A9%E5%99%A8.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-selenium定位方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/" class="article-date">
+  <time datetime="2022-11-08T09:36:08.000Z" itemprop="datePublished">2022-11-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/selenium/">selenium</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      selenium定位方式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="项目能正常开展自动化测试的条件"><a href="#项目能正常开展自动化测试的条件" class="headerlink" title="项目能正常开展自动化测试的条件"></a>项目能正常开展自动化测试的条件</h4><pre><code>1.软件需求变动不频繁
+2.项目周期长
+3.自动化测试脚本可重复使用
+</code></pre>
+<h4 id="css定位简单语法"><a href="#css定位简单语法" class="headerlink" title="css定位简单语法"></a>css定位简单语法</h4><p><img src="/.com//css%E9%80%89%E6%8B%A9%E5%99%A8.jpg" alt="css选择器的常用语法"></p>
+<h4 id="常用的定位方式举例"><a href="#常用的定位方式举例" class="headerlink" title="常用的定位方式举例"></a>常用的定位方式举例</h4><pre><code class="python">import os
+import time
+#导入selenium下面的webdriver模块
+from selenium import webdriver
+def test_click():
+    try:
+        os.system(&quot;taskkill /f /im chromedriver.exe /t&quot;)
+    except:
+        pass
+
+    #调用webdriver模块下的Chrome()类
+    driver = webdriver.Chrome()
+    # 通过driver变量，调用Chrome()类提供的get()方法访问百度首页
+    # driver.maximize_window()
+    driver.get(&quot;https://www.baidu.com&quot;)
+    # driver.implicitly_wait(10)
+    time.sleep(4)
+    # driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;Selenium&quot;)
+    # driver.find_element_by_class_name(&#39;s_ipt&#39;).send_keys(&quot;测试开发&quot;)
+    # driver.find_element_by_tag_name(&#39;input&#39;).send_keys(&#39;mysql&#39;) #定位不到
+    # driver.find_element_by_link_text(&#39;贴吧&#39;).click()
+    # driver.find_element_by_partial_link_text(&#39;携手并进&#39;).click()
+    # xpath定位：利用元素属性定位
+    # driver.find_element_by_xpath(&#39;//*[@id=&quot;kw&quot;]&#39;).send_keys(&#39;hahah&#39;)
+    # driver.find_element_by_xpath(&quot;//*[@class=&#39;s_ipt&#39;]&quot;)
+    # 使用XPath 不局限于id、name和class 这三个属性值，元素的任意属性都可以使用，只要它能唯一标识一个元素
+    # driver.find_element_by_xpath(&quot;//input[@maxlength=&#39;100&#39;]&quot;).send_keys(&#39;aaa&#39;) #不能成功，数字不唯一
+    # driver.find_element_by_xpath(&quot;//input[@autocomplete=&#39;off&#39;]&quot;).send_keys(&#39;bbb&#39;) #可以成功
+    # driver.find_element_by_xpath(&quot;//input[@type=&#39;text&#39;]&quot;).send_keys(&#39;ccc&#39;)# 不能成功,type不唯一
+
+    #层级和属性定位
+    # driver.find_element_by_xpath(&quot;//form//span[@class=&#39;bg s_ipt_wr new-pmd quickdelete-wrap&#39;]/input[1]&quot;).send_keys(&quot;工程局&quot;)#定位失败
+    # driver.find_element_by_xpath(&quot;//span[@id=&#39;s_kw_wrap&#39;]/input[@name=&#39;wd&#39;]&quot;).send_keys(&quot;疫情最新&quot;) 定位失败，执行失败
+    # driver.find_element_by_xpath(&quot;//form[@id=&#39;form&#39;]/span[1]/input[1]&quot;).send_keys(&quot;form&quot;) 成功定位
+
+    #使用逻辑运算符定位
+    # driver.find_element_by_xpath(&quot;//input[@id=&#39;kw&#39; and @name=&#39;wd&#39;]&quot;).send_keys(&quot;逻辑运算&quot;) #成功定位
+
+    #使用contains方法定位
+    # driver.find_element_by_xpath(&quot;//form[contains(@id,&#39;form&#39;)]/span[1]/input&quot;).send_keys(&quot;contains&quot;) #定位成功
+
+    #使用text方法定位‘贴吧’
+    # driver.find_element_by_xpath(&quot;//a[contains(text(),&#39;贴吧&#39;)]&quot;).click() #定位成功
+
+    #使用css定位
+    #css是一种语言，用来描述html和xml文档的表现，css使用选择器为页面元素绑定属性，一般情况下，css定位速度比xpath定位速度快
+    #通过class定位
+    # driver.find_element_by_css_selector(&#39;.s_ipt&#39;).send_keys(&quot;css_selector&quot;) #成功定位
+    # 层级关系定位：
+    # driver.find_element_by_css_selector(&#39;form#form&gt;span&gt;input&#39;).send_keys(&quot;form&quot;) 成功定位
+    #通过id定位
+    # driver.find_element_by_css_selector(&#39;#kw&#39;).send_keys(&quot;立冬&quot;) #定位成功
+    #通过属性定位
+    # driver.find_element_by_css_selector(&#39;[autocomplete=off]&#39;).send_keys(&quot;隆冬&quot;) #定位成功
+    # driver.find_element_by_css_selector(&quot;[name=&#39;wd&#39;]&quot;).send_keys(&quot;小寒&quot;) #定位成功
+    # driver.find_element_by_css_selector(&quot;[type=&#39;text&#39;]&quot;).send_keys(&quot;hhh&quot;)#元素不唯一，失败，属性值可以选择加引号
+    #组合定位
+    # driver.find_element_by_css_selector(&quot;form#form &gt; span &gt;input.s_ipt&quot;).send_keys(&quot;组合定位&quot;) #定位成功
+    # driver.find_element_by_css_selector(&#39;form.fm &gt; span &gt;input.s_ipt&#39;).send_keys(&quot;class&quot;) # 定位成功
+    # driver.find_element_by_css_selector(&#39;form#form&gt; span &gt;input#kw&#39;).send_keys(&#39;dcc&#39;) #定位成功
+    #更多定位方法
+    #查找class 属性包含“s_ipt_wr”字符串的元素
+    # driver.find_element_by_css_selector(&quot;[class*=s_ipt]&quot;).send_keys(&#39;haaa&#39;)  #定位失败
+    # driver.find_element_by_css_selector(&quot;form &gt; input:nth-child(2)&quot;) #查找 form标签下面第2个input标签的元素
+    time.sleep(2)
+
+    # driver.find_element_by_id(&quot;su&quot;).click()
+    # driver.find_element_by_css_selector(&#39;#s-top-left &gt; a:nth-child(1)&#39;).click()  #定位百度首页新闻超链接，定位成功
+    driver.find_element_by_xpath(&quot;//input[@type=&#39;submit&#39;]&quot;).click()
+    # driver.find_element_by_css_selector(&quot;input[class~=&#39;btn&#39;]&quot;).click() #字符开头(&quot;input[class^=&#39;btn&#39;]&quot;)#字符结尾(&quot;input[class$=&#39;s_btn&#39;]&quot;) 定位失败
+    # driver.find_element_by_css_selector(&#39;.btn.self-btn.bg.s_btn&#39;).click()
+
+    time.sleep(2)
+    driver.close()
+
+    driver.quit()
+    # try:
+    #
+    #     os.system(&quot;taskkill /f /im chromedriver.exe /t&quot;)
+    # except:
+    #     pass
+</code></pre>
+<h4 id="控制浏览器"><a href="#控制浏览器" class="headerlink" title="控制浏览器"></a>控制浏览器</h4><pre><code class="python">import time
+
+from selenium import webdriver
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
+
+
+def test_con():
+    driver = webdriver.Chrome()
+    driver.get(&quot;http://m.baidu.com&quot;)
+    #参数数字为像素
+    print(&quot;设置浏览器宽480、高800 显示&quot;)
+    driver.set_window_size(480, 800)
+    time.sleep(2)
+    driver.quit()
+def test_forward():
+    driver = webdriver.Chrome()
+    #访问百度首页
+    url = &quot;http://m.baidu.com&quot;
+    print(&quot;now access %s&quot;%(url))
+    driver.get(url)
+    #访问新闻页
+    url2=&#39;http://news.baidu.com&#39;
+    print(&quot;now access %s&quot; %(url2))
+    driver.get(url2)
+    time.sleep(2)
+    # 返回（后退）到百度首页
+    print(&quot;back to %s &quot; %(url))
+    driver.back()
+    time.sleep(2)
+    # 前进到新闻页
+    print(&quot;forward to %s&quot; %(url2))
+    driver.forward()
+    driver.quit()
+def test_common():
+    driver = webdriver.Chrome()
+    driver.get(&quot;https://www.baidu.com&quot;)
+    driver.refresh() #刷新浏览器
+    time.sleep(2)
+    driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;cclean&quot;)
+    time.sleep(1)
+    driver.find_element_by_id(&quot;kw&quot;).clear() #先清理“cclean”
+    driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium&quot;)
+    driver.find_element_by_id(&quot;su&quot;).click()
+    driver.quit()
+#submit()：提交表单
+#有些搜索框不提供搜索按钮，而是通过按键盘上的回车键完成搜索内容的提交，这时可以通过submit()模拟
+def test_submit():
+    driver = webdriver.Chrome()
+    driver.get(&quot;https://www.baidu.com&quot;)
+    time.sleep(2)
+    search_text = driver.find_element_by_id(&#39;kw&#39;)
+    search_text.send_keys(&#39;selenium&#39;)
+    search_text.submit()
+    time.sleep(3)
+    driver.quit()
+#size：返回元素的尺寸。text：获取元素的文本。get_attribute(name)：获得属性值。is_displayed()：设置该元素是否用户可见
+def test_ele():
+    driver = webdriver.Chrome()
+    driver.get(&quot;https://www.baidu.com&quot;)
+    time.sleep(2)
+    size = driver.find_element(By.ID,&#39;kw&#39;).size
+    print(size)
+    # 返回文本信息
+    driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;哈哈哈哈啊啊&quot;)
+    text = driver.find_element_by_id(&quot;kw&quot;).text
+    print(text)
+    # 返回元素的属性值，可以是id、name、type 或其他任意属性
+    attribute = driver.find_element_by_id(&quot;kw&quot;).get_attribute(&#39;type&#39;)
+    print(attribute)
+    # 返回元素的结果是否可见，返回结果为True 或False
+    result = driver.find_element_by_id(&quot;kw&quot;).is_displayed()
+    print(result)
+    driver.quit()
+#鼠标操作，在WebDriver中，与鼠标操作相关的方法都封装在ActionChains 类中。ActionChains 类提供了鼠标操作的常用方法：
+#perform()：执行ActionChains 类中存储的所有行为。
+# context_click()：右击。
+# double_click()：双击。
+# drag_and_drop()：拖动。
+# move_to_element()：鼠标悬停
+def test_chain():
+    driver = webdriver.Chrome()
+    driver.get(&quot;https://www.baidu.cn&quot;)
+    time.sleep(5)
+    # 定位到要悬停的元素
+    above = driver.find_element_by_link_text(&quot;设置&quot;)
+    time.sleep(2)
+    # 对定位到的元素执行鼠标悬停操作
+    #调用 ActionChains 类，把浏览器驱动driver 作为参数传入。
+    #move_to_element()方法用于模拟鼠标移动到元素上，在调用时需要指定元素
+    #提交所有ActionChains 类中存储的行为
+    ActionChains(driver).move_to_element(above).perform()
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/" data-id="cm7lnedwt0017h4vdecdndx3l" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/11/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          selenium时间等待
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mysql8用户权限</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

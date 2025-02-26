@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>python读写Excel文件-2 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Excel简介Excel是Microsoft（微软）为使用Windows和macOS操作系统开发的一款电子表格软件。Excel凭借其直观的界面、出色的计算功能和图表工具，再加上成功的市场营销，一直以来都是最为流行的个人计算机数据处理软件。当然，Excel也有很多竞品，例如Google Sheets、LibreOffice Calc、Numbers等，这些竞品基本上也能够兼容Excel，至少能够读写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python读写Excel文件-2">
+<meta property="og:url" content="http://example.com/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-2/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="Excel简介Excel是Microsoft（微软）为使用Windows和macOS操作系统开发的一款电子表格软件。Excel凭借其直观的界面、出色的计算功能和图表工具，再加上成功的市场营销，一直以来都是最为流行的个人计算机数据处理软件。当然，Excel也有很多竞品，例如Google Sheets、LibreOffice Calc、Numbers等，这些竞品基本上也能够兼容Excel，至少能够读写">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/jackfrued/mypic/raw/master/20210819235009.png">
+<meta property="article:published_time" content="2022-11-07T02:18:53.000Z">
+<meta property="article:modified_time" content="2022-11-07T02:20:33.802Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="Excel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/jackfrued/mypic/raw/master/20210819235009.png">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-python读写Excel文件-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-2/" class="article-date">
+  <time datetime="2022-11-07T02:18:53.000Z" itemprop="datePublished">2022-11-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python读写Excel文件-2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Excel简介"><a href="#Excel简介" class="headerlink" title="Excel简介"></a>Excel简介</h3><p>Excel是Microsoft（微软）为使用Windows和macOS操作系统开发的一款电子表格软件。Excel凭借其直观的界面、出色的计算功能和图表工具，再加上成功的市场营销，一直以来都是最为流行的个人计算机数据处理软件。当然，Excel也有很多竞品，例如Google Sheets、LibreOffice Calc、Numbers等，这些竞品基本上也能够兼容Excel，至少能够读写较新版本的Excel文件，当然这些不是我们讨论的重点。掌握用Python程序操作Excel文件，可以让日常办公自动化的工作更加轻松愉快，而且在很多商业项目中，导入导出Excel文件都是特别常见的功能。</p>
+<p>本章我们继续讲解基于另一个三方库<code>openpyxl</code>如何进行Excel文件操作，首先需要先安装它。</p>
+<pre><code class="Bash">pip install openpyxl
+</code></pre>
+<p><code>openpyxl</code>的优点在于，当我们打开一个Excel文件后，既可以对它进行读操作，又可以对它进行写操作，而且在操作的便捷性上是优于<code>xlwt</code>和<code>xlrd</code>的。此外，如果要进行样式编辑和公式计算，使用<code>openpyxl</code>也远比上一个章节我们讲解的方式更为简单，而且<code>openpyxl</code>还支持数据透视和插入图表等操作，功能非常强大。有一点需要再次强调，<code>openpyxl</code>并不支持操作Office 2007以前版本的Excel文件。</p>
+<h3 id="读取Excel文件"><a href="#读取Excel文件" class="headerlink" title="读取Excel文件"></a>读取Excel文件</h3><p>例如在当前文件夹下有一个名为“阿里巴巴2020年股票数据.xlsx”的Excel文件，如果想读取并显示该文件的内容，可以通过如下所示的代码来完成。</p>
+<pre><code class="Python">import datetime
+
+import openpyxl
+
+# 加载一个工作簿 ---&gt; Workbook
+wb = openpyxl.load_workbook(&#39;阿里巴巴2020年股票数据.xlsx&#39;)
+# 获取工作表的名字
+print(wb.sheetnames)
+# 获取工作表 ---&gt; Worksheet
+sheet = wb.worksheets[0]
+# 获得单元格的范围
+print(sheet.dimensions)
+# 获得行数和列数
+print(sheet.max_row, sheet.max_column)
+
+# 获取指定单元格的值
+print(sheet.cell(3, 3).value)
+print(sheet[&#39;C3&#39;].value)
+print(sheet[&#39;G255&#39;].value)
+
+# 获取多个单元格（嵌套元组）
+print(sheet[&#39;A2:C5&#39;])
+
+# 读取所有单元格的数据
+for row_ch in range(2, sheet.max_row + 1):
+    for col_ch in &#39;ABCDEFG&#39;:
+        value = sheet[f&#39;&#123;col_ch&#125;&#123;row_ch&#125;&#39;].value
+        if type(value) == datetime.datetime:
+            print(value.strftime(&#39;%Y年%m月%d日&#39;), end=&#39;\t&#39;)
+        elif type(value) == int:
+            print(f&#39;&#123;value:&lt;10d&#125;&#39;, end=&#39;\t&#39;)
+        elif type(value) == float:
+            print(f&#39;&#123;value:.4f&#125;&#39;, end=&#39;\t&#39;)
+        else:
+            print(value, end=&#39;\t&#39;)
+    print()
+</code></pre>
+<blockquote>
+<p><strong>提示</strong>：上面代码中使用的Excel文件“阿里巴巴2020年股票数据.xlsx”可以通过后面的百度云盘地址进行获取。链接:<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g">https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g</a> 提取码:e7b4。</p>
+</blockquote>
+<p>需要提醒大家一点，<code>openpyxl</code>获取指定的单元格有两种方式，一种是通过<code>cell</code>方法，需要注意，该方法的行索引和列索引都是从<code>1</code>开始的，这是为了照顾用惯了Excel的人的习惯；另一种是通过索引运算，通过指定单元格的坐标，例如<code>C3</code>、<code>G255</code>，也可以取得对应的单元格，再通过单元格对象的<code>value</code>属性，就可以获取到单元格的值。通过上面的代码，相信大家还注意到了，可以通过类似<code>sheet[&#39;A2:C5&#39;]</code>或<code>sheet[&#39;A2&#39;:&#39;C5&#39;]</code>这样的切片操作获取多个单元格，该操作将返回嵌套的元组，相当于获取到了多行多列。</p>
+<h3 id="写Excel文件"><a href="#写Excel文件" class="headerlink" title="写Excel文件"></a>写Excel文件</h3><p>下面我们使用<code>openpyxl</code>来进行写Excel操作。</p>
+<pre><code class="Python">import random
+
+import openpyxl
+
+# 第一步：创建工作簿（Workbook）
+wb = openpyxl.Workbook()
+
+# 第二步：添加工作表（Worksheet）
+sheet = wb.active
+sheet.title = &#39;期末成绩&#39;
+
+titles = (&#39;姓名&#39;, &#39;语文&#39;, &#39;数学&#39;, &#39;英语&#39;)
+for col_index, title in enumerate(titles):
+    sheet.cell(1, col_index + 1, title)
+
+names = (&#39;关羽&#39;, &#39;张飞&#39;, &#39;赵云&#39;, &#39;马超&#39;, &#39;黄忠&#39;)
+for row_index, name in enumerate(names):
+    sheet.cell(row_index + 2, 1, name)
+    for col_index in range(2, 5):
+        sheet.cell(row_index + 2, col_index, random.randrange(50, 101))
+
+# 第四步：保存工作簿
+wb.save(&#39;考试成绩表.xlsx&#39;)
+</code></pre>
+<h4 id="调整样式和公式计算"><a href="#调整样式和公式计算" class="headerlink" title="调整样式和公式计算"></a>调整样式和公式计算</h4><p>在使用<code>openpyxl</code>操作Excel时，如果要调整单元格的样式，可以直接通过单元格对象（<code>Cell</code>对象）的属性进行操作。单元格对象的属性包括字体（<code>font</code>）、对齐（<code>alignment</code>）、边框（<code>border</code>）等，具体的可以参考<code>openpyxl</code>的<a target="_blank" rel="noopener" href="https://openpyxl.readthedocs.io/en/stable/index.html">官方文档</a>。在使用<code>openpyxl</code>时，如果需要做公式计算，可以完全按照Excel中的操作方式来进行，具体的代码如下所示。</p>
+<pre><code class="Python">import openpyxl
+from openpyxl.styles import Font, Alignment, Border, Side
+
+# 对齐方式
+alignment = Alignment(horizontal=&#39;center&#39;, vertical=&#39;center&#39;)
+# 边框线条
+side = Side(color=&#39;ff7f50&#39;, style=&#39;mediumDashed&#39;)
+
+wb = openpyxl.load_workbook(&#39;考试成绩表.xlsx&#39;)
+sheet = wb.worksheets[0]
+
+# 调整行高和列宽
+sheet.row_dimensions[1].height = 30
+sheet.column_dimensions[&#39;E&#39;].width = 120
+
+sheet[&#39;E1&#39;] = &#39;平均分&#39;
+# 设置字体
+sheet.cell(1, 5).font = Font(size=18, bold=True, color=&#39;ff1493&#39;, name=&#39;华文楷体&#39;)
+# 设置对齐方式
+sheet.cell(1, 5).alignment = alignment
+# 设置单元格边框
+sheet.cell(1, 5).border = Border(left=side, top=side, right=side, bottom=side)
+for i in range(2, 7):
+    # 公式计算每个学生的平均分
+    sheet[f&#39;E&#123;i&#125;&#39;] = f&#39;=average(B&#123;i&#125;:D&#123;i&#125;)&#39;
+    sheet.cell(i, 5).font = Font(size=12, color=&#39;4169e1&#39;, italic=True)
+    sheet.cell(i, 5).alignment = alignment
+
+wb.save(&#39;考试成绩表.xlsx&#39;)
+</code></pre>
+<h3 id="生成统计图表"><a href="#生成统计图表" class="headerlink" title="生成统计图表"></a>生成统计图表</h3><p>通过<code>openpyxl</code>库，可以直接向Excel中插入统计图表，具体的做法跟在Excel中插入图表大体一致。我们可以创建指定类型的图表对象，然后通过该对象的属性对图表进行设置。当然，最为重要的是为图表绑定数据，即横轴代表什么，纵轴代表什么，具体的数值是多少。最后，可以将图表对象添加到表单中，具体的代码如下所示。</p>
+<pre><code class="Python">from openpyxl import Workbook
+from openpyxl.chart import BarChart, Reference
+
+wb = Workbook(write_only=True)
+sheet = wb.create_sheet()
+
+rows = [
+    (&#39;类别&#39;, &#39;销售A组&#39;, &#39;销售B组&#39;),
+    (&#39;手机&#39;, 40, 30),
+    (&#39;平板&#39;, 50, 60),
+    (&#39;笔记本&#39;, 80, 70),
+    (&#39;外围设备&#39;, 20, 10),
+]
+
+# 向表单中添加行
+for row in rows:
+    sheet.append(row)
+
+# 创建图表对象
+chart = BarChart()
+chart.type = &#39;col&#39;
+chart.style = 10
+# 设置图表的标题
+chart.title = &#39;销售统计图&#39;
+# 设置图表纵轴的标题
+chart.y_axis.title = &#39;销量&#39;
+# 设置图表横轴的标题
+chart.x_axis.title = &#39;商品类别&#39;
+# 设置数据的范围
+data = Reference(sheet, min_col=2, min_row=1, max_row=5, max_col=3)
+# 设置分类的范围
+cats = Reference(sheet, min_col=1, min_row=2, max_row=5)
+# 给图表添加数据
+chart.add_data(data, titles_from_data=True)
+# 给图表设置分类
+chart.set_categories(cats)
+chart.shape = 4
+# 将图表添加到表单指定的单元格中
+sheet.add_chart(chart, &#39;A10&#39;)
+
+wb.save(&#39;demo.xlsx&#39;)
+</code></pre>
+<p>运行上面的代码，打开生成的Excel文件，效果如下图所示。</p>
+<img src="https://github.com/jackfrued/mypic/raw/master/20210819235009.png" alt="image-20210819235009026" width="75%">
+
+<h3 id="简单的总结"><a href="#简单的总结" class="headerlink" title="简单的总结"></a>简单的总结</h3><p>掌握了Python程序操作Excel的方法，可以解决日常办公中很多繁琐的处理Excel电子表格工作，最常见就是将多个数据格式相同的Excel文件合并到一个文件以及从多个Excel文件或表单中提取指定的数据。如果数据体量较大或者处理数据的方式比较复杂，我们还是推荐大家使用Python数据分析神器之一的<code>pandas</code>库。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-2/" data-id="cm7lnedwr000zh4vd996x2zmj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mysql8用户权限
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">python读写Excel文件-1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

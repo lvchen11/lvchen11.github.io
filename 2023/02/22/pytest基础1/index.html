@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>pytest基础1 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="pytest框架约束1.所有的单测文件名都需要满足test_*.py格式或*_test.py格式。2.在单测文件中，测试类以Test开头，并且不能带有 init 方法(注意：定义class时，需要以T开头，不然pytest是不会去运行该class的)3.在单测类中，可以包含一个或多个test_开头的函数。此时，在执行pytest命令时，会自动从当前目录及子目录中寻找符合上述约束的测试函数来执行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pytest基础1">
+<meta property="og:url" content="http://example.com/2023/02/22/pytest%E5%9F%BA%E7%A1%801/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="pytest框架约束1.所有的单测文件名都需要满足test_*.py格式或*_test.py格式。2.在单测文件中，测试类以Test开头，并且不能带有 init 方法(注意：定义class时，需要以T开头，不然pytest是不会去运行该class的)3.在单测类中，可以包含一个或多个test_开头的函数。此时，在执行pytest命令时，会自动从当前目录及子目录中寻找符合上述约束的测试函数来执行。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-22T09:50:34.000Z">
+<meta property="article:modified_time" content="2023-02-23T02:13:06.344Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="pytest基础">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-pytest基础1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/22/pytest%E5%9F%BA%E7%A1%801/" class="article-date">
+  <time datetime="2023-02-22T09:50:34.000Z" itemprop="datePublished">2023-02-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/pytest/">pytest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      pytest基础1
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="pytest框架约束"><a href="#pytest框架约束" class="headerlink" title="pytest框架约束"></a>pytest框架约束</h4><p>1.所有的单测文件名都需要满足test_*.py格式或*_test.py格式。<br>2.在单测文件中，测试类以Test开头，并且不能带有 init 方法(注意：定义class时，需要以T开头，不然pytest是不会去运行该class的)<br>3.在单测类中，可以包含一个或多个test_开头的函数。此时，在执行pytest命令时，会自动从当前目录及子目录中寻找符合上述约束的测试函数来执行。</p>
+<h5 id="控制测试用例执行"><a href="#控制测试用例执行" class="headerlink" title="控制测试用例执行"></a>控制测试用例执行</h5><p>1.在第N个用例失败后，结束测试执行</p>
+<p>pytest -x                    # 第01次失败，就停止测试<br>pytest –maxfail=2     # 出现2个失败就终止测试</p>
+<p>2.指定测试模式    pytest test_mod.py</p>
+<p>3.指定测试目录    pytest    ./test/</p>
+<p>4.通过node id 指定测试用例 ，nodeid由模块文件名、分隔符、类名、方法名、参数构成，                pytest test_mod.py::test_func</p>
+<p>运行模块中的指定方法：pytest test_mod.py::TestClass::test_method</p>
+<p>5.通过标记表达式执行  pytest -m slow   会执行被装饰器@pytest.mark.slow装饰的所有测试用例</p>
+<p>6、通过包执行测试        pytest –pyargs pkg.testing  这条命令会自动导入包pkg.testing,并使用该包所在的目录，执行下面的用例</p>
+<h4 id="其它运行方法"><a href="#其它运行方法" class="headerlink" title="其它运行方法"></a>其它运行方法</h4><p>1.多进程运行cases,当cases量很多时，运行时间也会变的很长，如果想缩短脚本运行的时长，就可以用多进程来运行。</p>
+<p>安装pytest-xdist: pip install -U pytest-xdist</p>
+<p>运行模式：pytest test_demo1.py -n NUM</p>
+<p>2.重试运行cases:  在做接口测试时，有事会遇到503或短时的网络波动，导致case运行失败，而这并非是我们期望的结果，此时可以就可以通过重试运行cases的方式来解决。</p>
+<p>安装pytest-rerunfailures：pip install -U pytest-rerunfailures</p>
+<p>pytest test_se.py –reruns NUM</p>
+<p>3.显示print内容：在运行测试脚本时，为了调试或打印一些内容，我们会在代码中加一些print内容，但是在运行pytest时，这些内容不会显示出来。如果带上-s，就可以显示了。</p>
+<p>pytest test_se.py -s -n 4</p>
+<h5 id="pytest的set和teardown函数"><a href="#pytest的set和teardown函数" class="headerlink" title="pytest的set和teardown函数"></a>pytest的set和teardown函数</h5><p>1.setup和teardown主要分为：模块级，类，功能，函数级</p>
+<p>函数级别setup()和teardown():运行于测试方法的始末</p>
+<p>运行一次函数会运行一次setup和teardown</p>
+<pre><code class="python">import pytest
+class Test_ABC:
+  # 函数级开始
+  def setup(self):
+      print(&quot;-------&gt;setup_method&quot;)
+  # 函数级结束
+  def teardown(self):
+      print(&quot;-------&gt;teardown_method&quot;)
+  def test_a(self):
+      print(&quot;-------&gt;test_a&quot;)
+      assert 1
+  def test_b(self):
+      print(&quot;-------&gt;test_b&quot;)
+if __name__ == &#39;__main__&#39;:
+              pytest.main(&quot;-s  test_abc.py&quot;)
+</code></pre>
+<pre><code class="python">执行结果：
+test0223.py::Test_ABC::test_a -------&gt;setup_method
+PASSED                                     [ 50%]-------&gt;test_a
+-------&gt;teardown_method
+
+test0223.py::Test_ABC::test_b -------&gt;setup_method
+PASSED                                     [100%]-------&gt;test_b
+-------&gt;teardown_method
+</code></pre>
+<p>类级别：运行于测试类的始末，即:在一个测试内只运行一次setup_class和teardown_class，不关心测试类内有多少个测试函数。</p>
+<pre><code class="python">import pytest
+class Test_ABC:
+   # 测试类级开始
+   def setup_class(self):
+       print(&quot;-------&gt;setup_class&quot;)
+   # 测试类级结束
+   def teardown_class(self):
+       print(&quot;-------&gt;teardown_class&quot;)
+   def test_a(self):
+       print(&quot;-------&gt;test_a&quot;)
+       assert 1
+   def test_b(self):
+       print(&quot;-------&gt;test_b&quot;)
+if __name__ == &#39;__main__&#39;:
+  pytest.main(&quot;-s  test_abc.py&quot;)
+
+执行结果：
+test0223.py::Test_ABC::test_a -------&gt;setup_class  #第一次setup_class()
+PASSED                                     [ 50%]-------&gt;test_a
+
+test0223.py::Test_ABC::test_b PASSED                                     [100%]-------&gt;test_b
+-------&gt;teardown_class    # 第一次teardown_class()
+</code></pre>
+<h5 id="Pytest配置文件"><a href="#Pytest配置文件" class="headerlink" title="Pytest配置文件"></a>Pytest配置文件</h5><p>pytest的配置文件通常放在测试目录下，名称为pytest.ini，命令行运行时会使用该配置文件中的配置.</p>
+<pre><code class="python"># 配置pytest命令行运行参数
+[pytest]
+addopts = -s...  # 空格分隔，可添加多个命令行参数 -所有参数均为插件包的参数配置测试搜索的路径
+testpaths =./ scripts  # 当前目录下的scripts文件夹 -可自定义
+# 配置测试搜索的文件名称
+python_files = test *.py
+# 当前目录下的scripts文件夹下，以test开头，以.py结尾的所有文件 -可自定义
+配置测试搜索的测试类名
+python_classes = Test_ *
+
+# 当前目录下的scripts文件夹下，以test开头，以.py结尾的所有文件中，以Test开头的类 -可自定义
+配置测试搜索的测试函数名
+
+python_functions = test_ *
+
+# 当前目录下的scripts文件夹下，以test开头，以.py结尾的所有文件中，以Test开头的类内，以test_开头的方法 -可自定义
+# 前置条件
+    - Test_App
+    - - test_abc.py
+    - - pytest.ini
+# pytest.ini的配置文件内容
+      [pytest]
+    # 命令行参数
+     addopts = -s
+    # 搜索文件名
+     python_files = test_*.py
+     # 搜索的类名
+     python_classes = Test_*
+     #搜索的函数名
+        python_functions = test_*
+</code></pre>
+<h5 id="pytest测试报告"><a href="#pytest测试报告" class="headerlink" title="pytest测试报告"></a>pytest测试报告</h5><pre><code class="text">pytest-HTML是一个插件，pytest用于生成测试结果的HTML报告
+安装方式：pip install pytest-html                   pip install pytest-html
+通过命令行方式，生成xm l /html格式的测试报告，存储于用户指定路径。插件名称：pytes t -html
+使用方法： 命令行格式：pytest --html = 用户路径 / report.html
+</code></pre>
+<pre><code class="python">import pytest
+
+
+class Test_ABC:
+    def setup_class(self):
+        print(&quot;-------&gt;setup_class&quot;)
+
+    def teardown_class(self):
+        print(&quot;-------&gt;teardown_class&quot;)
+
+    def test_a(self):
+        print(&quot;-------&gt;test_a&quot;)
+        assert 1
+
+    def test_b(self):
+        print(&quot;-------&gt;test_b&quot;)
+        assert 0  # 断言失败```
+
+运行方式：
+1.
+修改Test_App / pytest.ini文件，添加报告参数，即：addopts = -s - -html =./ report.html
+# -s:输出程序运行信息
+# --html=./report.html 在当前目录下生成report.html文件
+️
+若要生成xml文件，可将 - -html =./ report.html
+改成 - -html =./ report.xml
+2.
+命令行进入Test_App目录
+3.
+执行命令： pytest
+执行结果：
+1.
+在当前目录会生成assets文件夹和report.html文件
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/22/pytest%E5%9F%BA%E7%A1%801/" data-id="cm7lnedwn000kh4vd6mjdgh2w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/02/23/pytest%E5%9F%BA%E7%A1%802/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          pytest基础2
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HTML测试报告</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

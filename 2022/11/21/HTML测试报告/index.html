@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>HTML测试报告 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HTML下载与安装HTMLTestRunner.py 文件，既可以把它当作Python 的第三方库来使用，也可以将把它当作项目的一部分来使用。建议将该文件放到python的lib目录下；如果把 HTMLTestRunner 当作项目的一部分来使用，就把它放到项目目录中。可以方便地定制生成的HTMLTestRunner 报告,文件目录结构如下：  #test_unittest1.py文件 impor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML测试报告">
+<meta property="og:url" content="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="HTML下载与安装HTMLTestRunner.py 文件，既可以把它当作Python 的第三方库来使用，也可以将把它当作项目的一部分来使用。建议将该文件放到python的lib目录下；如果把 HTMLTestRunner 当作项目的一部分来使用，就把它放到项目目录中。可以方便地定制生成的HTMLTestRunner 报告,文件目录结构如下：  #test_unittest1.py文件 impor">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com/imags/$%7Bfiilename%7D/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95-16690114393791.jpg">
+<meta property="article:published_time" content="2022-11-21T05:50:48.000Z">
+<meta property="article:modified_time" content="2022-11-21T09:50:56.741Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com/imags/$%7Bfiilename%7D/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95-16690114393791.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-HTML测试报告" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" class="article-date">
+  <time datetime="2022-11-21T05:50:48.000Z" itemprop="datePublished">2022-11-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/unittest/">unittest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTML测试报告
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="HTML下载与安装"><a href="#HTML下载与安装" class="headerlink" title="HTML下载与安装"></a>HTML下载与安装</h4><p>HTMLTestRunner.py 文件，既可以把它当作Python 的第三方库来使用，也可以将把它当作项目的一部分来使用。建议将该文件放到python的lib目录下；如果把 HTMLTestRunner 当作项目的一部分来使用，就把它放到项目目录中。可以方便地定制生成的HTMLTestRunner 报告,文件目录结构如下：</p>
+<p><img src="/.com//../imags/$%7Bfiilename%7D/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95-16690114393791.jpg"></p>
+<pre><code class="python">#test_unittest1.py文件
+import unittest
+from selenium import webdriver
+from time import sleep
+
+class TestBaidu(unittest.TestCase):
+    driver = None
+
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+
+    def test_search_key_selenium(self):
+        &quot;&quot;&quot;&quot; 搜索关键字：selenium &quot;&quot;&quot;  # 加了注释的测试报告
+        search_key = &quot;selenium&quot;
+        self.baidu_search(search_key) # 调用baidu_search方法，直接传入search_key
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+
+    def test_search_key_unittest(self):
+        &quot;&quot;&quot; 搜索关键字：unittest&quot;&quot;&quot;
+        search_key = &quot;unittest&quot;
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+
+
+
+</code></pre>
+<pre><code class="python">#run_tests.py文件
+import unittest
+from HTMLTestRunner import HTMLTestRunner
+import time
+
+# 定义测试用例的目录为当前目录下的test_case 目录
+test_dir = &#39;./test_case&#39;
+suit = unittest.defaultTestLoader.discover(test_dir, pattern=&#39;test_*.py&#39;)
+
+# if __name__ == &#39;__main__&#39;:
+#     # 生成HTML 格式的报告
+#     fp = open(&#39;./test_report/result.html&#39;, &#39;wb&#39;)
+#     runner = HTMLTestRunner(stream=fp,title=&quot;百度搜索测试报告&quot;,description=&quot;运行环境：Windows 10, Chrome 浏览器&quot;)
+#     runner.run(suit)
+#     fp.close()
+
+
+if __name__ == &#39;__main__&#39;:
+    # 取当前日期时间，修改测试报告名称，确保测试报告不会被覆盖
+    # strftime()方法以指定的格式获取当前日期时间
+    now_time = time.strftime(&quot;%Y-%m-%d %H_%M_%S&quot;)
+    fp = open(&#39;./test_report/&#39;+ now_time +&#39;result.html&#39;, &#39;wb&#39;)
+    runner = HTMLTestRunner(stream=fp,title=&quot;百度搜索测试报告&quot;,description=&quot;运行环境：Windows 10, Chrome 浏览器&quot;)
+    runner.run(suit)
+    fp.close()
+</code></pre>
+<h4 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h4><pre><code class="python">import codecs
+import csv
+import unittest
+from itertools import islice
+from time import sleep
+
+from selenium import webdriver
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+        cls.test_data = []
+        with codecs.open(&#39;data.csv&#39;, &#39;r&#39;, &#39;utf_8_sig&#39;) as f:
+            data = csv.reader(f)
+            for line in islice(data, 1, None):
+                cls.test_data.append(line)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(3)
+    def test_search_selenium(self):
+        self.baidu_search(self.test_data[0][1])
+    def test_search_unittest(self):
+        self.baidu_search(self.test_data[1][1])
+    def test_search_parameterized(self):
+        self.baidu_search(self.test_data[2][1])
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+    verbosity是一个选项,表示测试结果的信息复杂度，有0、1、2 三个值
+    0 (静默模式): 你只能获得总的测试用例数和总的结果 比如 总共10个 失败2 成功8
+    1 (默认模式): 非常类似静默模式 只是在每个成功的用例前面有个“.” 每个失败的用例前面有个 “F”
+    2 (详细模式):测试结果会显示每个测试用例的所有相关的信息
+    并且 你在命令行里加入不同的参数可以起到一样的效果
+    加入 --quiet 参数 等效于 verbosity=0
+    加入--verbose参数等效于 verbosity=2
+    什么都不加就是 verbosity=1
+</code></pre>
+<h4 id="Parameterized"><a href="#Parameterized" class="headerlink" title="Parameterized"></a>Parameterized</h4><pre><code class="python">import unittest
+from time import sleep
+from selenium import webdriver
+from parameterized import parameterized
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+    # 通过Parameterized 实现参数化
+    @parameterized.expand([
+    (&quot;case1&quot;, &quot;selenium&quot;),
+    (&quot;case2&quot;, &quot;unittest&quot;),
+    (&quot;case3&quot;, &quot;parameterized&quot;),
+    ])
+    def test_search(self, name, search_key):
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+</code></pre>
+<h4 id="DDT"><a href="#DDT" class="headerlink" title="DDT"></a>DDT</h4><pre><code class="python">#列举了三组参数化，第一组为列表，第二组为元组，第三组为字典。需要注意的是，字典的key与测试方法的参数要保持一致。
+import unittest
+from time import sleep
+
+from selenium import webdriver
+from ddt import ddt, data, file_data, unpack
+@ddt
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(3)
+    # 参数化使用方式一
+    @data([&quot;case1&quot;, &quot;selenium&quot;], [&quot;case2&quot;, &quot;ddt&quot;], [&quot;case3&quot;, &quot;python&quot;])
+    @unpack
+    def test_search1(self, case, search_key):
+        print(&quot;第一组测试用例：&quot;, case)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    # 参数化使用方式二
+    @data((&quot;case1&quot;, &quot;selenium&quot;), (&quot;case2&quot;, &quot;ddt&quot;), (&quot;case3&quot;, &quot;python&quot;))
+    @unpack
+    def test_search2(self, case, search_key):
+        print(&quot;第二组测试用例：&quot;, case)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    # 参数化使用方式三
+    @data(&#123;&quot;search_key&quot;: &quot;selenium&quot;&#125;, &#123;&quot;search_key&quot;: &quot;ddt&quot;&#125;, &#123;&quot;search_key&quot;:
+    &quot;python&quot;&#125;)
+    @unpack
+    def test_search3(self, search_key):
+        print(&quot;第三组测试用例：&quot;, search_key)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+</code></pre>
+<p>DDT 同样支持数据文件的参数化。它封装了数据文件的读取,不需要关心数据文件是如何被读取进来的</p>
+<pre><code class="python">#创建ddt_data_file.json文件
+&#123;
+&quot;case1&quot;: &#123;&quot;search_key&quot;: &quot;python1&quot;&#125;,
+&quot;case2&quot;: &#123;&quot;search_key&quot;: &quot;ddt1&quot;&#125;,
+&quot;case3&quot;: &#123;&quot;search_key&quot;: &quot;Selenium1&quot;&#125;
+&#125;
+</code></pre>
+<pre><code class="python">import unittest
+from time import sleep
+
+from selenium import webdriver
+from ddt import ddt, data, file_data, unpack
+@ddt
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(3)
+        
+    @file_data(&#39;ddt_data_file.json&#39;)
+    def test_search4(self, search_key):
+        print(&quot;第四组测试用例：&quot;, search_key)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+</code></pre>
+<p>DDT 还支持yaml 格式的数据文件</p>
+<pre><code class="python">case1:
+- search_key: &quot;python&quot;
+case2:
+- search_key: &quot;ddt&quot;
+case3:
+- search_key: &quot;unittest&quot;
+</code></pre>
+<pre><code class="python">@file_data(&#39;ddt_data_file.yaml&#39;)
+def test_search5(self, case):
+search_key = case[0][&quot;search_key&quot;]
+print(&quot;第五组测试用例：&quot;, search_key)
+self.baidu_search(search_key)
+self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+</code></pre>
+<h4 id="自动发送邮件功能"><a href="#自动发送邮件功能" class="headerlink" title="自动发送邮件功能"></a>自动发送邮件功能</h4><pre><code class="python">import time
+import unittest
+import yagmail
+from HTMLTestRunner import HTMLTestRunner
+#把测试报告作为附件发送到指定邮箱
+def send_mail(report):
+    yag = yagmail.SMTP(user=&quot;sender@126.com&quot;,
+    password=&quot;a123456&quot;,
+    host=&#39;smtp.126.com&#39;)
+    subject = &quot;主题，自动化测试报告&quot;
+    contents = &quot;正文，请查看附件。&quot;
+    yag.send(&#39;receiver@126.com&#39;, subject, contents, report)
+    print(&#39;email has send out !&#39;)
+if __name__ == &#39;__main__&#39;:
+    # 定义测试用例的目录为当前目录
+    test_dir = &#39;./test_case&#39;
+    suit = unittest.defaultTestLoader.discover(test_dir, pattern=&#39;test_*.py&#39;)
+    # 获取当前日期和时间
+    now_time = time.strftime(&quot;%Y-%m-%d %H_%M_%S&quot;)
+    html_report = &#39;./test_report/&#39; + now_time + &#39;result.html&#39;
+    fp = open(html_report, &#39;wb&#39;)
+    # 调用HTMLTestRunner，运行测试用例
+    runner = HTMLTestRunner(stream=fp,title=&quot;百度搜索测试报告&quot;,description=&quot;运行环境：Windows 10, Chrome 浏览器&quot;)
+    runner.run(suit)
+    fp.close()
+    send_mail(html_report)  # 发送报告
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" data-id="cm7lnedwd0001h4vd3bk78f0u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/02/22/pytest%E5%9F%BA%E7%A1%801/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          pytest基础1
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">unittest执行用例</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

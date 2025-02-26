@@ -5,23 +5,23 @@
   
 
   
-  <title>Hexo</title>
+  <title>月明星稀</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+  <meta name="description" content="太阳当空照，花儿爱微笑">
+<meta property="og:type" content="website">
+<meta property="og:title" content="月明星稀">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="太阳当空照，花儿爱微笑">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="当时只道是寻常">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -36,7 +36,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">月明星稀</a>
       </h1>
       
     </div>
@@ -53,7 +53,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
@@ -63,6 +63,198 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-linux命令lsof" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" class="article-date">
+  <time datetime="2025-02-26T06:15:44.000Z" itemprop="datePublished">2025-02-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-lsof简介"><a href="#1-lsof简介" class="headerlink" title="1.lsof简介"></a>1.lsof简介</h4><p>lsof(list open  files)可以列出当前系统中进程打开的所有文件，在Linux环境下，我们可以理解为一切(包括网络套接口)皆文件。在实际使用过程中，lsof是一款非常强大的系统监控和系统诊断工具。在终端下输入lsof 即可显示系统打开的文件， lsof 一般需要访问核心内存和各种文件，所以必须以 root 用户的身份运行它才能够充分地发挥其功能。</p>
+<h4 id="2-lsof使用"><a href="#2-lsof使用" class="headerlink" title="2.lsof使用"></a>2.lsof使用</h4><h5 id="2-lsof-h-显示使用方法"><a href="#2-lsof-h-显示使用方法" class="headerlink" title="2.lsof -h 显示使用方法"></a>2.lsof -h 显示使用方法</h5><p><img src="../images/lsof.png" alt="lsof"></p>
+<p>2.2终端下输入lsof命令，打开前三个文件</p>
+<p><img src="../images/lsof_head.jpg" alt="lsof_head"></p>
+<p>2.3lsof输出每列含义如下</p>
+<pre><code class="text">COMMAND：进程的名称
+PID：进程标识符
+TID：任务 ID。Linux 下 TID 为空表示该行为进程
+USER：进程所有者
+FD：文件描述符。主要有：
+    cwd：应用程序当前工作目录，这是该应用程序启动的目录，除非它本身对这个目录进行更改
+    txt：该类型的文件是程序代码，如应用程序二进制文件本身或共享库，如上列表中显示的 /sbin/init 程序
+    lnn：库引用（AIX）
+    err：FD 信息错误
+    jld：监狱目录（FreeBSD）
+    ltx：共享库文本（代码和数据）
+    mxx：十六进制内存映射类型号 xx
+    m86：DOS合并映射文件
+    mem：内存映射文件
+    mmap：内存映射设备
+    pd：父目录
+    rtd：根目录
+    tr：内核跟踪文件（OpenBSD）
+    v86：VP/ix 映射文件
+    0：标准输出
+    1：标准输入
+    2：标准错误
+    文件描述符后一般还跟着文件状态模式：
+    r：只读模式
+    w：写入模式
+    u：读写模式
+    空格：文件的状态模式为 unknow，且没有锁定
+    -：文件的状态模式为 unknow，且被锁定
+    
+    同时在文件状态模式后面，还跟着相关的锁：
+    N：对于未知类型的 Solaris NFS 锁
+    r：文件部分的读锁
+    R：整个文件的读锁
+    w：文件的部分写锁
+    W：整个文件的写锁
+    u：任何长度的读写锁
+    U：用于未知类型的锁
+    x：用于部分文件上的 SCO OpenServer Xenix 锁
+    X：用于整个文件上的 SCO OpenServer Xenix 锁
+    space：无锁
+TYPE：文件类型。常见的文件类型有：
+    REG：普通文件
+    DIR：表示目录
+    CHR：表示字符类型
+    BLK：块设备类型
+    UNIX：UNIX 域套接字
+    FIFO：先进先出队列
+    IPv4：IPv4 套接字
+DEVICE：磁盘名称
+SIZE：文件的大小或文件偏移量（以字节为单位）
+NODE：索引节点
+NAME：打开文件的确切名称
+</code></pre>
+<p>2.4 Linux上常用的几种用法</p>
+<p>lsof -i  显示所有网络连接</p>
+<p>lsof  filename 显示打开指定文件的所有进程</p>
+<p>lsof -a 表示两个参数都必须满足时才显示结果</p>
+<p>lsof -c string   显示COMMAND列中包含指定字符的进程所有打开的文件</p>
+<p>lsof -u username  显示所属user进程打开的文件</p>
+<p>lsof -g gid 显示归属gid的进程情况</p>
+<p>lsof +d /DIR/ 显示目录下被进程打开的文件</p>
+<p>lsof +D /DIR/ 同上，但是会搜索目录下的所有目录，时间相对较长</p>
+<p>lsof -d FD 显示指定文件描述符的进程</p>
+<p>lsof -n 不将IP转换为hostname，缺省是不加上-n参数</p>
+<p>lsof -i 用以显示符合条件的进程情况</p>
+<p>2.5 显示指定程序的端口号</p>
+<p><img src="../images/lsof_i.jpg" alt="lsof_i"></p>
+<h4 id="3-Lsof解决Device-is-busy问题"><a href="#3-Lsof解决Device-is-busy问题" class="headerlink" title="3.Lsof解决Device is busy问题"></a>3.Lsof解决Device is busy问题</h4><p>在系统运维过程中，我们会遇到磁盘卸载报umount: /home: device is busy之类的提示</p>
+<p><img src="../images/umount.jpg" alt="umount"></p>
+<h5 id="3-1-使用lsof命令找出占用磁盘的进程"><a href="#3-1-使用lsof命令找出占用磁盘的进程" class="headerlink" title="3.1 使用lsof命令找出占用磁盘的进程"></a>3.1 使用lsof命令找出占用磁盘的进程</h5><p><img src="../images/lsof_home.jpg" alt="lsof_home"></p>
+<p>直接kill掉此进程(kill -9 5689)，umount /home/后目录成功卸载</p>
+<p>umount -l /home 强行解除挂载</p>
+<p>fuser  -mv -k /home直接杀死占用磁盘的进程</p>
+<p>3.2 <strong>Lsof解决文件已删除空间未释放问题</strong></p>
+<p>磁盘空间达到100%会导致数据无法正常写入文件造成程序异常，如下/home空间达到100%，一般的解决方法是先删除大文件，然后有必要的情况下对磁盘进行扩容。</p>
+<p>按照排查步骤，先进入/home目录查找占用磁盘的大文件（命令du -h –max-depth=1 /home），如下发现/home目录下并没有占用空间大的文件和目录。</p>
+<p>为什么磁盘空间显示占用100%呢？原因是磁盘上文件已经被删除，但是存在进程仍然占用这些文件，因此其原来占用的磁盘空间并没有被释放，当然重启操作系统，空间会被释放出来，但是重启并不是最好的解决方法。</p>
+<p>lsof -n | grep delete检查出占用文件的进程</p>
+<p><img src="../images/delete.jpg" alt="delete"></p>
+<p>从进程显示上可以看出，/home目录下占用文件已经删除，仍然有3个进程在占用，我们采用kill方式杀死进程，释放空间。</p>
+<p><img src="../images/kill.jpg" alt="kill"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7lnedwi0007h4vdfqdb0114" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-selenium多窗口-警告框处理/select" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" class="article-date">
+  <time datetime="2025-02-26T01:42:46.081Z" itemprop="datePublished">2025-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <html>
+<head>
+<meta charset="utf-8">
+<title>上传表单</title>
+#上传文件
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js">
+</script>
+</head>
+<body>
+<div class="jumbotron">
+<form class="form-inline" role="form">
+<div class="form-group">
+<label class="sr-only" for="name">名称</label>
+<input type="text" class="form-control" id="name" placeholder="请输入名称">
+</div>
+<div class="form-group">
+<label class="sr-only" for="inputfile">文件输入</label>
+<input type="file" id="inputfile">
+</div>
+<button type="submit" class="btn btn-default">提交</button>
+</form>
+</div>
+
+# select 选择
+<form>
+<center>
+<select name="anjing">
+<option value="boke">请关注今日天气</option>
+<option value="study">今天大雨</option>
+<option value="daily">写写什么</option>
+<option value="like">喜欢的食物</option>
+<option value="attention">关注点在哪里</option>
+</select></center>
+
+</form>
+
+</body>
+</html>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7lnedx2002rh4vd93sgdtku" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-改变对象字符串显示" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -91,15 +283,144 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h4 id="1-repr函数简介"><a href="#1-repr函数简介" class="headerlink" title="1. repr函数简介"></a>1. repr函数简介</h4><p>​        在Python中，<code>__repr__</code>和<code>__str__</code>都是用于对象字符串表示的特殊方法，但用途不同。<code>__repr__</code>（representation）旨在提供对象的“官方”字符串表示，通常用于调试和日志，应尽量明确且无歧义（如<code>eval(repr(obj))</code>能重建对象），开发者可通过<code>repr(obj)</code>或直接输出对象时调用；<code>__str__</code>（string）则面向用户，提供更友好、可读性高的描述（如<code>print(obj)</code>时触发），若未定义则默认回退到<code>__repr__</code>。两者均需返回字符串，但<code>__repr__</code>更强调准确性，<code>__str__</code>侧重易读性。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Pair</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, x, y</span>):</span><br><span class="line">        <span class="variable language_">self</span>.x = x</span><br><span class="line">        <span class="variable language_">self</span>.y = y</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Pair(&#123;0.x!r&#125;, &#123;0.y!r&#125;)&#x27;</span>.<span class="built_in">format</span>(<span class="variable language_">self</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;(&#123;0.x!s&#125;, &#123;0.y!s&#125;)&#x27;</span>.<span class="built_in">format</span>(<span class="variable language_">self</span>)</span><br><span class="line">p = Pair(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(p)) <span class="comment"># Pair(1, 2)  # 当调用内置函数repr(obj)时，实际上会调用obj.__repr__()方法</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>(p)) <span class="comment"># (1, 2)</span></span><br><span class="line">new_p = <span class="built_in">eval</span>(<span class="built_in">repr</span>(p))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;new_p: &quot;</span>, new_p) <span class="comment"># new_p:  (1, 2)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p = Pair(<span class="literal">True</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(p))  <span class="comment"># 输出：Pair(True, [1, 2, 3])</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>(p))   <span class="comment"># 输出：(True, [1, 2, 3])</span></span><br><span class="line"><span class="comment"># 可以看到 !r 会保留数据的完整类型信息，而 !s 会直接输出值的字符串形式</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例：</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Vector3D</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, x, y, z</span>):</span><br><span class="line">        <span class="variable language_">self</span>.x = x</span><br><span class="line">        <span class="variable language_">self</span>.y = y</span><br><span class="line">        <span class="variable language_">self</span>.z = z</span><br><span class="line">    <span class="comment"># 标准 repr 格式</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># return f&quot;Vector3D(&#123;self.x!r&#125;,&#123;self.y!r&#125;,&#123;self.z!r&#125;)&quot;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.__class__.__name__&#125;</span>(<span class="subst">&#123;self.x!r&#125;</span>,<span class="subst">&#123;self.y!r&#125;</span>,<span class="subst">&#123;self.z!r&#125;</span>)&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#定制化 str 格式</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;3D向量 → X:<span class="subst">&#123;self.x:<span class="number">.2</span>f&#125;</span>, Y:<span class="subst">&#123;self.y:<span class="number">.2</span>f&#125;</span>, Z:<span class="subst">&#123;self.z:<span class="number">.2</span>f&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;---------------------------------分割线-----------------------------------&#x27;</span>)   </span><br><span class="line">V = Vector3D(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(V) <span class="comment"># Vector3D(3,4,5)  # 如果用户没有为Vector3D类定义__str__方法，那么print(V)实际上会调用__repr__方法，导致print(V)和print(repr(V))输出相同</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(V))</span><br><span class="line">new_v = <span class="built_in">eval</span>(<span class="built_in">repr</span>(V))</span><br><span class="line"><span class="built_in">print</span>(new_v)</span><br><span class="line"></span><br><span class="line"><span class="comment"># V = Vector3D(3, 4, 5)</span></span><br><span class="line"><span class="comment"># print(V)          # 输出 Vector3D(3,4,5) → 调用 __repr__</span></span><br><span class="line"><span class="comment"># print(repr(V))    # 输出 Vector3D(3,4,5) → 直接调用 __repr__</span></span><br><span class="line"><span class="comment"># new_v = eval(repr(V))</span></span><br><span class="line"><span class="comment"># print(new_v)      # 输出 Vector3D(3,4,5) → 新对象的 __repr__</span></span><br><span class="line"></span><br><span class="line">v = Vector3D(<span class="number">1.2345</span>, <span class="number">2.5678</span>, <span class="number">3.8912</span>)</span><br><span class="line"><span class="built_in">print</span>(v)  <span class="comment"># 输出：3D向量 → X:1.23, Y:2.57, Z:3.89</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 日期时间类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyDateTime</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, year, month, day</span>):</span><br><span class="line">        <span class="variable language_">self</span>.year = year</span><br><span class="line">        <span class="variable language_">self</span>.month = month</span><br><span class="line">        <span class="variable language_">self</span>.day = day</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.__class__.__name__&#125;</span>(<span class="subst">&#123;self.year&#125;</span>, <span class="subst">&#123;self.month&#125;</span>, <span class="subst">&#123;self.day&#125;</span>)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.year&#125;</span>年<span class="subst">&#123;self.month:02d&#125;</span>月<span class="subst">&#123;self.day:02d&#125;</span>日&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试输出</span></span><br><span class="line"><span class="comment"># dt = MyDateTime(2023, 9, 15)</span></span><br><span class="line"><span class="comment"># print(repr(dt))  # MyDateTime(2023, 9, 15)</span></span><br><span class="line"><span class="comment"># print(dt)        # 2023年09月15日</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BrokenClass1</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, value</span>):</span><br><span class="line">        <span class="variable language_">self</span>.value = value</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;BrokenClass1(<span class="subst">&#123;self.value&#125;</span>)&quot;</span>  <span class="comment"># 开发者视角</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;Value: <span class="subst">&#123;self.value&#125;</span>&quot;</span>        <span class="comment"># 用户视角</span></span><br><span class="line">obj = BrokenClass1(<span class="number">444</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(obj)) <span class="comment"># 调用 __repr__</span></span><br><span class="line"><span class="built_in">print</span>(obj)  <span class="comment"># 调用 __str__</span></span><br><span class="line"><span class="comment"># 通过定义 __repr__ 或 __str__，你可以控制对象的字符串表示形式</span></span><br></pre></td></tr></table></figure>
+<pre><code class="python">class Pair:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-<h4 id="2-案例示范"><a href="#2-案例示范" class="headerlink" title="2. 案例示范"></a>2. 案例示范</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">题目：智能坐标点类</span></span><br><span class="line"><span class="string">请实现一个 SmartPoint 类，要求满足以下所有条件：</span></span><br><span class="line"><span class="string">1. 基础要求</span></span><br><span class="line"><span class="string">包含 x, y, tag 三个属性（tag 为字符串类型的标签）</span></span><br><span class="line"><span class="string">__repr__ 返回的字符串必须能够通过 eval() 重建对象</span></span><br><span class="line"><span class="string">__str__ 返回人类可读的格式：&quot;标签：(x, y)&quot;（坐标保留2位小数）</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">2. 特殊需求</span></span><br><span class="line"><span class="string">当 tag 包含空格时，__repr__ 必须自动添加引号</span></span><br><span class="line"><span class="string">如果 tag 为空字符串，__str__ 显示 &quot;未命名点&quot;</span></span><br><span class="line"><span class="string">在列表中打印多个 SmartPoint 对象时，显示的是 __repr__ 格式</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SmartPoint</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, x, y, tag=<span class="string">&#x27;&#x27;</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.x = x</span><br><span class="line">        <span class="variable language_">self</span>.y = y</span><br><span class="line">        <span class="variable language_">self</span>.tag = tag</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.__class__.__name__&#125;</span>(<span class="subst">&#123;self.x!r&#125;</span>, <span class="subst">&#123;self.y!r&#125;</span>, <span class="subst">&#123;self.tag!r&#125;</span>)&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># if self.tag == &quot;&quot;:  # 如果 tag 为空字符串</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="variable language_">self</span>.tag:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">f&quot;未命名点：(<span class="subst">&#123;self.x:<span class="number">.2</span>f&#125;</span>, <span class="subst">&#123;self.y:<span class="number">.2</span>f&#125;</span>)&quot;</span>  <span class="comment"># 返回默认提示</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.tag&#125;</span>: (<span class="subst">&#123;self.x:<span class="number">.2</span>f&#125;</span>, <span class="subst">&#123;self.y:<span class="number">.2</span>f&#125;</span>)&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建对象</span></span><br><span class="line">p1 = SmartPoint(<span class="number">3.1415926</span>, <span class="number">2.71828</span>, <span class="string">&quot;Alpha&quot;</span>)</span><br><span class="line">p2 = SmartPoint(-<span class="number">5</span>, <span class="number">4.2</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">p3 = SmartPoint(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;Beta Point&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试1：直接打印</span></span><br><span class="line"><span class="built_in">print</span>(p1)           <span class="comment"># 应输出：Alpha：(3.14, 2.72)</span></span><br><span class="line"><span class="built_in">print</span>(p2)           <span class="comment"># 应输出：未命名点：(-5.00, 4.20)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 测试2：repr相关</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(p3))     <span class="comment"># 应输出：SmartPoint(0, 0, &#x27;Beta Point&#x27;)</span></span><br><span class="line">points = [p1, p3]</span><br><span class="line"><span class="built_in">print</span>(points)       <span class="comment"># 应输出：[SmartPoint(3.1415926, 2.71828, &#x27;Alpha&#x27;), SmartPoint(0, 0, &#x27;Beta Point&#x27;)]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试3：eval验证</span></span><br><span class="line">p1_clone = <span class="built_in">eval</span>(<span class="built_in">repr</span>(p1))</span><br><span class="line"><span class="built_in">print</span>(p1.x)</span><br><span class="line"><span class="built_in">print</span>(p1_clone.x)</span><br><span class="line"><span class="built_in">print</span>(p1_clone.tag)</span><br><span class="line"><span class="built_in">print</span>(p1_clone.x == p1.x)  <span class="comment"># 应输出：True</span></span><br></pre></td></tr></table></figure>
+    def __repr__(self):
+        return &#39;Pair(&#123;0.x!r&#125;, &#123;0.y!r&#125;)&#39;.format(self)
 
+    def __str__(self):
+        return &#39;(&#123;0.x!s&#125;, &#123;0.y!s&#125;)&#39;.format(self)
+p = Pair(1,2)
+print(repr(p)) # Pair(1, 2)  # 当调用内置函数repr(obj)时，实际上会调用obj.__repr__()方法
+print(str(p)) # (1, 2)
+new_p = eval(repr(p))
+print(&quot;new_p: &quot;, new_p) # new_p:  (1, 2)
+
+
+p = Pair(True, [1, 2, 3])
+
+print(repr(p))  # 输出：Pair(True, [1, 2, 3])
+print(str(p))   # 输出：(True, [1, 2, 3])
+# 可以看到 !r 会保留数据的完整类型信息，而 !s 会直接输出值的字符串形式
+
+
+# 实例：
+class Vector3D:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+    # 标准 repr 格式
+    def __repr__(self):
+        # return f&quot;Vector3D(&#123;self.x!r&#125;,&#123;self.y!r&#125;,&#123;self.z!r&#125;)&quot;
+        return f&quot;&#123;self.__class__.__name__&#125;(&#123;self.x!r&#125;,&#123;self.y!r&#125;,&#123;self.z!r&#125;)&quot;
+    
+    #定制化 str 格式
+    def __str__(self):
+        return f&quot;3D向量 → X:&#123;self.x:.2f&#125;, Y:&#123;self.y:.2f&#125;, Z:&#123;self.z:.2f&#125;&quot;
+print(&#39;---------------------------------分割线-----------------------------------&#39;)   
+V = Vector3D(3,4,5)
+print(V) # Vector3D(3,4,5)  # 如果用户没有为Vector3D类定义__str__方法，那么print(V)实际上会调用__repr__方法，导致print(V)和print(repr(V))输出相同
+print(repr(V))
+new_v = eval(repr(V))
+print(new_v)
+
+# V = Vector3D(3, 4, 5)
+# print(V)          # 输出 Vector3D(3,4,5) → 调用 __repr__
+# print(repr(V))    # 输出 Vector3D(3,4,5) → 直接调用 __repr__
+# new_v = eval(repr(V))
+# print(new_v)      # 输出 Vector3D(3,4,5) → 新对象的 __repr__
+
+v = Vector3D(1.2345, 2.5678, 3.8912)
+print(v)  # 输出：3D向量 → X:1.23, Y:2.57, Z:3.89
+
+# 日期时间类
+class MyDateTime:
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    def __repr__(self):
+        return f&quot;&#123;self.__class__.__name__&#125;(&#123;self.year&#125;, &#123;self.month&#125;, &#123;self.day&#125;)&quot;
+
+    def __str__(self):
+        return f&quot;&#123;self.year&#125;年&#123;self.month:02d&#125;月&#123;self.day:02d&#125;日&quot;
+
+# 测试输出
+# dt = MyDateTime(2023, 9, 15)
+# print(repr(dt))  # MyDateTime(2023, 9, 15)
+# print(dt)        # 2023年09月15日
+
+class BrokenClass1:
+    def __init__(self, value):
+        self.value = value
+    def __repr__(self):
+        return f&quot;BrokenClass1(&#123;self.value&#125;)&quot;  # 开发者视角
+    def __str__(self):
+        return f&quot;Value: &#123;self.value&#125;&quot;        # 用户视角
+obj = BrokenClass1(444)
+print(repr(obj)) # 调用 __repr__
+print(obj)  # 调用 __str__
+# 通过定义 __repr__ 或 __str__，你可以控制对象的字符串表示形式
+</code></pre>
+<h4 id="2-案例示范"><a href="#2-案例示范" class="headerlink" title="2. 案例示范"></a>2. 案例示范</h4><pre><code class="python">&quot;&quot;&quot;
+题目：智能坐标点类
+请实现一个 SmartPoint 类，要求满足以下所有条件：
+1. 基础要求
+包含 x, y, tag 三个属性（tag 为字符串类型的标签）
+__repr__ 返回的字符串必须能够通过 eval() 重建对象
+__str__ 返回人类可读的格式：&quot;标签：(x, y)&quot;（坐标保留2位小数）
+
+2. 特殊需求
+当 tag 包含空格时，__repr__ 必须自动添加引号
+如果 tag 为空字符串，__str__ 显示 &quot;未命名点&quot;
+在列表中打印多个 SmartPoint 对象时，显示的是 __repr__ 格式
+&quot;&quot;&quot;
+class SmartPoint:
+    def __init__(self, x, y, tag=&#39;&#39;):
+        self.x = x
+        self.y = y
+        self.tag = tag
+    def __repr__(self):
+        return f&quot;&#123;self.__class__.__name__&#125;(&#123;self.x!r&#125;, &#123;self.y!r&#125;, &#123;self.tag!r&#125;)&quot;
+    
+    def __str__(self):
+        # if self.tag == &quot;&quot;:  # 如果 tag 为空字符串
+        if not self.tag:
+            return f&quot;未命名点：(&#123;self.x:.2f&#125;, &#123;self.y:.2f&#125;)&quot;  # 返回默认提示
+        else:
+            return f&quot;&#123;self.tag&#125;: (&#123;self.x:.2f&#125;, &#123;self.y:.2f&#125;)&quot;
+
+# 创建对象
+p1 = SmartPoint(3.1415926, 2.71828, &quot;Alpha&quot;)
+p2 = SmartPoint(-5, 4.2, &quot;&quot;)
+p3 = SmartPoint(0, 0, &quot;Beta Point&quot;)
+
+# 测试1：直接打印
+print(p1)           # 应输出：Alpha：(3.14, 2.72)
+print(p2)           # 应输出：未命名点：(-5.00, 4.20)
+
+# # 测试2：repr相关
+print(repr(p3))     # 应输出：SmartPoint(0, 0, &#39;Beta Point&#39;)
+points = [p1, p3]
+print(points)       # 应输出：[SmartPoint(3.1415926, 2.71828, &#39;Alpha&#39;), SmartPoint(0, 0, &#39;Beta Point&#39;)]
+
+# 测试3：eval验证
+p1_clone = eval(repr(p1))
+print(p1.x)
+print(p1_clone.x)
+print(p1_clone.tag)
+print(p1_clone.x == p1.x)  # 应输出：True
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7kafp180001s4vd5sio6s7a" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7lnedx1002oh4vdc2fj5zwp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -111,12 +432,16 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ntp配置时间同步" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2025/02/25/hello-world/" class="article-date">
-  <time datetime="2025-02-25T07:51:18.474Z" itemprop="datePublished">2025-02-25</time>
+    <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" class="article-date">
+  <time datetime="2023-09-20T05:42:36.000Z" itemprop="datePublished">2023-09-20</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -125,7 +450,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2025/02/25/hello-world/">Hello World</a>
+      <a class="article-title" href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
     </h1>
   
 
@@ -133,26 +458,749 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h4 id="方法1：ntpd服务同步"><a href="#方法1：ntpd服务同步" class="headerlink" title="方法1：ntpd服务同步"></a>方法1：ntpd服务同步</h4><ul>
+<li>每台主机上安装yum -y install ntp</li>
+<li>配置/etc/ntp.conf配置文件</li>
+<li>启动ntpd服务</li>
+</ul>
+<h4 id="方法2：ntpd-ntpdate同步"><a href="#方法2：ntpd-ntpdate同步" class="headerlink" title="方法2：ntpd+ntpdate同步"></a>方法2：ntpd+ntpdate同步</h4><ol>
+<li><p>选一台服务器作为ntp服务器</p>
+<p>安装yum -y install ntp</p>
+<p>启动ntpd服务</p>
+</li>
+<li><p>其他服务器作为客户端配置定时任务使用ntpdate同步时间</p>
+</li>
+</ol>
+<pre><code class="shell"> yum install ntpdate
+    echo &quot;* * * * * /usr/sbin/ntpdate ntp服务器ip&quot; &gt;&gt;/etc/crontab
+    systemctl start ntpdate
+    systemctl status ntpdate
+    systemctl enable ntpdate
+</code></pre>
+<ol start="3">
+<li>实例如下：</li>
+</ol>
+<pre><code class="shell">1、选择一台服务作为ntp服务器，安装ntp软件，并启动服务
+    yum -y install ntp
+    systemctl start ntpd
+    systemctl enable ntpd
+2、配置ntp客户端(客户端都要安装ntpdate)同步ntp服务器时间,下面命令都要在客户端执行
+        yum install ntpdate
+        echo &quot;* * * * * /usr/sbin/ntpdate 172.172.31.32&quot; &gt;&gt;/etc/crontab
+        systemctl restart crond
+        systemctl status crond
+</code></pre>
+<h4 id="记录一下装载目录方法："><a href="#记录一下装载目录方法：" class="headerlink" title="记录一下装载目录方法："></a>记录一下装载目录方法：</h4><pre><code class="shell">        # 用lsblk查看磁盘信息。
+        mkfs.xfs -f  /dev/sdb
+        mkdir -p /data1
+        mount /dev/sdb /data1
+        chmod +x  /etc/rc.d/rc.local
+        echo &quot;/usr/bin/mount -t xfs /dev/sdb /data1&quot; &gt;&gt;/etc/rc.d/rc.local
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/25/hello-world/" data-id="cm7kafp150000s4vdg7c2051u" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7lnedwm000eh4vdazkh571z" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-接口测试学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2023-06-19T01:28:09.000Z" itemprop="datePublished">2023-06-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-HTTP-与-HTTPS-的概念"><a href="#1-HTTP-与-HTTPS-的概念" class="headerlink" title="1. HTTP 与 HTTPS 的概念"></a>1. HTTP 与 HTTPS 的概念</h4><ul>
+<li>HTTP</li>
+<li><ul>
+<li>超文本传输协议</li>
+<li>是一个基于请求与响应，无状态的，应用层的协议</li>
+<li>常基于 TCP/IP 协议传输数据</li>
+<li>以明文方式发送内容</li>
+</ul>
+</li>
+<li>HTTPS</li>
+<li><ul>
+<li>安全套接字层超文本传输协议</li>
+<li>通过计算机网络进行安全通信的传输协议</li>
+<li>在 HTTP 的基础上加入了 SSL/TLS 协议</li>
+<li><code>HTTP + 加密 + 认证 + 完整性保护 = HTTPS</code> </li>
+</ul>
+</li>
+<li><img src="../imags/$%7Bfiilename%7D/https%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.jpg" alt="https通信过程"></li>
+<li><img src="../images/%E4%BC%A0%E8%BE%93.jpg" alt="传输"></li>
+</ul>
+<h4 id="2-HTTP-与-HTTPS-的区别"><a href="#2-HTTP-与-HTTPS-的区别" class="headerlink" title="2. HTTP 与 HTTPS 的区别"></a>2. HTTP 与 HTTPS 的区别</h4><ol>
+<li><p>HTTPS 比 HTTP 更安全</p>
+<ul>
+<li><p>HTTP 是超文本传输协议，连接简单无状态，信息明文传输</p>
+</li>
+<li><p>HTTPS 通过 SSL/TLS 提供安全方式</p>
+</li>
+</ul>
+</li>
+<li><p>HTTP 和 HTTPS 使用完全不同的连接方式</p>
+</li>
+<li><p>HTTP 和 HTTPS 用的端口也不一样</p>
+<ul>
+<li><p>HTTP 是 80 端口</p>
+</li>
+<li><p>HTTPS 是 443 端口</p>
+</li>
+</ul>
+</li>
+<li><p>HTTPS 协议需要到 CA 申请证书，可能需要一定费用</p>
+</li>
+</ol>
+<h4 id="3-get、post区别"><a href="#3-get、post区别" class="headerlink" title="3.get、post区别"></a>3.get、post区别</h4><p><img src="../images/%E5%8C%BA%E5%88%AB.jpg" alt="区别"></p>
+<ul>
+<li><p>HTTP 的 method 字段不同</p>
+</li>
+<li><p>POST 可以附加 body，可以支持 form、json、xml、binary 等各种数据格式</p>
+</li>
+<li><p>行业通用的规范</p>
+</li>
+<li><ul>
+<li>无状态变化的建议使用 GET 请求</li>
+<li>数据的写入与状态修改建议用 POST</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>传送数据量不同</li>
+<li>安全性不同</li>
+</ul>
+<h4 id="4-session、cookie、token的区别"><a href="#4-session、cookie、token的区别" class="headerlink" title="4 session、cookie、token的区别"></a>4 session、cookie、token的区别</h4><ul>
+<li>Session：数据存储到服务端，只把关联数据的一个加密串放到 Cookie 中标记</li>
+<li>Cookie：浏览器接受服务器的 Set-Cookie 指令，并把 cookie 保存到电脑上，每个网站保存的 cookie 只作用于自己的网站</li>
+<li>Token：是一个用户请求时附带的请求字段，用于验证身份与权限</li>
+</ul>
+<h5 id="4-1-session的实现机制"><a href="#4-1-session的实现机制" class="headerlink" title="4.1 session的实现机制"></a>4.1 session的实现机制</h5><p>​        服务器创建 Session 出来后，会把 Session id，以 Cookie 的形式回写给客户端  浏览器，这样，只要客户端的浏览器不关，再去访问服务器时，都会带着 Session id ，服务器发现客户机浏览器带 Session id  过来了，就会使用内存中与之对应的 Session 为之服务。(Session 会存在服务器)</p>
+<p><img src="../images/session.jpg" alt="session"></p>
+<h5 id="4-2-cookie-实现机制"><a href="#4-2-cookie-实现机制" class="headerlink" title="4.2 cookie 实现机制"></a>4.2 cookie 实现机制</h5><ul>
+<li>Cookie 通过在客户端记录信息确定用户身份，</li>
+<li>Cookie 由服务器生成，发送给浏览器，浏览器把 Cookie 以 kv 形式保存到某个目录下的文本文件内，下一次请求同一网站时会把该 Cookie 发送给服务器。</li>
+</ul>
+<p><img src="../images/cookie%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.jpg" alt="cookie实现机制"></p>
+<h5 id="4-3-Token-的原理"><a href="#4-3-Token-的原理" class="headerlink" title="4.3 Token 的原理"></a>4.3 Token 的原理</h5><ul>
+<li><p>基于 Token 的身份验证是无状态的，我们不将用户信息存在服务器或 Session 中。这解决了在服务端存储信息时的许多问题 NoSession 意味着你的程序可以根据需要去增减机器，而不用去担心用户是否登录。</p>
+</li>
+<li><p>基于 Token 的身份验证的过程如下:</p>
+</li>
+<li><ul>
+<li>用户发送数据请求</li>
+<li>程序验证</li>
+<li>程序返回一个签名的 token 给客户端</li>
+<li>客户端储存 token，并且每次用于每次发送请求。</li>
+<li>服务端验证 token 并返回数据。</li>
+</ul>
+</li>
+</ul>
+<p>​    token 通常在 HTTP 的头部发送给服务端</p>
+<h5 id="4-4-Session-Cookie-Token-的工作原理"><a href="#4-4-Session-Cookie-Token-的工作原理" class="headerlink" title="4.4 Session,Cookie,Token 的工作原理"></a>4.4 Session,Cookie,Token 的工作原理</h5><p><img src="../images/%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.jpg" alt="工作原理"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7lnedx1002nh4vd9on51dud" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-JMeter中使用“用户参数”实现参数化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" class="article-date">
+  <time datetime="2023-06-15T09:22:07.000Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/jmeter/">jmeter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/">JMeter中使用“用户参数”实现参数化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-用户参数组件介绍"><a href="#1-用户参数组件介绍" class="headerlink" title="1. 用户参数组件介绍"></a>1. <strong>用户参数组件介绍</strong></h4><p>​    用户参数（User  Parameter）组件在前置处理器元件中添加，前置处理器的作用是在取样器发出请求之前，执行一些操作。即：如果将前置处理器附加到取样器元件中，则它将在该取样器元件运行之前执行。常用操作如：取样器参数设置、环境变量设置、脚本预处理等。之前我们介绍过，JMeter中常用的参数化方式有四种：1、CSV数据文件设置（CSV Data Set Config）：这种方式是通常所指的参数化。数据存储在文件中，该种参数化方式取值范围大，灵活性强，适用于大量测试数据时的使用。</p>
+<h5 id="1-1-用户参数（User-Parameter）"><a href="#1-1-用户参数（User-Parameter）" class="headerlink" title="1.1 用户参数（User Parameter）"></a>1.1 用户参数（User Parameter）</h5><p>​        适用于参数取值范围很小，需要少量测试数据时使用。</p>
+<h5 id="1-2-用户自定义变量（User-Defined-Variables）"><a href="#1-2-用户自定义变量（User-Defined-Variables）" class="headerlink" title="1.2 用户自定义变量（User Defined Variables）"></a>1.2 用户自定义变量（User Defined Variables）</h5><p>​        更多用于设置全局变量，常用于数据库地址，测试环境、开发环境地址等常量配置。</p>
+<h5 id="1-3-函数助手"><a href="#1-3-函数助手" class="headerlink" title="1.3  函数助手"></a>1.3  函数助手</h5><p>​        可使用函数生成随机数字和随机字符串实现参数化。本文以前置处理器中的<strong>用户参数</strong>组件为例，实现JMeter中的参数化。</p>
+<h4 id="2-用户参数界面介绍"><a href="#2-用户参数界面介绍" class="headerlink" title="2. 用户参数界面介绍"></a>2. <strong>用户参数界面介绍</strong></h4><p>​    <strong>用户参数</strong>组件添加方式：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
+<p>界面说明：</p>
+<ul>
+<li><strong>名称</strong>：用户参数组件的自定义名称，见名知意最好。</li>
+<li><strong>注释</strong>：即添加一些备注信息，对该用户参数组件的简短说明，以便后期回顾时查看。</li>
+<li><strong>每次迭代更新一次</strong>：不同的线程需要应用不同的用户数据，这时就需要勾选此选项。也就是根据线程组里设置的线程数，每个线程调用不同的用户数据，依次取值。但是我实际操作中，勾选不勾选都能够依次取值。（如果修改线程组界面中的循环次数，勾不勾选，都只用一个用户的值。）</li>
+<li><strong>添加变量</strong>：横着添加一行变量信息，此变量会应用于每个用户。</li>
+<li><strong>删除变量</strong>：删除所选中的一行数据。</li>
+<li><strong>添加用户</strong>：竖着添加一个用户信息，一个用户就是一组测试数据。</li>
+<li><strong>删除用户</strong>：删除所选中的一列数据。</li>
+<li><strong>向上和向下按钮</strong>：就是上下移动所选中变量的位置。</li>
+</ul>
+<h4 id="3-使用“用户参数”组件实现参数化"><a href="#3-使用“用户参数”组件实现参数化" class="headerlink" title="3. 使用“用户参数”组件实现参数化"></a>3. <strong>使用“用户参数”组件实现参数化</strong></h4><p>​    需求，实现批量新建和删除标签</p>
+<h5 id="3-1测试计划内包含的元件"><a href="#3-1测试计划内包含的元件" class="headerlink" title="3.1测试计划内包含的元件"></a>3.1<strong>测试计划内包含的元件</strong></h5><p><strong>添加元件操作步骤</strong>：</p>
+<p>​    1、创建测试计划</p>
+<p>​    2、创建线程组：选中“测试计划”右键—&gt;添加—&gt;线程（用户）—&gt;线程组。</p>
+<p>​    3、在线程组中，添加取样器”HTTP请求“组件：选中“线程组”右键—&gt;添加—&gt;取样器—&gt; HTTP请求。</p>
+<p>​    4、在取样器中，添加前置处理器“用户参数”组件：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p>​    5、在线程组中，添加监听器察看结果树组件：查看结果，选中“线程组”右键—&gt;添加—&gt;监听器—&gt;察看结果树。</p>
+<p>最终测试计划中的元件如下：</p>
+<p><img src="../images/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA.jpg" alt="标签新建"></p>
+<h5 id="3-2-线程组元件内容"><a href="#3-2-线程组元件内容" class="headerlink" title="3.2 线程组元件内容"></a>3.2 <strong>线程组元件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E5%8C%96_%E7%BA%BF%E7%A8%8B%E6%95%B0.jpg" alt="用户参数化_线程数"></p>
+<h5 id="3-3-HTTP请求组件内容"><a href="#3-3-HTTP请求组件内容" class="headerlink" title="3.3 HTTP请求组件内容"></a>3.3 <strong>HTTP请求组件内容</strong></h5><p><img src="../images/%E6%A0%87%E7%AD%BEhttp.jpg" alt="标签http"></p>
+<h5 id="3-4-用户参数组件内容"><a href="#3-4-用户参数组件内容" class="headerlink" title="3.4 用户参数组件内容"></a>3.4 <strong>用户参数组件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
+<h4 id="4-脚本运行结果"><a href="#4-脚本运行结果" class="headerlink" title="4. 脚本运行结果"></a>4. <strong>脚本运行结果</strong></h4><p><img src="../images/%E7%BB%93%E6%9E%9C.jpg" alt="结果"></p>
+<h5 id="5-总结优先级说明："><a href="#5-总结优先级说明：" class="headerlink" title="5. 总结优先级说明："></a>5. <strong>总结</strong>优先级说明：</h5><ul>
+<li>线程组下的用户参数组件 优先级高于 测试计划 里的用户自定义变量。</li>
+<li>HTTP 请求下的用户参数组件 优先级高于 **线程组下 **的用户参数组件。</li>
+<li>若有重名参数，优先取优先级高的用户参数。</li>
+<li>若用户参数和用户自定义变量重名，则优先取用户参数组件中的值 。因为配置元件执行完再到前置处理器，所以前置处理器的值会覆盖配置元件中设置的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7lnedwg0003h4vdg6fhb9j6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-JMeter中实现跨线程组关联" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" class="article-date">
+  <time datetime="2023-06-15T06:15:15.000Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/jmeter/">jmeter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/">JMeter中实现跨线程组关联</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-JMeter中实现跨线程组关联说明"><a href="#1-JMeter中实现跨线程组关联说明" class="headerlink" title="1. JMeter中实现跨线程组关联说明"></a>1. JMeter中实现跨线程组关联说明</h4><h4 id="1-1-JMeter中实现跨线程组关联步骤"><a href="#1-1-JMeter中实现跨线程组关联步骤" class="headerlink" title="1.1 JMeter中实现跨线程组关联步骤"></a>1.1 <strong>JMeter中实现跨线程组关联步骤</strong></h4><p>​    1、先进行登陆请求。<br>​    2、记录登陆请求返回的Cookie，或者有关登录状态的token信息。<br>​    3、如果是Cookie，就用HTTP Cookie管理器获取。<br>​    4、如果是token，就用提取器进行提取。<br>​    5、然后通过函数助手中的__setProperty函数，把Cookie值升级为JMeter的全局属性，就可以在线程组和线程组之间共享了。<br>​    6、然后从另一个线程组中通过__property函数，获取全局数据。<br>​    7、然后把获取的Cookie或token，加入到查看购物车请求中，保持用户登陆状态。<br>​    8、如果是Cookie，就用添加到HTTP信息头管理器组件中。<br>​    9、如果是token，就添加到请求的参数中。<br>​    10、执行脚本，查看运行结果。</p>
+<h4 id="2-测试计划内包含的元件"><a href="#2-测试计划内包含的元件" class="headerlink" title="2.测试计划内包含的元件"></a>2.<strong>测试计划内包含的元件</strong></h4><p>​    1、创建测试计划。<br>​    2、创建线程组：选中“测试计划”右键 —&gt; 添加 —&gt; 线程（用户） —&gt; 线程组。<br>​    3、在线程组中，添加配置元件HTTP Cookie管理器组件：选中“线程组”右键 —&gt; 添加 —&gt; 配置元件 —&gt; HTTP<br>Cookie管理器。<br>​    4、在线程组中，添加取样器“HTTP请求”组件：选中“线程组”右键 —&gt; 添加 —&gt; 取样器 —&gt; HTTP请求。<br>​    5、在线程组中，添加取样器“BeanShell 取样器”组件：选中“线程组”右键 —&gt; 添加 —&gt; 取样器 —&gt; BeanShell<br>取样器BeanShell 取样器。<br>​    6、在线程组中，添加配置元件“HTTP信息头管理器”组件：选中“线程组”右键 —&gt; 添加 —&gt; 配置元件 —&gt; HTTP信息头管理器。<br>​    7、在线程组中，添加监听器“察看结果树”组件：选中“线程组”右键 —&gt; 添加 —&gt; 监听器 —&gt; 察看结果树。</p>
+<p>最终测试计划中的元件如下：</p>
+<p><img src="../images/%E5%9B%BE%E5%83%8F.jpg" alt="图像"></p>
+<h4 id="3-用户登陆请求的相关操作"><a href="#3-用户登陆请求的相关操作" class="headerlink" title="3. 用户登陆请求的相关操作"></a>3. 用户登陆请求的相关操作</h4><h5 id="3-1-进行登陆操作获取Cookie信息"><a href="#3-1-进行登陆操作获取Cookie信息" class="headerlink" title="3.1 进行登陆操作获取Cookie信息"></a>3.1 <strong>进行登陆操作获取Cookie信息</strong></h5><p><img src="../images/%E7%99%BB%E9%99%86%E9%A1%B5%E9%9D%A2.jpg" alt="登陆页面"></p>
+<p>通过添加HTTP Cookie管理器组件，会把服务器返回来的Cookie信息，默认存储到线程变量中</p>
+<p><strong>前提</strong>：jmeter.properties文件中，设置CookieManager.save.cookies=true</p>
+<p>然后我们可以通过Debug Sampler（调试取样器）组件，查看到线程变量中的Cookie数据。</p>
+<p><img src="../images/cookie%E5%AD%98%E6%94%BE.jpg" alt="cookie存放"></p>
+<p>说明：保持用户登陆状态的Cookie数据： COOKIE_sid=40cbbff1-567f-4434-b414-1977dd321149，这样我们就找到Cookie的值了。</p>
+<h5 id="3-2-把Cookie数据提升为JMeter的全局属性"><a href="#3-2-把Cookie数据提升为JMeter的全局属性" class="headerlink" title="3.2 把Cookie数据提升为JMeter的全局属性"></a>3.2 <strong>把Cookie数据提升为JMeter的全局属性</strong></h5><p>我们需要通过__setProperty函数，把Cookie数据提升为JMeter的全局属性。这样该Cookie就可以在JMeter脚本中，所有线程组里都可以使用了。（也就是可以在线程组和线程组之间通信）</p>
+<p>接下来点击：工具 —&gt; 函数助手对话框，打开函数助手。（之前的版本在选项中）</p>
+<p>然后选择__setProperty函数。</p>
+<p>第一行填写：填写升级为全局属性后的变量名。（自定义即可）</p>
+<p>第二行填写：定义全局属性的值。（我们就把Cookie属性的值，引用到这里）</p>
+<p>Return Original Value of property (default false)?：返回属性的原始值（默认为 false），默认即可。<br><img src="../images/set.jpg" alt="set"></p>
+<p>这样我们就把Cookie提升为JMeter的全局属性了，变量名叫kuayu_session。</p>
+<p>JMeter的全局属性就相当于在“测试计划”界面中定义的用户定义的变里</p>
+<h5 id="3-3-编写BeanShell取样器组件"><a href="#3-3-编写BeanShell取样器组件" class="headerlink" title="3.3 编写BeanShell取样器组件"></a>3.3 <strong>编写BeanShell取样器组件</strong></h5><p>上面生成的这个函数比较特殊，他必须放到BeanShell Sampler组件里面。当把这个函数放到BeanShell取样器组件里面后，就相当于把变量kuayu_session的值，放到了我们声明的公共空间里面。</p>
+<p><img src="../images/%E8%AE%BE%E7%BD%AE%E4%B8%BA%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F.jpg" alt="设置为全局变量"></p>
+<h4 id="4-新建标签请求的相关操作"><a href="#4-新建标签请求的相关操作" class="headerlink" title="4.新建标签请求的相关操作"></a>4.新建标签请求的相关操作</h4><h5 id="4-1-查看标签请求"><a href="#4-1-查看标签请求" class="headerlink" title="4.1 查看标签请求"></a>4.1 查看标签请求</h5><p><img src="../images/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA.jpg" alt="标签新建"></p>
+<h5 id="4-2-获取JMeter全局属性"><a href="#4-2-获取JMeter全局属性" class="headerlink" title="4.2 获取JMeter全局属性"></a>4.2 <strong>获取JMeter全局属性</strong></h5><p>因为我们把用户登陆线程组中的Cookie属性提升为JMeter全局属性了。</p>
+<p>需要在查看购物车线程组中把全局属性中的Cookie属性获取到，使用__Property函数。</p>
+<p>打开函数助手：工具 —&gt; 函数助手对话框。（之前的版本在选项中）</p>
+<p>选择__Property函数。</p>
+<p>第一行：填写要获取的JMeter全局属性的变量名。（即：kuayu_session）</p>
+<p>第二行：重用函数计算值的引用名。（可选填）</p>
+<p>默认值：属性未定义时的默认值。</p>
+<p><img src="../images/%E5%8F%96%E7%94%A8cookie.jpg" alt="取用cookie"></p>
+<h5 id="4-3-HTTP信息头管理器内容"><a href="#4-3-HTTP信息头管理器内容" class="headerlink" title="4.3 HTTP信息头管理器内容"></a>4.3 <strong>HTTP信息头管理器内容</strong></h5><p>我们需要把上一步获取到的Cookie信息，放入新建标签的请求中。</p>
+<p>因为是Cookie的相关数据，只能放在请求头的信息中。（如果要是token，就放在请求的参数中</p>
+<p><img src="../images/http%E4%BF%A1%E6%81%AF%E5%A4%B4%E7%AE%A1%E7%90%86%E5%99%A8.jpg" alt="http信息头管理器"></p>
+<p>这样查看新建标签请求，就带有用户的登陆状态了。</p>
+<h5 id="4-4-设置线程组的启动时间"><a href="#4-4-设置线程组的启动时间" class="headerlink" title="4.4 设置线程组的启动时间"></a>4.4 <strong>设置线程组的启动时间</strong></h5><p>因为我们需要等待前面的登陆线程组执行完成后，在进行查看购物的请求，否则将获取不到我们需要的Cookie信息。</p>
+<p>这时候就需要设置线程组元件界面中的调度器属性了。</p>
+<p>我们把持续时间和启动延迟都设置成3，表示JMeter脚本启动3秒后，再执行查看购物线程组中的内容，并持续3秒钟。</p>
+<p><img src="../images/%E8%B0%83%E5%BA%A6%E5%99%A8.jpg" alt="调度器"></p>
+<p>调度器配置（Scheduler Configuration）说明:</p>
+<ul>
+<li>持续时间（秒）：如果选择了调度程序复选框，控制测试执行的持续时间，以秒为单位。</li>
+<li>启动延迟（秒）：如果选择了调度程序复选框，控制测试在多久后启动执行，以秒为单位。</li>
+</ul>
+<h4 id="5-运行结果说明"><a href="#5-运行结果说明" class="headerlink" title="5 运行结果说明"></a>5 运行结果说明</h4><p><img src="../images/%E7%BB%93%E6%9E%9C.jpg" alt="结果"></p>
+<h4 id="6-拓展说明（也很重点）"><a href="#6-拓展说明（也很重点）" class="headerlink" title="6. 拓展说明（也很重点）"></a>6. 拓展说明（也很重点）</h4><p>如上需求，在进行性能测试的时候，我们要保证登陆请求线程组中，所有用户登陆的Cookie或token都保存好，才能进入到下一个线程组中执行其他的跨域关联请求。</p>
+<p>这样就会有两种实现方式：</p>
+<p>1、像本篇文章一样，把需要关联的数据提升到全局属性。</p>
+<p>但是这种方式只能适用于单线程跨域关联，如果是很多用户并发进行跨域关联，该种方式只是把最后一个登陆请求的Cookie或token进行了提升。所以下一个线程组中使用的登陆状态，都是登陆线程组最后一个人的请求状态。<br>2、第二种方式，把登陆请求中的Cookie或token信息，提取出来并保存到一个文件中。然后在其他关联跨域请求中，使用参数化的方式，把用户登陆的Cookie或token信息，传入到所需的请求中，从而实现跨域关联的操作。（推荐）</p>
+<h5 id="6-1-第二种方式实现步骤："><a href="#6-1-第二种方式实现步骤：" class="headerlink" title="6.1 第二种方式实现步骤："></a>6.1 <strong>第二种方式实现步骤：</strong></h5><ol>
+<li>每一个接口放在一个线程组中。</li>
+<li>把登陆接口的返回Cookie数据，写入到.csv文件中。</li>
+<li>jmeter写.csv文件，使用BeanShell。取样器添加后置处理器BeanShell postprocessor。</li>
+<li>在下一个跨域关联接口使用数据，用参数化的方式导入.csv文件。</li>
+</ol>
+<p>提供BeanShell中的数据存储代码（简单示例）</p>
+<pre><code class="shell">import java.io.FileWriter;
+import java.io.BufferedWriter;
+
+
+FileWriter fstream = new FileWriter(&quot;C:\\Users\\L\\Desktop\\JMeterScript\\user_session.csv&quot;, true);
+BufferedWriter out = new BufferedWriter(fstream);
+out.write(vars.get(&quot;COOKIE_ECS_ID&quot;)+&quot;\n&quot;);
+out.close();
+fstream.close();
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" data-id="cm7lnedwj0008h4vd9itlf16a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python-property的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2023-05-17T05:45:05.000Z" itemprop="datePublished">2023-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/">python @property的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-python的-property是python的一种装饰器，是用来修饰方法的"><a href="#1-python的-property是python的一种装饰器，是用来修饰方法的" class="headerlink" title="1. python的@property是python的一种装饰器，是用来修饰方法的"></a>1. python的@property是python的一种装饰器，是用来修饰方法的</h4><h5 id="1-1-作用"><a href="#1-1-作用" class="headerlink" title="1.1 作用"></a>1.1 作用</h5><p>使用@property装饰器来创建<strong>只读属性</strong>，@property装饰器会将<strong>方法</strong>转换为相同名称的<strong>只读属性</strong>,可以与所定义的属性配合使用，这样可以防止属性被修改。</p>
+<h5 id="1-2-修饰方法，使方法可以像属性一样访问"><a href="#1-2-修饰方法，使方法可以像属性一样访问" class="headerlink" title="1.2  修饰方法，使方法可以像属性一样访问"></a>1.2  修饰方法，使方法可以像属性一样访问</h5><pre><code class="python">class DataSet(object):
+  @property
+  def method_with_property(self): ##含有@property
+      return 15
+  def method_without_property(self): ##不含@property
+      return 15
+
+l = DataSet()
+print(l.method_with_property) # 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。
+print(l.method_without_property())  #没有加@property , 必须使用正常的调用方法的形式，即在后面加()
+# 两个输出都为15
+</code></pre>
+<p>如果使用property进行修饰后，又在调用的时候，方法后面添加了()， 那么就会显示错误信息：TypeError: ‘int’ object  is not callable，也就是说添加@property  后，这个方法就变成了一个属性，如果后面加入了()，那么就是当作函数来调用，而它却不是callable（可调用）的。</p>
+<h5 id="1-3-不加括号"><a href="#1-3-不加括号" class="headerlink" title="1.3 不加括号"></a>1.3 不加括号</h5><p>没有使用property修饰，它是一种方法，如果把括号去掉，不会报错输出的就会是方法存放的地址。</p>
+<pre><code class="python">class DataSet(object):
+  def method_without_property(self): ##不含@property
+      return 15
+l = DataSet()
+print(l.method_without_property） #没有加@property , 必须使用正常的调用方法的形式，即在后面加()
+</code></pre>
+<h4 id="2-与所定义的属性配合使用，这样可以防止属性被修改"><a href="#2-与所定义的属性配合使用，这样可以防止属性被修改" class="headerlink" title="2. 与所定义的属性配合使用，这样可以防止属性被修改"></a>2. 与所定义的属性配合使用，这样可以防止属性被修改</h4><p>​        由于python进行属性的定义时，没办法设置私有属性，因此要通过@property的方法来进行设置。这样可以隐藏属性名，让用户进行使用的时候无法随意修改。</p>
+<pre><code class="python">class DataSet(object):
+    def __init__(self):
+        self._images = 1
+        self._labels = 2 #定义属性的名称
+    @property
+    def images(self): #方法加入@property后，这个方法相当于一个属性，这个属性可以让用户进行使用，而且用户有没办法随意修改。
+        return self._images 
+    @property
+    def labels(self):
+        return self._labels
+l = DataSet()
+#用户进行属性调用的时候，直接调用images即可，而不用知道属性名_images，因此用户无法更改属性，从而保护了类的属性。
+print(l.images) # 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。
+</code></pre>
+<p>总结：类中定义私有属性有两种方式：一种用单下划线，表示这个属性是类的私有属性，不希望被外部访问到，但仅仅是不希望，还是可以被访问的；第二种是双下划线，表示这个属性就是类的私有属性，只能在类中被使用，不可以在实例化的对象中去使用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="cm7lnedwq000uh4vd1xmz585y" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-pytest-parametrize-参数化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" class="article-date">
+  <time datetime="2023-02-23T08:16:38.000Z" itemprop="datePublished">2023-02-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/pytest/">pytest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/">pytest_parametrize()参数化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="pytest参数化"><a href="#pytest参数化" class="headerlink" title="pytest参数化"></a>pytest参数化</h5><ol>
+<li>pytest.mark.parametrize()方式进行<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%8F%82%E6%95%B0%E5%8C%96&spm=1001.2101.3001.7020">参数化</a></li>
+<li>pytest.fixture()方式进行参数化，fixture装饰的函数可以作为参数传入其他函数</li>
+<li>conftest.py 文件中存放参数化函数，可作用于模块内的所有</li>
+<li>测试用例 支持元组，列表，支持列表嵌套列表，列表嵌套元组，列表嵌套字典，支持类和函数的参数化</li>
+</ol>
+<pre><code class="python">一，@pytest.mark.parametrize(&#39;参数名&#39;，list)方式
+
+pytest.mark.parametrize(argnames, argvalues)，是pytest自带的装饰器之一
+
+1. 传一个参数 @pytest.mark.parametrize(&#39;参数名&#39;，list)
+
+2. 传两个参数@pytest.mark.parametrize(&#39;参数名1，参数名2&#39;，[(参数1_data[0], 参数2_data[0]),(参数1_data[1], 参数2_data[1])]) 进行参数化,参数值，是list,多组数据用元组类型; 传三个或更多参数也是这样传。list的每个元素都是一个元组，元组里的每个元素和按参数顺序一一对应
+</code></pre>
+<h6 id="单个变量"><a href="#单个变量" class="headerlink" title="单个变量"></a>单个变量</h6><pre><code class="python">import pytest
+@pytest.mark.parametrize(&#39;user&#39;, (&quot;zhangsan&quot;, &quot;lisi&quot;))
+def test_01(user):
+    print(user)
+</code></pre>
+<h6 id="单个参数，参数为列表"><a href="#单个参数，参数为列表" class="headerlink" title="单个参数，参数为列表"></a>单个参数，参数为列表</h6><pre><code class="python">import pytest
+datatest04 = [&#39;zhangsan&#39;, &#39;lisi&#39;]
+@pytest.mark.parametrize(&#39;user&#39;, datatest04)
+def test_04(user):
+    print(user)
+</code></pre>
+<h6 id="多个变量，列表中嵌套元组。列表中，每一组数据用元组格式"><a href="#多个变量，列表中嵌套元组。列表中，每一组数据用元组格式" class="headerlink" title="多个变量，列表中嵌套元组。列表中，每一组数据用元组格式"></a>多个变量，列表中嵌套元组。列表中，每一组数据用元组格式</h6><pre><code class="python">import pytest
+@pytest.mark.parametrize(&#39;user,password&#39;, [(&quot;zhangsan&quot;, &quot;111111&quot;), (&quot;lisi&quot;, &quot;222222&quot;)])
+def test_02(user, password):
+    print(user, password)
+</code></pre>
+<h6 id="多个变量，列表中嵌套列表。列表中，每一组数据用列表格式"><a href="#多个变量，列表中嵌套列表。列表中，每一组数据用列表格式" class="headerlink" title="多个变量，列表中嵌套列表。列表中，每一组数据用列表格式"></a>多个变量，列表中嵌套列表。列表中，每一组数据用列表格式</h6><pre><code class="python">import pytest
+data = [[&quot;zhangsan&quot;, &quot;111111111&quot;], [&quot;lisi&quot;, &quot;2222222&quot;]]
+@pytest.mark.parametrize(&#39;user,password&#39;, data)
+def test_05(user, password):
+    print(user, password)
+</code></pre>
+<h6 id="组合函数-笛卡尔集"><a href="#组合函数-笛卡尔集" class="headerlink" title="组合函数-笛卡尔集"></a>组合函数-笛卡尔集</h6><pre><code class="python">import pytest
+data1 = [&quot;zhangsan&quot;, &quot;lisi&quot;]
+data2 = [&quot;1111111&quot;, &quot;2222222&quot;]
+@pytest.mark.parametrize(&#39;user&#39;, data1)
+@pytest.mark.parametrize(&#39;password&#39;, data2)
+def test_06(user, password):
+    print(user, password)
+</code></pre>
+<h6 id="列表嵌套字典"><a href="#列表嵌套字典" class="headerlink" title="列表嵌套字典"></a>列表嵌套字典</h6><pre><code class="python">import pytest
+datatest07 = [&#123;&quot;user&quot;: &quot;zhangsan&quot;, &quot;password&quot;: &quot;111111111&quot;&#125;, &#123;&quot;user&quot;: &quot;lisi&quot;, &quot;password&quot;: &quot;222222&quot;&#125;]
+@pytest.mark.parametrize(&quot;data&quot;, datatest07)
+def test_07(data):
+    print(data)
+    print(data[&quot;user&quot;], data[&quot;password&quot;])
+# 执行结果
+test0223.py::test_07[data0] PASSED                                       [ 50%]&#123;&#39;user&#39;: &#39;zhangsan&#39;, &#39;password&#39;: &#39;111111111&#39;&#125;
+zhangsan 111111111
+
+test0223.py::test_07[data1] PASSED                                       [100%]&#123;&#39;user&#39;: &#39;lisi&#39;, &#39;password&#39;: &#39;222222&#39;&#125;
+lisi 222222
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7lnedwl000dh4vd4ph0g0u6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-pytest基础3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" class="article-date">
+  <time datetime="2023-02-23T03:11:40.000Z" itemprop="datePublished">2023-02-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/pytest/">pytest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/23/pytest%E5%9F%BA%E7%A1%803/">pytest基础3</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="pytest基础用法二"><a href="#pytest基础用法二" class="headerlink" title="pytest基础用法二"></a>pytest基础用法二</h5><pre><code class="python">前置条件：
+1.文件路径：
+Test_App
+    - - test_abc.py
+    - - pytest.ini
+2.pyetst.ini配置文件内容：
+[pytest]
+  命令行参数
+ addopts = -s
+ 搜索文件名
+ python_files = test*.py
+  搜索的类名
+ python_classes = Test*
+搜索的函数名
+ python_functions = test_*
+</code></pre>
+<h5 id="跳过测试函数"><a href="#跳过测试函数" class="headerlink" title="跳过测试函数"></a>跳过测试函数</h5><pre><code class="python">根据特定的条件，不执行标识的测试函数.
+ 方法：
+     skipif(condition, reason=None)
+ 参数：
+     condition：跳过的条件，必传参数
+     reason：标注原因，必传参数
+ 使用方法：
+     @pytest.mark.skipif(condition, reason=&quot;xxx&quot;) 
+</code></pre>
+<pre><code class="python">import pytest
+class Test_ABC:
+    def setup_class(self):
+        print(&quot;-------&gt;setup_class&quot;)
+    def teardown_class(self):
+        print(&quot;-------&gt;teardown_class&quot;)
+    def test_a(self):
+        print(&quot;-------&gt;test_a&quot;)
+        assert 1
+    @pytest.mark.skipif(condition=2&gt;1,reason = &quot;跳过该函数&quot;) # 跳过测试函数test_b
+    def test_b(self):
+        print(&quot;-------&gt;test_b&quot;)
+        assert 0
+# 执行结果：
+test0223.py::Test_ABC::test_a -------&gt;setup_class
+PASSED                                     [ 50%]-------&gt;test_a
+
+test0223.py::Test_ABC::test_b SKIPPED (跳过该函数)                       [100%]
+Skipped: 跳过该函数
+-------&gt;teardown_class
+</code></pre>
+<h5 id="标记为预期失败函数"><a href="#标记为预期失败函数" class="headerlink" title="标记为预期失败函数"></a>标记为预期失败函数</h5><pre><code class="tex">标记测试函数为失败函数
+ 方法：
+     xfail(condition=None, reason=None, raises=None, run=True, strict=False)
+ 常用参数：
+     condition：预期失败的条件，必传参数
+     reason：失败的原因，必传参数
+ 使用方法：
+     @pytest.mark.xfail(condition, reason=&quot;xx&quot;)
+</code></pre>
+<pre><code class="python">import pytest
+class Test_ABC:
+    def setup_class(self):
+        print(&quot;-------&gt;setup_class&quot;)
+    def teardown_class(self):
+        print(&quot;-------&gt;teardown_class&quot;)
+    def test_a(self):
+        print(&quot;-------&gt;test_a&quot;)
+        assert 1
+    @pytest.mark.xfail(2 &gt; 1, reason=&quot;标注为预期失败&quot;) # 标记为预期失败函数test_b
+    def test_b(self):
+       print(&quot;-------&gt;test_b&quot;)
+       assert 0
+if __name__ == &#39;__main__&#39;:
+    pytest.main()
+# 执行结果
+-------&gt;setup_class
+PASSED                                     [ 50%]-------&gt;test_a
+XFAIL (标注为预期失败)                     [100%]-------&gt;test_b
+
+self = &lt;test0223.Test_ABC object at 0x000001F92D538640&gt;
+
+    @pytest.mark.xfail(2 &gt; 1, reason=&quot;标注为预期失败&quot;) # 标记为预期失败函数test_b
+    def test_b(self):
+       print(&quot;-------&gt;test_b&quot;)
+&gt;      assert 0
+E      assert 0
+</code></pre>
+<h5 id="函数数据参数化"><a href="#函数数据参数化" class="headerlink" title="函数数据参数化"></a>函数数据参数化</h5><pre><code class="python">方便测试函数对测试属于的获取。
+ 方法：
+     parametrize(argnames, argvalues, indirect=False, ids=None, scope=None)
+ 常用参数：
+     argnames：参数名
+     argvalues：参数对应值，类型必须为list
+                 当参数为一个时格式：[value]
+                 当参数个数大于一个时，格式为:[(param_value1,param_value2.....),(param_value1,param_value2.....)]
+ 使用方法:
+     @pytest.mark.parametrize(argnames,argvalues)
+     ️ 参数值为N个，测试方法就会运行N次
+</code></pre>
+<pre><code class="python"># 单个参数示例
+import pytest
+class Test_ABC:
+    def setup_class(self):
+        print(&quot;-------&gt;setup_class&quot;)
+    def teardown_class(self):
+        print(&quot;-------&gt;teardown_class&quot;)
+
+    @pytest.mark.parametrize(&quot;a&quot;, [3, 6])  # a参数被赋予两个值，函数会运行两遍
+    def test_a(self, a):  # 参数必须和parametrize里面的参数一致
+        print(&quot;test data:a=%d&quot; % a)
+        assert a % 3 == 0
+ # 运行结果
+ test0223.py::Test_ABC::test_a[3] -------&gt;setup_class
+PASSED                                  [ 50%]test data:a=3
+
+test0223.py::Test_ABC::test_a[6] PASSED                                  [100%]test data:a=6
+-------&gt;teardown_class
+</code></pre>
+<pre><code class="python"># 多个参数示例
+import pytest
+class Test_ABC:
+    def setup_class(self):
+        print(&quot;-------&gt;setup_class&quot;)
+    def teardown_class(self):
+        print(&quot;-------&gt;teardown_class&quot;)
+
+    @pytest.mark.parametrize(&quot;a,b&quot;,[(1,2),(0,3)]) # 参数a,b均被赋予两个值，函数会运行两遍
+    def test_a(self,a,b): # 参数必须和parametrize里面的参数一致
+        print(&quot;test data:a=%d,b=%d&quot;%(a,b))
+        assert a+b == 3
+ # 执行结果
+ test_abc.py 
+    -------&gt;setup_class
+    test data:a=1,b=2 # 运行第一次取值 a=1,b=2
+    .
+    test data:a=0,b=3 # 运行第二次取值 a=0,b=3
+    .
+    -------&gt;teardown_class
+</code></pre>
+<pre><code class="python"># 函数返回值类型示例：
+import pytest
+
+
+def return_test_data():
+    return [(1, 2), (0, 3)]
+
+
+class Test_ABC:
+    def setup_class(self):
+        print(&quot;-------&gt;setup_class&quot;)
+
+    def teardown_class(self):
+        print(&quot;-------&gt;teardown_class&quot;)
+
+    @pytest.mark.parametrize(&quot;a,b&quot;, return_test_data())  # 使用函数返回值的形式传入参数值
+    def test_a(self, a, b):
+        print(&quot;test data:a=%d,b=%d&quot; % (a, b))
+        assert a + b == 3
+# 执行结果
+test0223.py::Test_ABC::test_a[1-2] -------&gt;setup_class
+PASSED                                [ 50%]test data:a=1,b=2
+
+test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]test data:a=0,b=3
+-------&gt;teardown_class
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" data-id="cm7lnedwo000oh4vd1zzh7ofe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
+
     </footer>
   </div>
   
@@ -162,15 +1210,20 @@
   
 
 
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
+  </nav>
+
 </section>
         
           <aside id="sidebar">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
     </div>
   </div>
 
@@ -178,9 +1231,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
     </div>
   </div>
 
@@ -188,18 +1241,18 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
     </div>
   </div>
 
@@ -207,16 +1260,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
           </li>
         
           <li>
-            <a href="/2025/02/25/hello-world/">Hello World</a>
+            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
           </li>
         
       </ul>
@@ -231,7 +1296,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 John Doe<br>
+      &copy; 2025 当时只道是寻常<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

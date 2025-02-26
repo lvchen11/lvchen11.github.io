@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JMeter中使用“用户参数”实现参数化 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. 用户参数组件介绍​    用户参数（User  Parameter）组件在前置处理器元件中添加，前置处理器的作用是在取样器发出请求之前，执行一些操作。即：如果将前置处理器附加到取样器元件中，则它将在该取样器元件运行之前执行。常用操作如：取样器参数设置、环境变量设置、脚本预处理等。之前我们介绍过，JMeter中常用的参数化方式有四种：1、CSV数据文件设置（CSV Data Set Confi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMeter中使用“用户参数”实现参数化">
+<meta property="og:url" content="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="1. 用户参数组件介绍​    用户参数（User  Parameter）组件在前置处理器元件中添加，前置处理器的作用是在取样器发出请求之前，执行一些操作。即：如果将前置处理器附加到取样器元件中，则它将在该取样器元件运行之前执行。常用操作如：取样器参数设置、环境变量设置、脚本预处理等。之前我们介绍过，JMeter中常用的参数化方式有四种：1、CSV数据文件设置（CSV Data Set Confi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/06/15/images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg">
+<meta property="og:image" content="http://example.com/2023/06/15/images/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA.jpg">
+<meta property="og:image" content="http://example.com/2023/06/15/images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E5%8C%96_%E7%BA%BF%E7%A8%8B%E6%95%B0.jpg">
+<meta property="og:image" content="http://example.com/2023/06/15/images/%E6%A0%87%E7%AD%BEhttp.jpg">
+<meta property="og:image" content="http://example.com/2023/06/15/images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg">
+<meta property="og:image" content="http://example.com/2023/06/15/images/%E7%BB%93%E6%9E%9C.jpg">
+<meta property="article:published_time" content="2023-06-15T09:22:07.000Z">
+<meta property="article:modified_time" content="2025-02-26T05:48:31.423Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="jmeter参数化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/06/15/images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JMeter中使用“用户参数”实现参数化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" class="article-date">
+  <time datetime="2023-06-15T09:22:07.000Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/jmeter/">jmeter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JMeter中使用“用户参数”实现参数化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-用户参数组件介绍"><a href="#1-用户参数组件介绍" class="headerlink" title="1. 用户参数组件介绍"></a>1. <strong>用户参数组件介绍</strong></h4><p>​    用户参数（User  Parameter）组件在前置处理器元件中添加，前置处理器的作用是在取样器发出请求之前，执行一些操作。即：如果将前置处理器附加到取样器元件中，则它将在该取样器元件运行之前执行。常用操作如：取样器参数设置、环境变量设置、脚本预处理等。之前我们介绍过，JMeter中常用的参数化方式有四种：1、CSV数据文件设置（CSV Data Set Config）：这种方式是通常所指的参数化。数据存储在文件中，该种参数化方式取值范围大，灵活性强，适用于大量测试数据时的使用。</p>
+<h5 id="1-1-用户参数（User-Parameter）"><a href="#1-1-用户参数（User-Parameter）" class="headerlink" title="1.1 用户参数（User Parameter）"></a>1.1 用户参数（User Parameter）</h5><p>​        适用于参数取值范围很小，需要少量测试数据时使用。</p>
+<h5 id="1-2-用户自定义变量（User-Defined-Variables）"><a href="#1-2-用户自定义变量（User-Defined-Variables）" class="headerlink" title="1.2 用户自定义变量（User Defined Variables）"></a>1.2 用户自定义变量（User Defined Variables）</h5><p>​        更多用于设置全局变量，常用于数据库地址，测试环境、开发环境地址等常量配置。</p>
+<h5 id="1-3-函数助手"><a href="#1-3-函数助手" class="headerlink" title="1.3  函数助手"></a>1.3  函数助手</h5><p>​        可使用函数生成随机数字和随机字符串实现参数化。本文以前置处理器中的<strong>用户参数</strong>组件为例，实现JMeter中的参数化。</p>
+<h4 id="2-用户参数界面介绍"><a href="#2-用户参数界面介绍" class="headerlink" title="2. 用户参数界面介绍"></a>2. <strong>用户参数界面介绍</strong></h4><p>​    <strong>用户参数</strong>组件添加方式：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
+<p>界面说明：</p>
+<ul>
+<li><strong>名称</strong>：用户参数组件的自定义名称，见名知意最好。</li>
+<li><strong>注释</strong>：即添加一些备注信息，对该用户参数组件的简短说明，以便后期回顾时查看。</li>
+<li><strong>每次迭代更新一次</strong>：不同的线程需要应用不同的用户数据，这时就需要勾选此选项。也就是根据线程组里设置的线程数，每个线程调用不同的用户数据，依次取值。但是我实际操作中，勾选不勾选都能够依次取值。（如果修改线程组界面中的循环次数，勾不勾选，都只用一个用户的值。）</li>
+<li><strong>添加变量</strong>：横着添加一行变量信息，此变量会应用于每个用户。</li>
+<li><strong>删除变量</strong>：删除所选中的一行数据。</li>
+<li><strong>添加用户</strong>：竖着添加一个用户信息，一个用户就是一组测试数据。</li>
+<li><strong>删除用户</strong>：删除所选中的一列数据。</li>
+<li><strong>向上和向下按钮</strong>：就是上下移动所选中变量的位置。</li>
+</ul>
+<h4 id="3-使用“用户参数”组件实现参数化"><a href="#3-使用“用户参数”组件实现参数化" class="headerlink" title="3. 使用“用户参数”组件实现参数化"></a>3. <strong>使用“用户参数”组件实现参数化</strong></h4><p>​    需求，实现批量新建和删除标签</p>
+<h5 id="3-1测试计划内包含的元件"><a href="#3-1测试计划内包含的元件" class="headerlink" title="3.1测试计划内包含的元件"></a>3.1<strong>测试计划内包含的元件</strong></h5><p><strong>添加元件操作步骤</strong>：</p>
+<p>​    1、创建测试计划</p>
+<p>​    2、创建线程组：选中“测试计划”右键—&gt;添加—&gt;线程（用户）—&gt;线程组。</p>
+<p>​    3、在线程组中，添加取样器”HTTP请求“组件：选中“线程组”右键—&gt;添加—&gt;取样器—&gt; HTTP请求。</p>
+<p>​    4、在取样器中，添加前置处理器“用户参数”组件：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p>​    5、在线程组中，添加监听器察看结果树组件：查看结果，选中“线程组”右键—&gt;添加—&gt;监听器—&gt;察看结果树。</p>
+<p>最终测试计划中的元件如下：</p>
+<p><img src="../images/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA.jpg" alt="标签新建"></p>
+<h5 id="3-2-线程组元件内容"><a href="#3-2-线程组元件内容" class="headerlink" title="3.2 线程组元件内容"></a>3.2 <strong>线程组元件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E5%8C%96_%E7%BA%BF%E7%A8%8B%E6%95%B0.jpg" alt="用户参数化_线程数"></p>
+<h5 id="3-3-HTTP请求组件内容"><a href="#3-3-HTTP请求组件内容" class="headerlink" title="3.3 HTTP请求组件内容"></a>3.3 <strong>HTTP请求组件内容</strong></h5><p><img src="../images/%E6%A0%87%E7%AD%BEhttp.jpg" alt="标签http"></p>
+<h5 id="3-4-用户参数组件内容"><a href="#3-4-用户参数组件内容" class="headerlink" title="3.4 用户参数组件内容"></a>3.4 <strong>用户参数组件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
+<h4 id="4-脚本运行结果"><a href="#4-脚本运行结果" class="headerlink" title="4. 脚本运行结果"></a>4. <strong>脚本运行结果</strong></h4><p><img src="../images/%E7%BB%93%E6%9E%9C.jpg" alt="结果"></p>
+<h5 id="5-总结优先级说明："><a href="#5-总结优先级说明：" class="headerlink" title="5. 总结优先级说明："></a>5. <strong>总结</strong>优先级说明：</h5><ul>
+<li>线程组下的用户参数组件 优先级高于 测试计划 里的用户自定义变量。</li>
+<li>HTTP 请求下的用户参数组件 优先级高于 **线程组下 **的用户参数组件。</li>
+<li>若有重名参数，优先取优先级高的用户参数。</li>
+<li>若用户参数和用户自定义变量重名，则优先取用户参数组件中的值 。因为配置元件执行完再到前置处理器，所以前置处理器的值会覆盖配置元件中设置的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7lnedwg0003h4vdg6fhb9j6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          接口测试学习笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JMeter中实现跨线程组关联</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
