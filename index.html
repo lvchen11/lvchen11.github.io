@@ -64,6 +64,405 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-在类中封装属性名" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" class="article-date">
+  <time datetime="2025-03-03T05:46:07.000Z" itemprop="datePublished">2025-03-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/">在类中封装属性名</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在面向对象编程中，<strong>封装属性名</strong>的目的是隐藏类的内部实现细节，通过受控的方法访问或修改数据，从而提高代码的安全性和可维护性</p>
+<h4 id="一、-Python中的属性封装实现"><a href="#一、-Python中的属性封装实现" class="headerlink" title="一、 Python中的属性封装实现"></a>一、 Python中的属性封装实现</h4><ol>
+<li>使用私有属性（名称改写）<pre><code>* 在属性名前添加双下划线__, Python会将其名称改写为 `_ClassName__attribute`，限制直接访问。
+* 提供公有方法（getter/setter）或 `@property` 装饰器来访问和验证数据。
+</code></pre>
+</li>
+</ol>
+<pre><code class="python">class Person:
+    def __init__(self, name, age):
+        self.__name = name  # 私有属性
+        self.__age = age
+
+    # 使用@property 访问属性
+    @property
+    def name(self):
+        return self.__name
+
+    # 定义setter方法验证数据
+    # 用于控制属性赋值逻辑的 setter 方法，它会验证你给属性赋的值是否合法
+    @name.setter
+    def name(self, value):
+        if isinstance(value, str) and len(value) &gt; 0:
+            self.__name = value
+        else:
+            raise ValueError(&quot;Invalid name&quot;)
+
+    @property
+    def age(self):
+        return self.__age
+
+    @age.setter
+    def age(self, value):
+        if value &gt;= 0:
+            self.__age = value
+        else:
+            raise ValueError(&quot;Age cannot be negative&quot;)
+
+# 使用示例
+p = Person(&quot;Alice&quot;, 30)
+print(p.name)  # 输出: Alice
+p.age = 25     # 合法操作
+p.age = -5     # 抛出 ValueError
+
+p.name = &quot;Bob&quot;
+p.age = 44
+print(p._Person__name)
+print(p._Person__age)
+</code></pre>
+<ol start="2">
+<li> @name.setter 的作用</li>
+</ol>
+<ul>
+<li><p><em><strong>功能</strong></em>：这是一个装饰器，用来标记这是一个 <code>setter</code> 方法。当你给 <code>name</code> 属性赋值时（例如 <code>p.name = &quot;Bob&quot;</code>），<strong>自动触发</strong>这个方法。</p>
+</li>
+<li><p><strong>为什么需要</strong>：普通的属性赋值（如 <code>p.name = 123</code>）无法验证数据是否合法，而 <code>setter</code> 方法允许你在赋值前插入自定义检查逻辑。</p>
+</li>
+</ul>
+<ol start="3">
+<li> 方法内部的验证逻辑</li>
+</ol>
+<pre><code class="python">def name(self, value):
+    if isinstance(value, str) and len(value) &gt; 0:  # 检查是否为非空字符串
+        self.__name = value  # 合法则赋值给私有属性 __name
+    else:
+        raise ValueError(&quot;Invalid name&quot;)  # 非法则抛出异常
+</code></pre>
+<pre><code>    * **`isinstance(value, str)`** ：检查 `value` 是否是字符串类型（例如防止数字或对象被赋值给 `name`）。
+    * **`len(value) &gt; 0`** ：确保字符串不是空的（例如防止 `name = &quot;&quot;`）。
+</code></pre>
+<ul>
+<li><strong><code>raise ValueError</code></strong> ：如果值不合法，直接抛出错误，阻止赋值。</li>
+</ul>
+<ol start="4">
+<li>和 @property 的关系</li>
+</ol>
+<ul>
+<li><strong><code>@property</code> 定义 getter</strong>：负责读取属性时的逻辑（例如 <code>print(p.name)</code>）。</li>
+<li><strong><code>@name.setter</code> 定义 setter</strong>：负责写入属性时的逻辑（例如 <code>p.name = &quot;Bob&quot;</code>）。</li>
+<li><strong>配套使用</strong>：两者共同实现对属性的<strong>安全读写控制</strong>。</li>
+</ul>
+<ol start="5">
+<li>为什么用 <code>self.__name</code></li>
+</ol>
+<ul>
+<li><strong>双下划线 <code>__name</code></strong> ：这是 Python 的私有属性命名约定，实际会被改写为 <code>_Person__name</code>，防止外部直接访问（如 <code>p.__name</code> 会报错，但 <code>p._Person__name</code> 仍可访问，不过约定上不这样做）。</li>
+<li><strong>封装目的</strong>：强制通过 <code>setter</code> 方法修改属性，确保所有赋值都经过验证。</li>
+</ul>
+<h4 id="二、封装的优势"><a href="#二、封装的优势" class="headerlink" title="二、封装的优势"></a>二、封装的优势</h4><ol>
+<li><strong>数据保护</strong>：防止外部代码直接修改属性，避免非法值（如负数的年龄）。</li>
+<li><strong>灵活性</strong>：可在方法中添加额外逻辑（如数据验证、日志记录）。</li>
+<li><strong>兼容性</strong>：内部实现变化时，不影响外部代码（如重命名属性）。</li>
+</ol>
+<h4 id="三、单下划线和双下划线的区别"><a href="#三、单下划线和双下划线的区别" class="headerlink" title="三、单下划线和双下划线的区别"></a>三、单下划线和双下划线的区别</h4><h5 id="一、单下划线-name-受保护的属性（Portected）"><a href="#一、单下划线-name-受保护的属性（Portected）" class="headerlink" title="一、单下划线  _name : 受保护的属性（Portected）"></a>一、单下划线  _name : 受保护的属性（Portected）</h5><pre><code>1. 命名的约定：
+
+    *  _name 表示这是一个内部属性，暗示开发者“不要直接访问，除非你知道自己在做什么”。
+    *  不触发名称改写：名称保持为 _name, 没有自动重命名。
+    *  访问权限：外部代码仍可以直接读写（p.name = 123）,但约定上应通过方法或属性装饰器操作。
+</code></pre>
+<ol start="2">
+<li>典型用途：</li>
+</ol>
+<ul>
+<li>类的内部状态管理（如缓存、临时变量）</li>
+<li>子类继承时可以安全覆盖或者扩展</li>
+</ul>
+<pre><code class="python">class Person:
+    def __init__(self, name):
+        self._name = name  # 单下划线，约定上的“受保护”属性
+
+p = Person(&quot;Alice&quot;)
+print(p._name)  # 直接访问：输出 &quot;Alice&quot;（不推荐但允许）
+</code></pre>
+<h5 id="二、对比表格"><a href="#二、对比表格" class="headerlink" title="二、对比表格"></a>二、对比表格</h5><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>单下划线 <code>_name</code></th>
+<th>双下划线 <code>__name</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>名称改写</strong></td>
+<td>无</td>
+<td>有（改写为 <code>_ClassName__name</code>）</td>
+</tr>
+<tr>
+<td><strong>直接外部访问</strong></td>
+<td>允许（不推荐）</td>
+<td>不允许（需改写后的名称）</td>
+</tr>
+<tr>
+<td><strong>继承冲突防护</strong></td>
+<td>无，子类可直接覆盖</td>
+<td>有，避免子类同名属性冲突</td>
+</tr>
+<tr>
+<td><strong>用途</strong></td>
+<td>约定上的内部属性</td>
+<td>强制私有属性</td>
+</tr>
+</tbody></table>
+<h5 id="三、何时选择哪种？"><a href="#三、何时选择哪种？" class="headerlink" title="三、何时选择哪种？"></a>三、何时选择哪种？</h5><ol>
+<li><strong>用单下划线 <code>_name</code></strong> ：<ul>
+<li>属性需要被子类继承或覆盖。</li>
+<li>仅作为内部状态管理，不涉及敏感数据。</li>
+<li>团队约定明确时（如 Django 框架常用 <code>_</code> 表示内部方法）。</li>
+</ul>
+</li>
+<li><strong>用双下划线 <code>__name</code></strong> ：<ul>
+<li>明确禁止外部直接访问（即使通过名称改写也不建议）。</li>
+<li>避免多级继承中的属性命名冲突。</li>
+<li>需要强制封装时（如属性值必须通过方法验证）。</li>
+</ul>
+</li>
+</ol>
+<h5 id="四、代码示例"><a href="#四、代码示例" class="headerlink" title="四、代码示例"></a>四、代码示例</h5><pre><code class="python">class Base:
+    def __init__(self):
+        self._protected = &quot;Base Protected&quot;  # 单下划线
+        self.__private = &quot;Base Private&quot;     # 双下划线
+
+class SubClass(Base):
+    def __init__(self):
+        super().__init__()
+        self._protected = &quot;Sub Protected&quot;   # 直接覆盖父类的 _protected
+        self.__private = &quot;Sub Private&quot;      # 实际名称是 _SubClass__private
+
+    def show(self):
+        print(self._protected)              # 输出 &quot;Sub Protected&quot;
+        print(self.__private)               # 输出 &quot;Sub Private&quot;
+        print(self._Base__private)           # 输出 &quot;Base Private&quot;（访问父类私有属性）
+
+obj = SubClass()
+obj.show()
+</code></pre>
+<h5 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h5><ul>
+<li><strong>单下划线 <code>_name</code></strong> ：约定上的“内部属性”，轻量级封装。</li>
+<li><strong>双下划线 <code>__name</code></strong> ：强制私有属性，通过名称改写避免冲突。</li>
+<li>实际开发中，优先用单下划线，除非明确需要避免继承冲突或强制封装。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" data-id="cm7sqx0zi001lfwvd575328m1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-对象支持上下文管理协议" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" class="article-date">
+  <time datetime="2025-03-03T03:15:32.000Z" itemprop="datePublished">2025-03-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/">对象支持上下文管理协议</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​            在 Python 中，让对象支持上下文管理协议，简单说就是让你的对象能和 with 语句配合使用，自动处理资源的打开和关闭（比如文件、网络连接、锁等），避免资源泄漏。</p>
+<p>只需要在类中实现两个方法：</p>
+<ol>
+<li><p><strong>enter</strong>(self)</p>
+<ul>
+<li><p>当with语句开始调用时，返回你需要管理的资源（比如打开的文件对象）。</p>
+</li>
+<li><p>通常返回self, 但也可以返回其他对象。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>exit</strong>(self，exc_type，exc_val，exc_tb)</p>
+<ul>
+<li><p>当 <code>with</code> 语句块<strong>结束</strong>时（无论是否发生异常）调用。</p>
+</li>
+<li><p>负责清理工作（比如关闭文件、释放锁）。</p>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code class="python"># 模拟文件打开器
+class FileOpener:
+    def __init__(self, filename, mode):
+        self.filename = filename
+        self.mode = mode
+
+    def __enter__(self):
+        self.file = open(self.filename, self.mode)
+        return self.file  # 返回文件对象，供 with 块内使用
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.file.close()  # 确保文件被关闭
+
+# 使用 with 语句自动管理文件
+with FileOpener(&quot;test.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Hello, Context Manager!&quot;)
+# 这里文件已自动关闭，无需手动调用 f.close()
+</code></pre>
+<p>✅ 为什么要用上下文管理？</p>
+<ol>
+<li><strong>资源安全</strong>：即使代码块中发生异常，<code>__exit__</code> 也会被调用，确保资源释放。</li>
+<li><strong>代码简洁</strong>：避免了冗长的 <code>try...finally</code> 结构。</li>
+<li><strong>可读性高</strong>：明确展示资源的作用域。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" data-id="cm7sqx0zh001jfwvdabh884ab" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-自定义字符串的格式化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" class="article-date">
+  <time datetime="2025-03-03T02:22:58.000Z" itemprop="datePublished">2025-03-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/">自定义字符串的格式化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code class="python">_formats = &#123;
+    &#39;ymd&#39; : &#39;&#123;d.year&#125;-&#123;d.month&#125;-&#123;d.day&#125;&#39;,
+    &#39;mdy&#39; : &#39;&#123;d.month&#125;/&#123;d.day&#125;/&#123;d.year&#125;&#39;,
+    &#39;dmy&#39; : &#39;&#123;d.day&#125;/&#123;d.month&#125;/&#123;d.year&#125;&#39;
+    &#125;
+
+class Date:
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    def __format__(self, code):
+        if code == &#39;&#39;:
+            code = &#39;ymd&#39;
+        fmt = _formats[code]
+        return fmt.format(d=self) # 替换为 self.year, self.month, self.day 的实际值
+ddd = Date(2012, 12, 21)
+print(format(ddd, &#39;ymd&#39;))
+print(&#39;The date is &#123;:mdy&#125;&#39;.format(ddd))
+
+
+import math
+# __format__ 专门用于格式化输出，支持动态格式控制（如精度、单位等）
+# __str__ 和 __repr__ 用于一般字符串表示。
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __format__(self, format_spec):
+        if format_spec == &#39;r&#39;:  # 直角坐标
+            return f&quot;Vector(&#123;self.x&#125;, &#123;self.y&#125;)&quot;
+        elif format_spec == &#39;p&#39;:  # 极坐标
+            r = math.hypot(self.x, self.y)
+            theta = math.degrees(math.atan2(self.y, self.x))
+            return f&quot;Vector(r=&#123;r:.2f&#125;, θ=&#123;theta:.2f&#125;°)&quot;
+        elif format_spec == &#39;&#39;:  # 默认格式
+            return f&quot;Vector(&#123;self.x&#125;, &#123;self.y&#125;)&quot;
+        else:
+            raise ValueError(f&quot;Unknown format specifier &#39;&#123;format_spec&#125;&#39;&quot;)
+
+# 使用示例
+v = Vector(3, 4)
+
+print(f&quot;&#123;v&#125;&quot;)          # 输出: Vector(3, 4)
+print(f&quot;&#123;v:r&#125;&quot;)        # 输出: Vector(3, 4)
+print(f&quot;&#123;v:p&#125;&quot;)        # 输出: Vector(r=5.00, θ=53.13°)
+print(format(v, &#39;p&#39;))  # 输出: Vector(r=5.00, θ=53.13°)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm7sqx0zl001wfwvdack9ee31" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-linux命令lsof" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" class="article-date">
@@ -180,7 +579,7 @@ NAME：打开文件的确切名称
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7lnedwi0007h4vdfqdb0114" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7sqx0z20008fwvd9r5m8yol" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li></ul>
@@ -246,7 +645,7 @@ NAME：打开文件的确切名称
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7lnedx2002rh4vd93sgdtku" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7sqx0zl001zfwvd6fbfhphn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -420,7 +819,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7lnedx1002oh4vdc2fj5zwp" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7sqx0zj001pfwvd18bk6wxt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -501,7 +900,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7lnedwm000eh4vdazkh571z" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7sqx0z4000dfwvd8yu20wc2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li></ul>
@@ -631,7 +1030,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7lnedx1002nh4vd9on51dud" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7sqx0zk001sfwvdbrc7hw04" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li></ul>
@@ -709,7 +1108,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7lnedwg0003h4vdg6fhb9j6" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7sqx0yy0003fwvd1wk50u56" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li></ul>
@@ -815,391 +1214,10 @@ fstream.close();
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" data-id="cm7lnedwj0008h4vd9itlf16a" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" data-id="cm7sqx0z10007fwvd85sm4ixz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python-property的使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-  <time datetime="2023-05-17T05:45:05.000Z" itemprop="datePublished">2023-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/python/">python</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/">python @property的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-python的-property是python的一种装饰器，是用来修饰方法的"><a href="#1-python的-property是python的一种装饰器，是用来修饰方法的" class="headerlink" title="1. python的@property是python的一种装饰器，是用来修饰方法的"></a>1. python的@property是python的一种装饰器，是用来修饰方法的</h4><h5 id="1-1-作用"><a href="#1-1-作用" class="headerlink" title="1.1 作用"></a>1.1 作用</h5><p>使用@property装饰器来创建<strong>只读属性</strong>，@property装饰器会将<strong>方法</strong>转换为相同名称的<strong>只读属性</strong>,可以与所定义的属性配合使用，这样可以防止属性被修改。</p>
-<h5 id="1-2-修饰方法，使方法可以像属性一样访问"><a href="#1-2-修饰方法，使方法可以像属性一样访问" class="headerlink" title="1.2  修饰方法，使方法可以像属性一样访问"></a>1.2  修饰方法，使方法可以像属性一样访问</h5><pre><code class="python">class DataSet(object):
-  @property
-  def method_with_property(self): ##含有@property
-      return 15
-  def method_without_property(self): ##不含@property
-      return 15
-
-l = DataSet()
-print(l.method_with_property) # 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。
-print(l.method_without_property())  #没有加@property , 必须使用正常的调用方法的形式，即在后面加()
-# 两个输出都为15
-</code></pre>
-<p>如果使用property进行修饰后，又在调用的时候，方法后面添加了()， 那么就会显示错误信息：TypeError: ‘int’ object  is not callable，也就是说添加@property  后，这个方法就变成了一个属性，如果后面加入了()，那么就是当作函数来调用，而它却不是callable（可调用）的。</p>
-<h5 id="1-3-不加括号"><a href="#1-3-不加括号" class="headerlink" title="1.3 不加括号"></a>1.3 不加括号</h5><p>没有使用property修饰，它是一种方法，如果把括号去掉，不会报错输出的就会是方法存放的地址。</p>
-<pre><code class="python">class DataSet(object):
-  def method_without_property(self): ##不含@property
-      return 15
-l = DataSet()
-print(l.method_without_property） #没有加@property , 必须使用正常的调用方法的形式，即在后面加()
-</code></pre>
-<h4 id="2-与所定义的属性配合使用，这样可以防止属性被修改"><a href="#2-与所定义的属性配合使用，这样可以防止属性被修改" class="headerlink" title="2. 与所定义的属性配合使用，这样可以防止属性被修改"></a>2. 与所定义的属性配合使用，这样可以防止属性被修改</h4><p>​        由于python进行属性的定义时，没办法设置私有属性，因此要通过@property的方法来进行设置。这样可以隐藏属性名，让用户进行使用的时候无法随意修改。</p>
-<pre><code class="python">class DataSet(object):
-    def __init__(self):
-        self._images = 1
-        self._labels = 2 #定义属性的名称
-    @property
-    def images(self): #方法加入@property后，这个方法相当于一个属性，这个属性可以让用户进行使用，而且用户有没办法随意修改。
-        return self._images 
-    @property
-    def labels(self):
-        return self._labels
-l = DataSet()
-#用户进行属性调用的时候，直接调用images即可，而不用知道属性名_images，因此用户无法更改属性，从而保护了类的属性。
-print(l.images) # 加了@property后，可以用调用属性的形式来调用方法,后面不需要加（）。
-</code></pre>
-<p>总结：类中定义私有属性有两种方式：一种用单下划线，表示这个属性是类的私有属性，不希望被外部访问到，但仅仅是不希望，还是可以被访问的；第二种是双下划线，表示这个属性就是类的私有属性，只能在类中被使用，不可以在实例化的对象中去使用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="cm7lnedwq000uh4vd1xmz585y" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-pytest-parametrize-参数化" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" class="article-date">
-  <time datetime="2023-02-23T08:16:38.000Z" itemprop="datePublished">2023-02-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/pytest/">pytest</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/">pytest_parametrize()参数化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="pytest参数化"><a href="#pytest参数化" class="headerlink" title="pytest参数化"></a>pytest参数化</h5><ol>
-<li>pytest.mark.parametrize()方式进行<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%8F%82%E6%95%B0%E5%8C%96&spm=1001.2101.3001.7020">参数化</a></li>
-<li>pytest.fixture()方式进行参数化，fixture装饰的函数可以作为参数传入其他函数</li>
-<li>conftest.py 文件中存放参数化函数，可作用于模块内的所有</li>
-<li>测试用例 支持元组，列表，支持列表嵌套列表，列表嵌套元组，列表嵌套字典，支持类和函数的参数化</li>
-</ol>
-<pre><code class="python">一，@pytest.mark.parametrize(&#39;参数名&#39;，list)方式
-
-pytest.mark.parametrize(argnames, argvalues)，是pytest自带的装饰器之一
-
-1. 传一个参数 @pytest.mark.parametrize(&#39;参数名&#39;，list)
-
-2. 传两个参数@pytest.mark.parametrize(&#39;参数名1，参数名2&#39;，[(参数1_data[0], 参数2_data[0]),(参数1_data[1], 参数2_data[1])]) 进行参数化,参数值，是list,多组数据用元组类型; 传三个或更多参数也是这样传。list的每个元素都是一个元组，元组里的每个元素和按参数顺序一一对应
-</code></pre>
-<h6 id="单个变量"><a href="#单个变量" class="headerlink" title="单个变量"></a>单个变量</h6><pre><code class="python">import pytest
-@pytest.mark.parametrize(&#39;user&#39;, (&quot;zhangsan&quot;, &quot;lisi&quot;))
-def test_01(user):
-    print(user)
-</code></pre>
-<h6 id="单个参数，参数为列表"><a href="#单个参数，参数为列表" class="headerlink" title="单个参数，参数为列表"></a>单个参数，参数为列表</h6><pre><code class="python">import pytest
-datatest04 = [&#39;zhangsan&#39;, &#39;lisi&#39;]
-@pytest.mark.parametrize(&#39;user&#39;, datatest04)
-def test_04(user):
-    print(user)
-</code></pre>
-<h6 id="多个变量，列表中嵌套元组。列表中，每一组数据用元组格式"><a href="#多个变量，列表中嵌套元组。列表中，每一组数据用元组格式" class="headerlink" title="多个变量，列表中嵌套元组。列表中，每一组数据用元组格式"></a>多个变量，列表中嵌套元组。列表中，每一组数据用元组格式</h6><pre><code class="python">import pytest
-@pytest.mark.parametrize(&#39;user,password&#39;, [(&quot;zhangsan&quot;, &quot;111111&quot;), (&quot;lisi&quot;, &quot;222222&quot;)])
-def test_02(user, password):
-    print(user, password)
-</code></pre>
-<h6 id="多个变量，列表中嵌套列表。列表中，每一组数据用列表格式"><a href="#多个变量，列表中嵌套列表。列表中，每一组数据用列表格式" class="headerlink" title="多个变量，列表中嵌套列表。列表中，每一组数据用列表格式"></a>多个变量，列表中嵌套列表。列表中，每一组数据用列表格式</h6><pre><code class="python">import pytest
-data = [[&quot;zhangsan&quot;, &quot;111111111&quot;], [&quot;lisi&quot;, &quot;2222222&quot;]]
-@pytest.mark.parametrize(&#39;user,password&#39;, data)
-def test_05(user, password):
-    print(user, password)
-</code></pre>
-<h6 id="组合函数-笛卡尔集"><a href="#组合函数-笛卡尔集" class="headerlink" title="组合函数-笛卡尔集"></a>组合函数-笛卡尔集</h6><pre><code class="python">import pytest
-data1 = [&quot;zhangsan&quot;, &quot;lisi&quot;]
-data2 = [&quot;1111111&quot;, &quot;2222222&quot;]
-@pytest.mark.parametrize(&#39;user&#39;, data1)
-@pytest.mark.parametrize(&#39;password&#39;, data2)
-def test_06(user, password):
-    print(user, password)
-</code></pre>
-<h6 id="列表嵌套字典"><a href="#列表嵌套字典" class="headerlink" title="列表嵌套字典"></a>列表嵌套字典</h6><pre><code class="python">import pytest
-datatest07 = [&#123;&quot;user&quot;: &quot;zhangsan&quot;, &quot;password&quot;: &quot;111111111&quot;&#125;, &#123;&quot;user&quot;: &quot;lisi&quot;, &quot;password&quot;: &quot;222222&quot;&#125;]
-@pytest.mark.parametrize(&quot;data&quot;, datatest07)
-def test_07(data):
-    print(data)
-    print(data[&quot;user&quot;], data[&quot;password&quot;])
-# 执行结果
-test0223.py::test_07[data0] PASSED                                       [ 50%]&#123;&#39;user&#39;: &#39;zhangsan&#39;, &#39;password&#39;: &#39;111111111&#39;&#125;
-zhangsan 111111111
-
-test0223.py::test_07[data1] PASSED                                       [100%]&#123;&#39;user&#39;: &#39;lisi&#39;, &#39;password&#39;: &#39;222222&#39;&#125;
-lisi 222222
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7lnedwl000dh4vd4ph0g0u6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-pytest基础3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" class="article-date">
-  <time datetime="2023-02-23T03:11:40.000Z" itemprop="datePublished">2023-02-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/pytest/">pytest</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/23/pytest%E5%9F%BA%E7%A1%803/">pytest基础3</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="pytest基础用法二"><a href="#pytest基础用法二" class="headerlink" title="pytest基础用法二"></a>pytest基础用法二</h5><pre><code class="python">前置条件：
-1.文件路径：
-Test_App
-    - - test_abc.py
-    - - pytest.ini
-2.pyetst.ini配置文件内容：
-[pytest]
-  命令行参数
- addopts = -s
- 搜索文件名
- python_files = test*.py
-  搜索的类名
- python_classes = Test*
-搜索的函数名
- python_functions = test_*
-</code></pre>
-<h5 id="跳过测试函数"><a href="#跳过测试函数" class="headerlink" title="跳过测试函数"></a>跳过测试函数</h5><pre><code class="python">根据特定的条件，不执行标识的测试函数.
- 方法：
-     skipif(condition, reason=None)
- 参数：
-     condition：跳过的条件，必传参数
-     reason：标注原因，必传参数
- 使用方法：
-     @pytest.mark.skipif(condition, reason=&quot;xxx&quot;) 
-</code></pre>
-<pre><code class="python">import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-    def test_a(self):
-        print(&quot;-------&gt;test_a&quot;)
-        assert 1
-    @pytest.mark.skipif(condition=2&gt;1,reason = &quot;跳过该函数&quot;) # 跳过测试函数test_b
-    def test_b(self):
-        print(&quot;-------&gt;test_b&quot;)
-        assert 0
-# 执行结果：
-test0223.py::Test_ABC::test_a -------&gt;setup_class
-PASSED                                     [ 50%]-------&gt;test_a
-
-test0223.py::Test_ABC::test_b SKIPPED (跳过该函数)                       [100%]
-Skipped: 跳过该函数
--------&gt;teardown_class
-</code></pre>
-<h5 id="标记为预期失败函数"><a href="#标记为预期失败函数" class="headerlink" title="标记为预期失败函数"></a>标记为预期失败函数</h5><pre><code class="tex">标记测试函数为失败函数
- 方法：
-     xfail(condition=None, reason=None, raises=None, run=True, strict=False)
- 常用参数：
-     condition：预期失败的条件，必传参数
-     reason：失败的原因，必传参数
- 使用方法：
-     @pytest.mark.xfail(condition, reason=&quot;xx&quot;)
-</code></pre>
-<pre><code class="python">import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-    def test_a(self):
-        print(&quot;-------&gt;test_a&quot;)
-        assert 1
-    @pytest.mark.xfail(2 &gt; 1, reason=&quot;标注为预期失败&quot;) # 标记为预期失败函数test_b
-    def test_b(self):
-       print(&quot;-------&gt;test_b&quot;)
-       assert 0
-if __name__ == &#39;__main__&#39;:
-    pytest.main()
-# 执行结果
--------&gt;setup_class
-PASSED                                     [ 50%]-------&gt;test_a
-XFAIL (标注为预期失败)                     [100%]-------&gt;test_b
-
-self = &lt;test0223.Test_ABC object at 0x000001F92D538640&gt;
-
-    @pytest.mark.xfail(2 &gt; 1, reason=&quot;标注为预期失败&quot;) # 标记为预期失败函数test_b
-    def test_b(self):
-       print(&quot;-------&gt;test_b&quot;)
-&gt;      assert 0
-E      assert 0
-</code></pre>
-<h5 id="函数数据参数化"><a href="#函数数据参数化" class="headerlink" title="函数数据参数化"></a>函数数据参数化</h5><pre><code class="python">方便测试函数对测试属于的获取。
- 方法：
-     parametrize(argnames, argvalues, indirect=False, ids=None, scope=None)
- 常用参数：
-     argnames：参数名
-     argvalues：参数对应值，类型必须为list
-                 当参数为一个时格式：[value]
-                 当参数个数大于一个时，格式为:[(param_value1,param_value2.....),(param_value1,param_value2.....)]
- 使用方法:
-     @pytest.mark.parametrize(argnames,argvalues)
-     ️ 参数值为N个，测试方法就会运行N次
-</code></pre>
-<pre><code class="python"># 单个参数示例
-import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-
-    @pytest.mark.parametrize(&quot;a&quot;, [3, 6])  # a参数被赋予两个值，函数会运行两遍
-    def test_a(self, a):  # 参数必须和parametrize里面的参数一致
-        print(&quot;test data:a=%d&quot; % a)
-        assert a % 3 == 0
- # 运行结果
- test0223.py::Test_ABC::test_a[3] -------&gt;setup_class
-PASSED                                  [ 50%]test data:a=3
-
-test0223.py::Test_ABC::test_a[6] PASSED                                  [100%]test data:a=6
--------&gt;teardown_class
-</code></pre>
-<pre><code class="python"># 多个参数示例
-import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-
-    @pytest.mark.parametrize(&quot;a,b&quot;,[(1,2),(0,3)]) # 参数a,b均被赋予两个值，函数会运行两遍
-    def test_a(self,a,b): # 参数必须和parametrize里面的参数一致
-        print(&quot;test data:a=%d,b=%d&quot;%(a,b))
-        assert a+b == 3
- # 执行结果
- test_abc.py 
-    -------&gt;setup_class
-    test data:a=1,b=2 # 运行第一次取值 a=1,b=2
-    .
-    test data:a=0,b=3 # 运行第二次取值 a=0,b=3
-    .
-    -------&gt;teardown_class
-</code></pre>
-<pre><code class="python"># 函数返回值类型示例：
-import pytest
-
-
-def return_test_data():
-    return [(1, 2), (0, 3)]
-
-
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-
-    @pytest.mark.parametrize(&quot;a,b&quot;, return_test_data())  # 使用函数返回值的形式传入参数值
-    def test_a(self, a, b):
-        print(&quot;test data:a=%d,b=%d&quot; % (a, b))
-        assert a + b == 3
-# 执行结果
-test0223.py::Test_ABC::test_a[1-2] -------&gt;setup_class
-PASSED                                [ 50%]test data:a=1,b=2
-
-test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]test data:a=0,b=3
--------&gt;teardown_class
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" data-id="cm7lnedwo000oh4vd1zzh7ofe" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
 
     </footer>
   </div>
@@ -1243,7 +1261,7 @@ test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]t
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Excel/" style="font-size: 15px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 15px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">类与对象</a>
+      <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
     </div>
   </div>
 
@@ -1252,7 +1270,7 @@ test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]t
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">三月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
     </div>
   </div>
 
@@ -1265,23 +1283,23 @@ test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]t
       <ul>
         
           <li>
+            <a href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/">在类中封装属性名</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/">对象支持上下文管理协议</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/">自定义字符串的格式化</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
           </li>
         
           <li>
             <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
           </li>
         
       </ul>

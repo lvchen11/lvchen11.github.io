@@ -5,16 +5,19 @@
   
 
   
-  <title>归档: 2025/2 | 月明星稀</title>
+  <title>自定义字符串的格式化 | 月明星稀</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="太阳当空照，花儿爱微笑">
-<meta property="og:type" content="website">
-<meta property="og:title" content="月明星稀">
-<meta property="og:url" content="http://example.com/archives/2025/02/index.html">
+  <meta name="description" content="_formats &#x3D; &amp;#123;     &#39;ymd&#39; : &#39;&amp;#123;d.year&amp;#125;-&amp;#123;d.month&amp;#125;-&amp;#123;d.day&amp;#125;&#39;,     &#39;mdy&#39; : &#39;&amp;#123;d.month&amp;#125;&#x2F;&amp;#123;d.day&amp;#125;&#x2F;&amp;#123;d.year&amp;#125;&#39;,     &amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义字符串的格式化">
+<meta property="og:url" content="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/index.html">
 <meta property="og:site_name" content="月明星稀">
-<meta property="og:description" content="太阳当空照，花儿爱微笑">
+<meta property="og:description" content="_formats &#x3D; &amp;#123;     &#39;ymd&#39; : &#39;&amp;#123;d.year&amp;#125;-&amp;#123;d.month&amp;#125;-&amp;#123;d.day&amp;#125;&#39;,     &#39;mdy&#39; : &#39;&amp;#123;d.month&amp;#125;&#x2F;&amp;#123;d.day&amp;#125;&#x2F;&amp;#123;d.year&amp;#125;&#39;,     &amp;#">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-03T02:22:58.000Z">
+<meta property="article:modified_time" content="2025-03-03T02:54:29.445Z">
 <meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="类与对象">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
@@ -62,72 +65,116 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2025" class="archive-year">2025</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" class="archive-article-date">
-  <time datetime="2025-02-26T06:15:44.000Z" itemprop="datePublished">2月 26</time>
+        <section id="main"><article id="post-自定义字符串的格式化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" class="article-date">
+  <time datetime="2025-03-03T02:22:58.000Z" itemprop="datePublished">2025-03-03</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
+    <h1 class="article-title" itemprop="name">
+      自定义字符串的格式化
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" class="archive-article-date">
-  <time datetime="2025-02-26T01:42:46.081Z" itemprop="datePublished">2月 26</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" class="archive-article-date">
-  <time datetime="2025-02-25T08:37:57.000Z" itemprop="datePublished">2月 25</time>
-</a>
+        <pre><code class="python">_formats = &#123;
+    &#39;ymd&#39; : &#39;&#123;d.year&#125;-&#123;d.month&#125;-&#123;d.day&#125;&#39;,
+    &#39;mdy&#39; : &#39;&#123;d.month&#125;/&#123;d.day&#125;/&#123;d.year&#125;&#39;,
+    &#39;dmy&#39; : &#39;&#123;d.day&#125;/&#123;d.month&#125;/&#123;d.year&#125;&#39;
+    &#125;
+
+class Date:
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    def __format__(self, code):
+        if code == &#39;&#39;:
+            code = &#39;ymd&#39;
+        fmt = _formats[code]
+        return fmt.format(d=self) # 替换为 self.year, self.month, self.day 的实际值
+ddd = Date(2012, 12, 21)
+print(format(ddd, &#39;ymd&#39;))
+print(&#39;The date is &#123;:mdy&#125;&#39;.format(ddd))
+
+
+import math
+# __format__ 专门用于格式化输出，支持动态格式控制（如精度、单位等）
+# __str__ 和 __repr__ 用于一般字符串表示。
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __format__(self, format_spec):
+        if format_spec == &#39;r&#39;:  # 直角坐标
+            return f&quot;Vector(&#123;self.x&#125;, &#123;self.y&#125;)&quot;
+        elif format_spec == &#39;p&#39;:  # 极坐标
+            r = math.hypot(self.x, self.y)
+            theta = math.degrees(math.atan2(self.y, self.x))
+            return f&quot;Vector(r=&#123;r:.2f&#125;, θ=&#123;theta:.2f&#125;°)&quot;
+        elif format_spec == &#39;&#39;:  # 默认格式
+            return f&quot;Vector(&#123;self.x&#125;, &#123;self.y&#125;)&quot;
+        else:
+            raise ValueError(f&quot;Unknown format specifier &#39;&#123;format_spec&#125;&#39;&quot;)
+
+# 使用示例
+v = Vector(3, 4)
+
+print(f&quot;&#123;v&#125;&quot;)          # 输出: Vector(3, 4)
+print(f&quot;&#123;v:r&#125;&quot;)        # 输出: Vector(3, 4)
+print(f&quot;&#123;v:p&#125;&quot;)        # 输出: Vector(r=5.00, θ=53.13°)
+print(format(v, &#39;p&#39;))  # 输出: Vector(r=5.00, θ=53.13°)
+</code></pre>
+
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
-    </h1>
-  
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm7sqx0zl001wfwvdack9ee31" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          对象支持上下文管理协议
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">linux命令lsof</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         

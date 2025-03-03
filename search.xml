@@ -4,6 +4,81 @@
   
     
     <entry>
+      <title>在类中封装属性名</title>
+      <link href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/"/>
+      <url>/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/</url>
+      
+        <content type="html"><![CDATA[<p>在面向对象编程中，<strong>封装属性名</strong>的目的是隐藏类的内部实现细节，通过受控的方法访问或修改数据，从而提高代码的安全性和可维护性</p><h4 id="一、-Python中的属性封装实现"><a href="#一、-Python中的属性封装实现" class="headerlink" title="一、 Python中的属性封装实现"></a>一、 Python中的属性封装实现</h4><ol><li>使用私有属性（名称改写）<pre><code>* 在属性名前添加双下划线__, Python会将其名称改写为 `_ClassName__attribute`，限制直接访问。* 提供公有方法（getter/setter）或 `@property` 装饰器来访问和验证数据。</code></pre></li></ol><pre><code class="python">class Person:    def __init__(self, name, age):        self.__name = name  # 私有属性        self.__age = age    # 使用@property 访问属性    @property    def name(self):        return self.__name    # 定义setter方法验证数据    # 用于控制属性赋值逻辑的 setter 方法，它会验证你给属性赋的值是否合法    @name.setter    def name(self, value):        if isinstance(value, str) and len(value) &gt; 0:            self.__name = value        else:            raise ValueError(&quot;Invalid name&quot;)    @property    def age(self):        return self.__age    @age.setter    def age(self, value):        if value &gt;= 0:            self.__age = value        else:            raise ValueError(&quot;Age cannot be negative&quot;)# 使用示例p = Person(&quot;Alice&quot;, 30)print(p.name)  # 输出: Alicep.age = 25     # 合法操作p.age = -5     # 抛出 ValueErrorp.name = &quot;Bob&quot;p.age = 44print(p._Person__name)print(p._Person__age)</code></pre><ol start="2"><li> @name.setter 的作用</li></ol><ul><li><p><em><strong>功能</strong></em>：这是一个装饰器，用来标记这是一个 <code>setter</code> 方法。当你给 <code>name</code> 属性赋值时（例如 <code>p.name = &quot;Bob&quot;</code>），<strong>自动触发</strong>这个方法。</p></li><li><p><strong>为什么需要</strong>：普通的属性赋值（如 <code>p.name = 123</code>）无法验证数据是否合法，而 <code>setter</code> 方法允许你在赋值前插入自定义检查逻辑。</p></li></ul><ol start="3"><li> 方法内部的验证逻辑</li></ol><pre><code class="python">def name(self, value):    if isinstance(value, str) and len(value) &gt; 0:  # 检查是否为非空字符串        self.__name = value  # 合法则赋值给私有属性 __name    else:        raise ValueError(&quot;Invalid name&quot;)  # 非法则抛出异常</code></pre><pre><code>    * **`isinstance(value, str)`** ：检查 `value` 是否是字符串类型（例如防止数字或对象被赋值给 `name`）。    * **`len(value) &gt; 0`** ：确保字符串不是空的（例如防止 `name = &quot;&quot;`）。</code></pre><ul><li><strong><code>raise ValueError</code></strong> ：如果值不合法，直接抛出错误，阻止赋值。</li></ul><ol start="4"><li>和 @property 的关系</li></ol><ul><li><strong><code>@property</code> 定义 getter</strong>：负责读取属性时的逻辑（例如 <code>print(p.name)</code>）。</li><li><strong><code>@name.setter</code> 定义 setter</strong>：负责写入属性时的逻辑（例如 <code>p.name = &quot;Bob&quot;</code>）。</li><li><strong>配套使用</strong>：两者共同实现对属性的<strong>安全读写控制</strong>。</li></ul><ol start="5"><li>为什么用 <code>self.__name</code></li></ol><ul><li><strong>双下划线 <code>__name</code></strong> ：这是 Python 的私有属性命名约定，实际会被改写为 <code>_Person__name</code>，防止外部直接访问（如 <code>p.__name</code> 会报错，但 <code>p._Person__name</code> 仍可访问，不过约定上不这样做）。</li><li><strong>封装目的</strong>：强制通过 <code>setter</code> 方法修改属性，确保所有赋值都经过验证。</li></ul><h4 id="二、封装的优势"><a href="#二、封装的优势" class="headerlink" title="二、封装的优势"></a>二、封装的优势</h4><ol><li><strong>数据保护</strong>：防止外部代码直接修改属性，避免非法值（如负数的年龄）。</li><li><strong>灵活性</strong>：可在方法中添加额外逻辑（如数据验证、日志记录）。</li><li><strong>兼容性</strong>：内部实现变化时，不影响外部代码（如重命名属性）。</li></ol><h4 id="三、单下划线和双下划线的区别"><a href="#三、单下划线和双下划线的区别" class="headerlink" title="三、单下划线和双下划线的区别"></a>三、单下划线和双下划线的区别</h4><h5 id="一、单下划线-name-受保护的属性（Portected）"><a href="#一、单下划线-name-受保护的属性（Portected）" class="headerlink" title="一、单下划线  _name : 受保护的属性（Portected）"></a>一、单下划线  _name : 受保护的属性（Portected）</h5><pre><code>1. 命名的约定：    *  _name 表示这是一个内部属性，暗示开发者“不要直接访问，除非你知道自己在做什么”。    *  不触发名称改写：名称保持为 _name, 没有自动重命名。    *  访问权限：外部代码仍可以直接读写（p.name = 123）,但约定上应通过方法或属性装饰器操作。</code></pre><ol start="2"><li>典型用途：</li></ol><ul><li>类的内部状态管理（如缓存、临时变量）</li><li>子类继承时可以安全覆盖或者扩展</li></ul><pre><code class="python">class Person:    def __init__(self, name):        self._name = name  # 单下划线，约定上的“受保护”属性p = Person(&quot;Alice&quot;)print(p._name)  # 直接访问：输出 &quot;Alice&quot;（不推荐但允许）</code></pre><h5 id="二、对比表格"><a href="#二、对比表格" class="headerlink" title="二、对比表格"></a>二、对比表格</h5><table><thead><tr><th>特性</th><th>单下划线 <code>_name</code></th><th>双下划线 <code>__name</code></th></tr></thead><tbody><tr><td><strong>名称改写</strong></td><td>无</td><td>有（改写为 <code>_ClassName__name</code>）</td></tr><tr><td><strong>直接外部访问</strong></td><td>允许（不推荐）</td><td>不允许（需改写后的名称）</td></tr><tr><td><strong>继承冲突防护</strong></td><td>无，子类可直接覆盖</td><td>有，避免子类同名属性冲突</td></tr><tr><td><strong>用途</strong></td><td>约定上的内部属性</td><td>强制私有属性</td></tr></tbody></table><h5 id="三、何时选择哪种？"><a href="#三、何时选择哪种？" class="headerlink" title="三、何时选择哪种？"></a>三、何时选择哪种？</h5><ol><li><strong>用单下划线 <code>_name</code></strong> ：<ul><li>属性需要被子类继承或覆盖。</li><li>仅作为内部状态管理，不涉及敏感数据。</li><li>团队约定明确时（如 Django 框架常用 <code>_</code> 表示内部方法）。</li></ul></li><li><strong>用双下划线 <code>__name</code></strong> ：<ul><li>明确禁止外部直接访问（即使通过名称改写也不建议）。</li><li>避免多级继承中的属性命名冲突。</li><li>需要强制封装时（如属性值必须通过方法验证）。</li></ul></li></ol><h5 id="四、代码示例"><a href="#四、代码示例" class="headerlink" title="四、代码示例"></a>四、代码示例</h5><pre><code class="python">class Base:    def __init__(self):        self._protected = &quot;Base Protected&quot;  # 单下划线        self.__private = &quot;Base Private&quot;     # 双下划线class SubClass(Base):    def __init__(self):        super().__init__()        self._protected = &quot;Sub Protected&quot;   # 直接覆盖父类的 _protected        self.__private = &quot;Sub Private&quot;      # 实际名称是 _SubClass__private    def show(self):        print(self._protected)              # 输出 &quot;Sub Protected&quot;        print(self.__private)               # 输出 &quot;Sub Private&quot;        print(self._Base__private)           # 输出 &quot;Base Private&quot;（访问父类私有属性）obj = SubClass()obj.show()</code></pre><h5 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h5><ul><li><strong>单下划线 <code>_name</code></strong> ：约定上的“内部属性”，轻量级封装。</li><li><strong>双下划线 <code>__name</code></strong> ：强制私有属性，通过名称改写避免冲突。</li><li>实际开发中，优先用单下划线，除非明确需要避免继承冲突或强制封装。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 类与对象 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>对象支持上下文管理协议</title>
+      <link href="/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/"/>
+      <url>/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/</url>
+      
+        <content type="html"><![CDATA[<p>​            在 Python 中，让对象支持上下文管理协议，简单说就是让你的对象能和 with 语句配合使用，自动处理资源的打开和关闭（比如文件、网络连接、锁等），避免资源泄漏。</p><p>只需要在类中实现两个方法：</p><ol><li><p><strong>enter</strong>(self)</p><ul><li><p>当with语句开始调用时，返回你需要管理的资源（比如打开的文件对象）。</p></li><li><p>通常返回self, 但也可以返回其他对象。</p></li></ul></li><li><p><strong>exit</strong>(self，exc_type，exc_val，exc_tb)</p><ul><li><p>当 <code>with</code> 语句块<strong>结束</strong>时（无论是否发生异常）调用。</p></li><li><p>负责清理工作（比如关闭文件、释放锁）。</p></li></ul></li></ol><pre><code class="python"># 模拟文件打开器class FileOpener:    def __init__(self, filename, mode):        self.filename = filename        self.mode = mode    def __enter__(self):        self.file = open(self.filename, self.mode)        return self.file  # 返回文件对象，供 with 块内使用    def __exit__(self, exc_type, exc_val, exc_tb):        self.file.close()  # 确保文件被关闭# 使用 with 语句自动管理文件with FileOpener(&quot;test.txt&quot;, &quot;w&quot;) as f:    f.write(&quot;Hello, Context Manager!&quot;)# 这里文件已自动关闭，无需手动调用 f.close()</code></pre><p>✅ 为什么要用上下文管理？</p><ol><li><strong>资源安全</strong>：即使代码块中发生异常，<code>__exit__</code> 也会被调用，确保资源释放。</li><li><strong>代码简洁</strong>：避免了冗长的 <code>try...finally</code> 结构。</li><li><strong>可读性高</strong>：明确展示资源的作用域。</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 类与对象 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>自定义字符串的格式化</title>
+      <link href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
+      <url>/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/</url>
+      
+        <content type="html"><![CDATA[<pre><code class="python">_formats = &#123;    &#39;ymd&#39; : &#39;&#123;d.year&#125;-&#123;d.month&#125;-&#123;d.day&#125;&#39;,    &#39;mdy&#39; : &#39;&#123;d.month&#125;/&#123;d.day&#125;/&#123;d.year&#125;&#39;,    &#39;dmy&#39; : &#39;&#123;d.day&#125;/&#123;d.month&#125;/&#123;d.year&#125;&#39;    &#125;class Date:    def __init__(self, year, month, day):        self.year = year        self.month = month        self.day = day    def __format__(self, code):        if code == &#39;&#39;:            code = &#39;ymd&#39;        fmt = _formats[code]        return fmt.format(d=self) # 替换为 self.year, self.month, self.day 的实际值ddd = Date(2012, 12, 21)print(format(ddd, &#39;ymd&#39;))print(&#39;The date is &#123;:mdy&#125;&#39;.format(ddd))import math# __format__ 专门用于格式化输出，支持动态格式控制（如精度、单位等）# __str__ 和 __repr__ 用于一般字符串表示。class Vector:    def __init__(self, x, y):        self.x = x        self.y = y    def __format__(self, format_spec):        if format_spec == &#39;r&#39;:  # 直角坐标            return f&quot;Vector(&#123;self.x&#125;, &#123;self.y&#125;)&quot;        elif format_spec == &#39;p&#39;:  # 极坐标            r = math.hypot(self.x, self.y)            theta = math.degrees(math.atan2(self.y, self.x))            return f&quot;Vector(r=&#123;r:.2f&#125;, θ=&#123;theta:.2f&#125;°)&quot;        elif format_spec == &#39;&#39;:  # 默认格式            return f&quot;Vector(&#123;self.x&#125;, &#123;self.y&#125;)&quot;        else:            raise ValueError(f&quot;Unknown format specifier &#39;&#123;format_spec&#125;&#39;&quot;)# 使用示例v = Vector(3, 4)print(f&quot;&#123;v&#125;&quot;)          # 输出: Vector(3, 4)print(f&quot;&#123;v:r&#125;&quot;)        # 输出: Vector(3, 4)print(f&quot;&#123;v:p&#125;&quot;)        # 输出: Vector(r=5.00, θ=53.13°)print(format(v, &#39;p&#39;))  # 输出: Vector(r=5.00, θ=53.13°)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 类与对象 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>linux命令lsof</title>
       <link href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/"/>
       <url>/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/</url>
