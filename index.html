@@ -64,6 +64,167 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql数据库插入数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" class="article-date">
+  <time datetime="2025-03-06T01:35:03.000Z" itemprop="datePublished">2025-03-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/">mysql数据库插入数据</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MySQL数据库插入大数据"><a href="#MySQL数据库插入大数据" class="headerlink" title="MySQL数据库插入大数据"></a>MySQL数据库插入大数据</h1><h5 id="一、连接数据库创建表"><a href="#一、连接数据库创建表" class="headerlink" title="一、连接数据库创建表"></a>一、连接数据库创建表</h5><pre><code class="sql">CREATE TABLE `ln_batch_return_detail_mmdd` (
+  `legal_entity` VARCHAR(14) NOT NULL COMMENT &#39;法人号&#39;,
+  `tx_trace_no` VARCHAR(40) NOT NULL COMMENT &#39;交易流水号&#39;, 
+  `tx_trace_no_local` VARCHAR(40) COMMENT &#39;核算本地流水号&#39;,
+  `tx_trace_cnt` BIGINT NOT NULL COMMENT &#39;流水笔次&#39;,
+  `settle_flag` VARCHAR(1) NOT NULL COMMENT &#39;结清标志[0:不结息; 1:结息]&#39;,
+  `prcl_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;本金金额&#39;,
+  `int_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;利息金额&#39;,
+  `core_trace_no` VARCHAR(60) NOT NULL COMMENT &#39;核心流水号&#39;,
+  `deduct_sts` VARCHAR(1) NOT NULL COMMENT &#39;扣款状态[1:成功; 2:失败]&#39;,
+  `error_info` VARCHAR(200) NOT NULL COMMENT &#39;异常信息&#39;,
+  `mac` VARCHAR(30) NOT NULL COMMENT &#39;MAC 验证&#39;,
+  `vpd_entity` BIGINT NOT NULL COMMENT &#39;多实体号&#39;,
+  `repay_ac_no` VARCHAR(32) COMMENT &#39;还款账号&#39;,
+  `ln_ac_id` DECIMAL(20,0) COMMENT &#39;贷款账户ID&#39;,
+  `repay_ac_seqn` BIGINT COMMENT &#39;还款账户序号&#39;,
+  `tx_date` BIGINT NOT NULL COMMENT &#39;交易日期&#39;,
+  `opposite_br_no` VARCHAR(14) COMMENT &#39;对方机构号&#39;,
+  `repay_ac_name` VARCHAR(200) COMMENT &#39;还款账户名称&#39;,
+  `send_prcl_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;上送本金金额&#39;,
+  `send_int_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;上送利息金额&#39;,
+  `send_settl_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;上送结清金额&#39;,
+  `batch_no` VARCHAR(40) NOT NULL COMMENT &#39;批次号&#39;,
+  PRIMARY KEY (`tx_trace_no`, `tx_trace_cnt`, `legal_entity`),
+  INDEX `ln_return_detail_mmdd_idx1` (`tx_date`, `tx_trace_no_local`, `tx_trace_no`, `tx_trace_cnt`, `legal_entity`)
+) ENGINE=InnoDB;
+</code></pre>
+<h5 id="二、执行python脚本生成data-csv数据"><a href="#二、执行python脚本生成data-csv数据" class="headerlink" title="二、执行python脚本生成data.csv数据"></a>二、执行python脚本生成data.csv数据</h5><pre><code class="python">import csv
+import random
+from tqdm import tqdm  # 进度条工具（可选：pip install tqdm）
+
+def generate_csv(file_path, total_rows=10_000_000, batch_size=10_000):
+    # CSV文件列头（与表字段顺序严格一致）
+    header = [
+        &quot;legal_entity&quot;, &quot;tx_trace_no&quot;, &quot;tx_trace_no_local&quot;, &quot;tx_trace_cnt&quot;, &quot;settle_flag&quot;,
+        &quot;prcl_amt&quot;, &quot;int_amt&quot;, &quot;core_trace_no&quot;, &quot;deduct_sts&quot;, &quot;error_info&quot;,
+        &quot;mac&quot;, &quot;vpd_entity&quot;, &quot;repay_ac_no&quot;, &quot;ln_ac_id&quot;, &quot;repay_ac_seqn&quot;,
+        &quot;tx_date&quot;, &quot;opposite_br_no&quot;, &quot;repay_ac_name&quot;, &quot;send_prcl_amt&quot;, &quot;send_int_amt&quot;,
+        &quot;send_settl_amt&quot;, &quot;batch_no&quot;
+    ]
+
+    with open(file_path, &#39;w&#39;, newline=&#39;&#39;) as f:
+        writer = csv.writer(f)
+        writer.writerow(header)  # 写入列头
+
+        # 分批次生成数据（避免内存溢出）
+        for i in tqdm(range(1, total_rows + 1), desc=&quot;Generating CSV&quot;):
+            row = [
+                f&quot;LE&#123;i:08d&#125;&quot;,                      # legal_entity
+                f&quot;TX&#123;i:08d&#125;&quot;,                      # tx_trace_no
+                f&quot;LOCAL&#123;i:08d&#125;&quot;,                   # tx_trace_no_local
+                i,                                 # tx_trace_cnt
+                &#39;0&#39; if random.random() &lt; 0.5 else &#39;1&#39;,  # settle_flag
+                round(random.uniform(100, 10000), 2),  # prcl_amt
+                round(random.uniform(10, 1000), 2),    # int_amt
+                f&quot;CORE&#123;i:08d&#125;&quot;,                    # core_trace_no
+                &#39;1&#39; if random.random() &lt; 0.9 else &#39;2&#39;, # deduct_sts
+                &#39;No error&#39; if random.random() &lt; 0.95 else &#39;Error&#39;, # error_info
+                f&quot;MAC&#123;i:08d&#125;&quot;,                     # mac
+                random.randint(1, 1_000_000),      # vpd_entity
+                f&quot;ACCT&#123;i:08d&#125;&quot;,                    # repay_ac_no
+                random.randint(1, 10_000_000_000), # ln_ac_id
+                random.randint(1, 100),            # repay_ac_seqn
+                20230000 + random.randint(1, 365), # tx_date
+                f&quot;BR&#123;i:08d&#125;&quot;,                      # opposite_br_no
+                f&quot;Name&#123;i:08d&#125;&quot;,                    # repay_ac_name
+                round(random.uniform(100, 10000), 2),  # send_prcl_amt
+                round(random.uniform(10, 1000), 2),    # send_int_amt
+                round(random.uniform(100, 11000), 2),  # send_settl_amt
+                f&quot;BATCH&#123;i:08d&#125;&quot;                    # batch_no
+            ]
+            writer.writerow(row)
+
+            # 每生成 batch_size 行刷新一次缓冲区
+            if i % batch_size == 0:
+                f.flush()
+
+if __name__ == &quot;__main__&quot;:
+    generate_csv(&quot;data.csv&quot;, total_rows=100_000_000) # 生成一千万条数据
+</code></pre>
+<h5 id="三、导入数据到数据库"><a href="#三、导入数据到数据库" class="headerlink" title="三、导入数据到数据库"></a>三、导入数据到数据库</h5><ol>
+<li>将数据上传到服务器，并放到MySQL指定的目录下</li>
+</ol>
+<pre><code class="sql"># 执行下面命令
+mysql&gt; SHOW VARIABLES LIKE &#39;secure_file_priv&#39;;
++------------------+-----------------------+
+| Variable_name    | Value                 |
++------------------+-----------------------+
+| secure_file_priv | /var/lib/mysql-files/ |
++------------------+-----------------------+
+</code></pre>
+<ol start="2">
+<li>执行前关闭索引，执行结束后开启索引</li>
+</ol>
+<pre><code class="sql">-- 临时关闭索引更新（加速插入）
+ALTER TABLE ln_batch_return_detail_mmdd DISABLE KEYS;
+-- 插入完成后重建索引
+ALTER TABLE ln_batch_return_detail_mmdd ENABLE KEYS;
+</code></pre>
+<ol start="3">
+<li>进入数据库执行插入命令</li>
+</ol>
+<pre><code class="sql">-- 执行数据导入
+LOAD DATA INFILE &#39;/path/to/data.csv&#39;
+INTO TABLE `ln_batch_return_detail_mmdd`
+FIELDS TERMINATED BY &#39;,&#39;     -- CSV字段分隔符（与生成文件时一致）
+OPTIONALLY ENCLOSED BY &#39;&quot;&#39;   -- 字段包裹符（如果字段含逗号或换行符）
+LINES TERMINATED BY &#39;\n&#39;     -- 行分隔符（Linux/Mac用\n，Windows用\r\n）
+IGNORE 1 LINES               -- 跳过CSV文件的列头行
+(
+  `legal_entity`, `tx_trace_no`, `tx_trace_no_local`, `tx_trace_cnt`, `settle_flag`,
+  `prcl_amt`, `int_amt`, `core_trace_no`, `deduct_sts`, `error_info`,
+  `mac`, `vpd_entity`, `repay_ac_no`, `ln_ac_id`, `repay_ac_seqn`,
+  `tx_date`, `opposite_br_no`, `repay_ac_name`, `send_prcl_amt`, `send_int_amt`,
+  `send_settl_amt`, `batch_no`
+);
+</code></pre>
+<p>4.查看成功写入1千万条数据</p>
+<p><img src="../images/sql%E8%BE%93%E5%85%A5%E6%8F%92%E5%85%A5.png" alt="sql输入插入"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" data-id="cm7wpmlnv000dhkvd5bkjhhfs" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-在类中封装属性名" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" class="article-date">
@@ -273,7 +434,7 @@ obj.show()
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" data-id="cm7wp29tg001j7svd6lam8m95" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" data-id="cm7wpmlo6001lhkvd6jo5cvna" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -359,7 +520,7 @@ with FileOpener(&quot;test.txt&quot;, &quot;w&quot;) as f:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" data-id="cm7wp29tg001l7svddg5e6077" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" data-id="cm7wpmlo7001ohkvd0l00clhk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -451,7 +612,7 @@ print(format(v, &#39;p&#39;))  # 输出: Vector(r=5.00, θ=53.13°)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm7wp29to00337svdf44r537x" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm7wpmlo9001zhkvd7qws2smf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -579,7 +740,7 @@ NAME：打开文件的确切名称
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7wp29t300087svd1x3n79bf" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7wpmlnt0008hkvd3rorac78" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li></ul>
@@ -645,7 +806,7 @@ NAME：打开文件的确切名称
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7wp29tp00357svdcz8nclkn" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7wpmlog003hhkvdblmf20ih" class="article-share-link">Share</a>
       
       
     </footer>
@@ -819,7 +980,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7wp29to00327svd090p7rca" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7wpmlo8001shkvdfwo907y9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -900,7 +1061,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7wp29t6000d7svdcx2m8xhs" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7wpmlnw000ehkvddrgm5meb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li></ul>
@@ -1030,7 +1191,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7wp29th001p7svd0j9179fa" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7wpmlo8001vhkvd43zzbc07" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li></ul>
@@ -1108,116 +1269,10 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7wp29sw00017svdalzw131q" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7wpmlnq0003hkvd5g38d55n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JMeter中实现跨线程组关联" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" class="article-date">
-  <time datetime="2023-06-15T06:15:15.000Z" itemprop="datePublished">2023-06-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/jmeter/">jmeter</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/">JMeter中实现跨线程组关联</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-JMeter中实现跨线程组关联说明"><a href="#1-JMeter中实现跨线程组关联说明" class="headerlink" title="1. JMeter中实现跨线程组关联说明"></a>1. JMeter中实现跨线程组关联说明</h4><h4 id="1-1-JMeter中实现跨线程组关联步骤"><a href="#1-1-JMeter中实现跨线程组关联步骤" class="headerlink" title="1.1 JMeter中实现跨线程组关联步骤"></a>1.1 <strong>JMeter中实现跨线程组关联步骤</strong></h4><p>​    1、先进行登陆请求。<br>​    2、记录登陆请求返回的Cookie，或者有关登录状态的token信息。<br>​    3、如果是Cookie，就用HTTP Cookie管理器获取。<br>​    4、如果是token，就用提取器进行提取。<br>​    5、然后通过函数助手中的__setProperty函数，把Cookie值升级为JMeter的全局属性，就可以在线程组和线程组之间共享了。<br>​    6、然后从另一个线程组中通过__property函数，获取全局数据。<br>​    7、然后把获取的Cookie或token，加入到查看购物车请求中，保持用户登陆状态。<br>​    8、如果是Cookie，就用添加到HTTP信息头管理器组件中。<br>​    9、如果是token，就添加到请求的参数中。<br>​    10、执行脚本，查看运行结果。</p>
-<h4 id="2-测试计划内包含的元件"><a href="#2-测试计划内包含的元件" class="headerlink" title="2.测试计划内包含的元件"></a>2.<strong>测试计划内包含的元件</strong></h4><p>​    1、创建测试计划。<br>​    2、创建线程组：选中“测试计划”右键 —&gt; 添加 —&gt; 线程（用户） —&gt; 线程组。<br>​    3、在线程组中，添加配置元件HTTP Cookie管理器组件：选中“线程组”右键 —&gt; 添加 —&gt; 配置元件 —&gt; HTTP<br>Cookie管理器。<br>​    4、在线程组中，添加取样器“HTTP请求”组件：选中“线程组”右键 —&gt; 添加 —&gt; 取样器 —&gt; HTTP请求。<br>​    5、在线程组中，添加取样器“BeanShell 取样器”组件：选中“线程组”右键 —&gt; 添加 —&gt; 取样器 —&gt; BeanShell<br>取样器BeanShell 取样器。<br>​    6、在线程组中，添加配置元件“HTTP信息头管理器”组件：选中“线程组”右键 —&gt; 添加 —&gt; 配置元件 —&gt; HTTP信息头管理器。<br>​    7、在线程组中，添加监听器“察看结果树”组件：选中“线程组”右键 —&gt; 添加 —&gt; 监听器 —&gt; 察看结果树。</p>
-<p>最终测试计划中的元件如下：</p>
-<p><img src="../images/%E5%9B%BE%E5%83%8F.jpg" alt="图像"></p>
-<h4 id="3-用户登陆请求的相关操作"><a href="#3-用户登陆请求的相关操作" class="headerlink" title="3. 用户登陆请求的相关操作"></a>3. 用户登陆请求的相关操作</h4><h5 id="3-1-进行登陆操作获取Cookie信息"><a href="#3-1-进行登陆操作获取Cookie信息" class="headerlink" title="3.1 进行登陆操作获取Cookie信息"></a>3.1 <strong>进行登陆操作获取Cookie信息</strong></h5><p><img src="../images/%E7%99%BB%E9%99%86%E9%A1%B5%E9%9D%A2.jpg" alt="登陆页面"></p>
-<p>通过添加HTTP Cookie管理器组件，会把服务器返回来的Cookie信息，默认存储到线程变量中</p>
-<p><strong>前提</strong>：jmeter.properties文件中，设置CookieManager.save.cookies=true</p>
-<p>然后我们可以通过Debug Sampler（调试取样器）组件，查看到线程变量中的Cookie数据。</p>
-<p><img src="../images/cookie%E5%AD%98%E6%94%BE.jpg" alt="cookie存放"></p>
-<p>说明：保持用户登陆状态的Cookie数据： COOKIE_sid=40cbbff1-567f-4434-b414-1977dd321149，这样我们就找到Cookie的值了。</p>
-<h5 id="3-2-把Cookie数据提升为JMeter的全局属性"><a href="#3-2-把Cookie数据提升为JMeter的全局属性" class="headerlink" title="3.2 把Cookie数据提升为JMeter的全局属性"></a>3.2 <strong>把Cookie数据提升为JMeter的全局属性</strong></h5><p>我们需要通过__setProperty函数，把Cookie数据提升为JMeter的全局属性。这样该Cookie就可以在JMeter脚本中，所有线程组里都可以使用了。（也就是可以在线程组和线程组之间通信）</p>
-<p>接下来点击：工具 —&gt; 函数助手对话框，打开函数助手。（之前的版本在选项中）</p>
-<p>然后选择__setProperty函数。</p>
-<p>第一行填写：填写升级为全局属性后的变量名。（自定义即可）</p>
-<p>第二行填写：定义全局属性的值。（我们就把Cookie属性的值，引用到这里）</p>
-<p>Return Original Value of property (default false)?：返回属性的原始值（默认为 false），默认即可。<br><img src="../images/set.jpg" alt="set"></p>
-<p>这样我们就把Cookie提升为JMeter的全局属性了，变量名叫kuayu_session。</p>
-<p>JMeter的全局属性就相当于在“测试计划”界面中定义的用户定义的变里</p>
-<h5 id="3-3-编写BeanShell取样器组件"><a href="#3-3-编写BeanShell取样器组件" class="headerlink" title="3.3 编写BeanShell取样器组件"></a>3.3 <strong>编写BeanShell取样器组件</strong></h5><p>上面生成的这个函数比较特殊，他必须放到BeanShell Sampler组件里面。当把这个函数放到BeanShell取样器组件里面后，就相当于把变量kuayu_session的值，放到了我们声明的公共空间里面。</p>
-<p><img src="../images/%E8%AE%BE%E7%BD%AE%E4%B8%BA%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F.jpg" alt="设置为全局变量"></p>
-<h4 id="4-新建标签请求的相关操作"><a href="#4-新建标签请求的相关操作" class="headerlink" title="4.新建标签请求的相关操作"></a>4.新建标签请求的相关操作</h4><h5 id="4-1-查看标签请求"><a href="#4-1-查看标签请求" class="headerlink" title="4.1 查看标签请求"></a>4.1 查看标签请求</h5><p><img src="../images/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA.jpg" alt="标签新建"></p>
-<h5 id="4-2-获取JMeter全局属性"><a href="#4-2-获取JMeter全局属性" class="headerlink" title="4.2 获取JMeter全局属性"></a>4.2 <strong>获取JMeter全局属性</strong></h5><p>因为我们把用户登陆线程组中的Cookie属性提升为JMeter全局属性了。</p>
-<p>需要在查看购物车线程组中把全局属性中的Cookie属性获取到，使用__Property函数。</p>
-<p>打开函数助手：工具 —&gt; 函数助手对话框。（之前的版本在选项中）</p>
-<p>选择__Property函数。</p>
-<p>第一行：填写要获取的JMeter全局属性的变量名。（即：kuayu_session）</p>
-<p>第二行：重用函数计算值的引用名。（可选填）</p>
-<p>默认值：属性未定义时的默认值。</p>
-<p><img src="../images/%E5%8F%96%E7%94%A8cookie.jpg" alt="取用cookie"></p>
-<h5 id="4-3-HTTP信息头管理器内容"><a href="#4-3-HTTP信息头管理器内容" class="headerlink" title="4.3 HTTP信息头管理器内容"></a>4.3 <strong>HTTP信息头管理器内容</strong></h5><p>我们需要把上一步获取到的Cookie信息，放入新建标签的请求中。</p>
-<p>因为是Cookie的相关数据，只能放在请求头的信息中。（如果要是token，就放在请求的参数中</p>
-<p><img src="../images/http%E4%BF%A1%E6%81%AF%E5%A4%B4%E7%AE%A1%E7%90%86%E5%99%A8.jpg" alt="http信息头管理器"></p>
-<p>这样查看新建标签请求，就带有用户的登陆状态了。</p>
-<h5 id="4-4-设置线程组的启动时间"><a href="#4-4-设置线程组的启动时间" class="headerlink" title="4.4 设置线程组的启动时间"></a>4.4 <strong>设置线程组的启动时间</strong></h5><p>因为我们需要等待前面的登陆线程组执行完成后，在进行查看购物的请求，否则将获取不到我们需要的Cookie信息。</p>
-<p>这时候就需要设置线程组元件界面中的调度器属性了。</p>
-<p>我们把持续时间和启动延迟都设置成3，表示JMeter脚本启动3秒后，再执行查看购物线程组中的内容，并持续3秒钟。</p>
-<p><img src="../images/%E8%B0%83%E5%BA%A6%E5%99%A8.jpg" alt="调度器"></p>
-<p>调度器配置（Scheduler Configuration）说明:</p>
-<ul>
-<li>持续时间（秒）：如果选择了调度程序复选框，控制测试执行的持续时间，以秒为单位。</li>
-<li>启动延迟（秒）：如果选择了调度程序复选框，控制测试在多久后启动执行，以秒为单位。</li>
-</ul>
-<h4 id="5-运行结果说明"><a href="#5-运行结果说明" class="headerlink" title="5 运行结果说明"></a>5 运行结果说明</h4><p><img src="../images/%E7%BB%93%E6%9E%9C.jpg" alt="结果"></p>
-<h4 id="6-拓展说明（也很重点）"><a href="#6-拓展说明（也很重点）" class="headerlink" title="6. 拓展说明（也很重点）"></a>6. 拓展说明（也很重点）</h4><p>如上需求，在进行性能测试的时候，我们要保证登陆请求线程组中，所有用户登陆的Cookie或token都保存好，才能进入到下一个线程组中执行其他的跨域关联请求。</p>
-<p>这样就会有两种实现方式：</p>
-<p>1、像本篇文章一样，把需要关联的数据提升到全局属性。</p>
-<p>但是这种方式只能适用于单线程跨域关联，如果是很多用户并发进行跨域关联，该种方式只是把最后一个登陆请求的Cookie或token进行了提升。所以下一个线程组中使用的登陆状态，都是登陆线程组最后一个人的请求状态。<br>2、第二种方式，把登陆请求中的Cookie或token信息，提取出来并保存到一个文件中。然后在其他关联跨域请求中，使用参数化的方式，把用户登陆的Cookie或token信息，传入到所需的请求中，从而实现跨域关联的操作。（推荐）</p>
-<h5 id="6-1-第二种方式实现步骤："><a href="#6-1-第二种方式实现步骤：" class="headerlink" title="6.1 第二种方式实现步骤："></a>6.1 <strong>第二种方式实现步骤：</strong></h5><ol>
-<li>每一个接口放在一个线程组中。</li>
-<li>把登陆接口的返回Cookie数据，写入到.csv文件中。</li>
-<li>jmeter写.csv文件，使用BeanShell。取样器添加后置处理器BeanShell postprocessor。</li>
-<li>在下一个跨域关联接口使用数据，用参数化的方式导入.csv文件。</li>
-</ol>
-<p>提供BeanShell中的数据存储代码（简单示例）</p>
-<pre><code class="shell">import java.io.FileWriter;
-import java.io.BufferedWriter;
-
-
-FileWriter fstream = new FileWriter(&quot;C:\\Users\\L\\Desktop\\JMeterScript\\user_session.csv&quot;, true);
-BufferedWriter out = new BufferedWriter(fstream);
-out.write(vars.get(&quot;COOKIE_ECS_ID&quot;)+&quot;\n&quot;);
-out.close();
-fstream.close();
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" data-id="cm7wp29t200077svd3ybnblsq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li></ul>
 
     </footer>
   </div>
@@ -1251,7 +1306,7 @@ fstream.close();
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
     </div>
   </div>
 
@@ -1261,7 +1316,7 @@ fstream.close();
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
+      <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
     </div>
   </div>
 
@@ -1283,6 +1338,10 @@ fstream.close();
       <ul>
         
           <li>
+            <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/">mysql数据库插入数据</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/">在类中封装属性名</a>
           </li>
         
@@ -1296,10 +1355,6 @@ fstream.close();
         
           <li>
             <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/">(no title)</a>
           </li>
         
       </ul>

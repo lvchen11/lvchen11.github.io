@@ -5,20 +5,22 @@
   
 
   
-  <title>pytest基础3 | 月明星稀</title>
+  <title>mysql数据库插入数据 | 月明星稀</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="pytest基础用法二前置条件： 1.文件路径： Test_App     - - test_abc.py     - - pytest.ini 2.pyetst.ini配置文件内容： [pytest]   命令行参数  addopts &#x3D; -s  搜索文件名  python_files &#x3D; test*.py   搜索的类名  python_classes &#x3D; Test* 搜索的函数名  pyth">
+  <meta name="description" content="MySQL数据库插入大数据一、连接数据库创建表CREATE TABLE &#96;ln_batch_return_detail_mmdd&#96; (   &#96;legal_entity&#96; VARCHAR(14) NOT NULL COMMENT &#39;法人号&#39;,   &#96;tx_trace_no&#96; VARCHAR(40) NOT NULL COMMENT &#39;交易流水号&#39;,    &#96;tx_tr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pytest基础3">
-<meta property="og:url" content="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%803/index.html">
+<meta property="og:title" content="mysql数据库插入数据">
+<meta property="og:url" content="http://example.com/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/index.html">
 <meta property="og:site_name" content="月明星稀">
-<meta property="og:description" content="pytest基础用法二前置条件： 1.文件路径： Test_App     - - test_abc.py     - - pytest.ini 2.pyetst.ini配置文件内容： [pytest]   命令行参数  addopts &#x3D; -s  搜索文件名  python_files &#x3D; test*.py   搜索的类名  python_classes &#x3D; Test* 搜索的函数名  pyth">
+<meta property="og:description" content="MySQL数据库插入大数据一、连接数据库创建表CREATE TABLE &#96;ln_batch_return_detail_mmdd&#96; (   &#96;legal_entity&#96; VARCHAR(14) NOT NULL COMMENT &#39;法人号&#39;,   &#96;tx_trace_no&#96; VARCHAR(40) NOT NULL COMMENT &#39;交易流水号&#39;,    &#96;tx_tr">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-02-23T03:11:40.000Z">
-<meta property="article:modified_time" content="2023-02-23T08:07:45.316Z">
+<meta property="og:image" content="http://example.com/2025/03/06/images/sql%E8%BE%93%E5%85%A5%E6%8F%92%E5%85%A5.png">
+<meta property="article:published_time" content="2025-03-06T01:35:03.000Z">
+<meta property="article:modified_time" content="2025-03-06T02:09:56.545Z">
 <meta property="article:author" content="当时只道是寻常">
-<meta property="article:tag" content="pytest基础">
+<meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/03/06/images/sql%E8%BE%93%E5%85%A5%E6%8F%92%E5%85%A5.png">
   
     <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
   
@@ -65,14 +67,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-pytest基础3" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql数据库插入数据" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" class="article-date">
-  <time datetime="2023-02-23T03:11:40.000Z" itemprop="datePublished">2023-02-23</time>
+    <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" class="article-date">
+  <time datetime="2025-03-06T01:35:03.000Z" itemprop="datePublished">2025-03-06</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/pytest/">pytest</a>
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
   </div>
 
   </div>
@@ -83,7 +85,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      pytest基础3
+      mysql数据库插入数据
     </h1>
   
 
@@ -91,175 +93,133 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="pytest基础用法二"><a href="#pytest基础用法二" class="headerlink" title="pytest基础用法二"></a>pytest基础用法二</h5><pre><code class="python">前置条件：
-1.文件路径：
-Test_App
-    - - test_abc.py
-    - - pytest.ini
-2.pyetst.ini配置文件内容：
-[pytest]
-  命令行参数
- addopts = -s
- 搜索文件名
- python_files = test*.py
-  搜索的类名
- python_classes = Test*
-搜索的函数名
- python_functions = test_*
+        <h1 id="MySQL数据库插入大数据"><a href="#MySQL数据库插入大数据" class="headerlink" title="MySQL数据库插入大数据"></a>MySQL数据库插入大数据</h1><h5 id="一、连接数据库创建表"><a href="#一、连接数据库创建表" class="headerlink" title="一、连接数据库创建表"></a>一、连接数据库创建表</h5><pre><code class="sql">CREATE TABLE `ln_batch_return_detail_mmdd` (
+  `legal_entity` VARCHAR(14) NOT NULL COMMENT &#39;法人号&#39;,
+  `tx_trace_no` VARCHAR(40) NOT NULL COMMENT &#39;交易流水号&#39;, 
+  `tx_trace_no_local` VARCHAR(40) COMMENT &#39;核算本地流水号&#39;,
+  `tx_trace_cnt` BIGINT NOT NULL COMMENT &#39;流水笔次&#39;,
+  `settle_flag` VARCHAR(1) NOT NULL COMMENT &#39;结清标志[0:不结息; 1:结息]&#39;,
+  `prcl_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;本金金额&#39;,
+  `int_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;利息金额&#39;,
+  `core_trace_no` VARCHAR(60) NOT NULL COMMENT &#39;核心流水号&#39;,
+  `deduct_sts` VARCHAR(1) NOT NULL COMMENT &#39;扣款状态[1:成功; 2:失败]&#39;,
+  `error_info` VARCHAR(200) NOT NULL COMMENT &#39;异常信息&#39;,
+  `mac` VARCHAR(30) NOT NULL COMMENT &#39;MAC 验证&#39;,
+  `vpd_entity` BIGINT NOT NULL COMMENT &#39;多实体号&#39;,
+  `repay_ac_no` VARCHAR(32) COMMENT &#39;还款账号&#39;,
+  `ln_ac_id` DECIMAL(20,0) COMMENT &#39;贷款账户ID&#39;,
+  `repay_ac_seqn` BIGINT COMMENT &#39;还款账户序号&#39;,
+  `tx_date` BIGINT NOT NULL COMMENT &#39;交易日期&#39;,
+  `opposite_br_no` VARCHAR(14) COMMENT &#39;对方机构号&#39;,
+  `repay_ac_name` VARCHAR(200) COMMENT &#39;还款账户名称&#39;,
+  `send_prcl_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;上送本金金额&#39;,
+  `send_int_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;上送利息金额&#39;,
+  `send_settl_amt` DECIMAL(23,2) NOT NULL COMMENT &#39;上送结清金额&#39;,
+  `batch_no` VARCHAR(40) NOT NULL COMMENT &#39;批次号&#39;,
+  PRIMARY KEY (`tx_trace_no`, `tx_trace_cnt`, `legal_entity`),
+  INDEX `ln_return_detail_mmdd_idx1` (`tx_date`, `tx_trace_no_local`, `tx_trace_no`, `tx_trace_cnt`, `legal_entity`)
+) ENGINE=InnoDB;
 </code></pre>
-<h5 id="跳过测试函数"><a href="#跳过测试函数" class="headerlink" title="跳过测试函数"></a>跳过测试函数</h5><pre><code class="python">根据特定的条件，不执行标识的测试函数.
- 方法：
-     skipif(condition, reason=None)
- 参数：
-     condition：跳过的条件，必传参数
-     reason：标注原因，必传参数
- 使用方法：
-     @pytest.mark.skipif(condition, reason=&quot;xxx&quot;) 
+<h5 id="二、执行python脚本生成data-csv数据"><a href="#二、执行python脚本生成data-csv数据" class="headerlink" title="二、执行python脚本生成data.csv数据"></a>二、执行python脚本生成data.csv数据</h5><pre><code class="python">import csv
+import random
+from tqdm import tqdm  # 进度条工具（可选：pip install tqdm）
+
+def generate_csv(file_path, total_rows=10_000_000, batch_size=10_000):
+    # CSV文件列头（与表字段顺序严格一致）
+    header = [
+        &quot;legal_entity&quot;, &quot;tx_trace_no&quot;, &quot;tx_trace_no_local&quot;, &quot;tx_trace_cnt&quot;, &quot;settle_flag&quot;,
+        &quot;prcl_amt&quot;, &quot;int_amt&quot;, &quot;core_trace_no&quot;, &quot;deduct_sts&quot;, &quot;error_info&quot;,
+        &quot;mac&quot;, &quot;vpd_entity&quot;, &quot;repay_ac_no&quot;, &quot;ln_ac_id&quot;, &quot;repay_ac_seqn&quot;,
+        &quot;tx_date&quot;, &quot;opposite_br_no&quot;, &quot;repay_ac_name&quot;, &quot;send_prcl_amt&quot;, &quot;send_int_amt&quot;,
+        &quot;send_settl_amt&quot;, &quot;batch_no&quot;
+    ]
+
+    with open(file_path, &#39;w&#39;, newline=&#39;&#39;) as f:
+        writer = csv.writer(f)
+        writer.writerow(header)  # 写入列头
+
+        # 分批次生成数据（避免内存溢出）
+        for i in tqdm(range(1, total_rows + 1), desc=&quot;Generating CSV&quot;):
+            row = [
+                f&quot;LE&#123;i:08d&#125;&quot;,                      # legal_entity
+                f&quot;TX&#123;i:08d&#125;&quot;,                      # tx_trace_no
+                f&quot;LOCAL&#123;i:08d&#125;&quot;,                   # tx_trace_no_local
+                i,                                 # tx_trace_cnt
+                &#39;0&#39; if random.random() &lt; 0.5 else &#39;1&#39;,  # settle_flag
+                round(random.uniform(100, 10000), 2),  # prcl_amt
+                round(random.uniform(10, 1000), 2),    # int_amt
+                f&quot;CORE&#123;i:08d&#125;&quot;,                    # core_trace_no
+                &#39;1&#39; if random.random() &lt; 0.9 else &#39;2&#39;, # deduct_sts
+                &#39;No error&#39; if random.random() &lt; 0.95 else &#39;Error&#39;, # error_info
+                f&quot;MAC&#123;i:08d&#125;&quot;,                     # mac
+                random.randint(1, 1_000_000),      # vpd_entity
+                f&quot;ACCT&#123;i:08d&#125;&quot;,                    # repay_ac_no
+                random.randint(1, 10_000_000_000), # ln_ac_id
+                random.randint(1, 100),            # repay_ac_seqn
+                20230000 + random.randint(1, 365), # tx_date
+                f&quot;BR&#123;i:08d&#125;&quot;,                      # opposite_br_no
+                f&quot;Name&#123;i:08d&#125;&quot;,                    # repay_ac_name
+                round(random.uniform(100, 10000), 2),  # send_prcl_amt
+                round(random.uniform(10, 1000), 2),    # send_int_amt
+                round(random.uniform(100, 11000), 2),  # send_settl_amt
+                f&quot;BATCH&#123;i:08d&#125;&quot;                    # batch_no
+            ]
+            writer.writerow(row)
+
+            # 每生成 batch_size 行刷新一次缓冲区
+            if i % batch_size == 0:
+                f.flush()
+
+if __name__ == &quot;__main__&quot;:
+    generate_csv(&quot;data.csv&quot;, total_rows=100_000_000) # 生成一千万条数据
 </code></pre>
-<pre><code class="python">import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-    def test_a(self):
-        print(&quot;-------&gt;test_a&quot;)
-        assert 1
-    @pytest.mark.skipif(condition=2&gt;1,reason = &quot;跳过该函数&quot;) # 跳过测试函数test_b
-    def test_b(self):
-        print(&quot;-------&gt;test_b&quot;)
-        assert 0
-# 执行结果：
-test0223.py::Test_ABC::test_a -------&gt;setup_class
-PASSED                                     [ 50%]-------&gt;test_a
-
-test0223.py::Test_ABC::test_b SKIPPED (跳过该函数)                       [100%]
-Skipped: 跳过该函数
--------&gt;teardown_class
+<h5 id="三、导入数据到数据库"><a href="#三、导入数据到数据库" class="headerlink" title="三、导入数据到数据库"></a>三、导入数据到数据库</h5><ol>
+<li>将数据上传到服务器，并放到MySQL指定的目录下</li>
+</ol>
+<pre><code class="sql"># 执行下面命令
+mysql&gt; SHOW VARIABLES LIKE &#39;secure_file_priv&#39;;
++------------------+-----------------------+
+| Variable_name    | Value                 |
++------------------+-----------------------+
+| secure_file_priv | /var/lib/mysql-files/ |
++------------------+-----------------------+
 </code></pre>
-<h5 id="标记为预期失败函数"><a href="#标记为预期失败函数" class="headerlink" title="标记为预期失败函数"></a>标记为预期失败函数</h5><pre><code class="tex">标记测试函数为失败函数
- 方法：
-     xfail(condition=None, reason=None, raises=None, run=True, strict=False)
- 常用参数：
-     condition：预期失败的条件，必传参数
-     reason：失败的原因，必传参数
- 使用方法：
-     @pytest.mark.xfail(condition, reason=&quot;xx&quot;)
+<ol start="2">
+<li>执行前关闭索引，执行结束后开启索引</li>
+</ol>
+<pre><code class="sql">-- 临时关闭索引更新（加速插入）
+ALTER TABLE ln_batch_return_detail_mmdd DISABLE KEYS;
+-- 插入完成后重建索引
+ALTER TABLE ln_batch_return_detail_mmdd ENABLE KEYS;
 </code></pre>
-<pre><code class="python">import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-    def test_a(self):
-        print(&quot;-------&gt;test_a&quot;)
-        assert 1
-    @pytest.mark.xfail(2 &gt; 1, reason=&quot;标注为预期失败&quot;) # 标记为预期失败函数test_b
-    def test_b(self):
-       print(&quot;-------&gt;test_b&quot;)
-       assert 0
-if __name__ == &#39;__main__&#39;:
-    pytest.main()
-# 执行结果
--------&gt;setup_class
-PASSED                                     [ 50%]-------&gt;test_a
-XFAIL (标注为预期失败)                     [100%]-------&gt;test_b
-
-self = &lt;test0223.Test_ABC object at 0x000001F92D538640&gt;
-
-    @pytest.mark.xfail(2 &gt; 1, reason=&quot;标注为预期失败&quot;) # 标记为预期失败函数test_b
-    def test_b(self):
-       print(&quot;-------&gt;test_b&quot;)
-&gt;      assert 0
-E      assert 0
+<ol start="3">
+<li>进入数据库执行插入命令</li>
+</ol>
+<pre><code class="sql">-- 执行数据导入
+LOAD DATA INFILE &#39;/path/to/data.csv&#39;
+INTO TABLE `ln_batch_return_detail_mmdd`
+FIELDS TERMINATED BY &#39;,&#39;     -- CSV字段分隔符（与生成文件时一致）
+OPTIONALLY ENCLOSED BY &#39;&quot;&#39;   -- 字段包裹符（如果字段含逗号或换行符）
+LINES TERMINATED BY &#39;\n&#39;     -- 行分隔符（Linux/Mac用\n，Windows用\r\n）
+IGNORE 1 LINES               -- 跳过CSV文件的列头行
+(
+  `legal_entity`, `tx_trace_no`, `tx_trace_no_local`, `tx_trace_cnt`, `settle_flag`,
+  `prcl_amt`, `int_amt`, `core_trace_no`, `deduct_sts`, `error_info`,
+  `mac`, `vpd_entity`, `repay_ac_no`, `ln_ac_id`, `repay_ac_seqn`,
+  `tx_date`, `opposite_br_no`, `repay_ac_name`, `send_prcl_amt`, `send_int_amt`,
+  `send_settl_amt`, `batch_no`
+);
 </code></pre>
-<h5 id="函数数据参数化"><a href="#函数数据参数化" class="headerlink" title="函数数据参数化"></a>函数数据参数化</h5><pre><code class="python">方便测试函数对测试属于的获取。
- 方法：
-     parametrize(argnames, argvalues, indirect=False, ids=None, scope=None)
- 常用参数：
-     argnames：参数名
-     argvalues：参数对应值，类型必须为list
-                 当参数为一个时格式：[value]
-                 当参数个数大于一个时，格式为:[(param_value1,param_value2.....),(param_value1,param_value2.....)]
- 使用方法:
-     @pytest.mark.parametrize(argnames,argvalues)
-     ️ 参数值为N个，测试方法就会运行N次
-</code></pre>
-<pre><code class="python"># 单个参数示例
-import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-
-    @pytest.mark.parametrize(&quot;a&quot;, [3, 6])  # a参数被赋予两个值，函数会运行两遍
-    def test_a(self, a):  # 参数必须和parametrize里面的参数一致
-        print(&quot;test data:a=%d&quot; % a)
-        assert a % 3 == 0
- # 运行结果
- test0223.py::Test_ABC::test_a[3] -------&gt;setup_class
-PASSED                                  [ 50%]test data:a=3
-
-test0223.py::Test_ABC::test_a[6] PASSED                                  [100%]test data:a=6
--------&gt;teardown_class
-</code></pre>
-<pre><code class="python"># 多个参数示例
-import pytest
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-
-    @pytest.mark.parametrize(&quot;a,b&quot;,[(1,2),(0,3)]) # 参数a,b均被赋予两个值，函数会运行两遍
-    def test_a(self,a,b): # 参数必须和parametrize里面的参数一致
-        print(&quot;test data:a=%d,b=%d&quot;%(a,b))
-        assert a+b == 3
- # 执行结果
- test_abc.py 
-    -------&gt;setup_class
-    test data:a=1,b=2 # 运行第一次取值 a=1,b=2
-    .
-    test data:a=0,b=3 # 运行第二次取值 a=0,b=3
-    .
-    -------&gt;teardown_class
-</code></pre>
-<pre><code class="python"># 函数返回值类型示例：
-import pytest
-
-
-def return_test_data():
-    return [(1, 2), (0, 3)]
-
-
-class Test_ABC:
-    def setup_class(self):
-        print(&quot;-------&gt;setup_class&quot;)
-
-    def teardown_class(self):
-        print(&quot;-------&gt;teardown_class&quot;)
-
-    @pytest.mark.parametrize(&quot;a,b&quot;, return_test_data())  # 使用函数返回值的形式传入参数值
-    def test_a(self, a, b):
-        print(&quot;test data:a=%d,b=%d&quot; % (a, b))
-        assert a + b == 3
-# 执行结果
-test0223.py::Test_ABC::test_a[1-2] -------&gt;setup_class
-PASSED                                [ 50%]test data:a=1,b=2
-
-test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]test data:a=0,b=3
--------&gt;teardown_class
-</code></pre>
+<p>4.查看成功写入1千万条数据</p>
+<p><img src="../images/sql%E8%BE%93%E5%85%A5%E6%8F%92%E5%85%A5.png" alt="sql输入插入"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" data-id="cm7wpmlnz000qhkvdcrhwatnq" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" data-id="cm7wpmlnv000dhkvd5bkjhhfs" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
 
     </footer>
   </div>
@@ -267,19 +227,10 @@ test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]t
     
 <nav id="article-nav">
   
-    <a href="/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          pytest_parametrize()参数化
-        
-      </div>
-    </a>
   
-  
-    <a href="/2023/02/23/pytest%E5%9F%BA%E7%A1%802/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">pytest基础2</div>
+      <div class="article-nav-title">在类中封装属性名</div>
     </a>
   
 </nav>
