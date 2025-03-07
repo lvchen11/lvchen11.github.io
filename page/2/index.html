@@ -64,6 +64,84 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JMeter中使用“用户参数”实现参数化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" class="article-date">
+  <time datetime="2023-06-15T09:22:07.000Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/jmeter/">jmeter</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/">JMeter中使用“用户参数”实现参数化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-用户参数组件介绍"><a href="#1-用户参数组件介绍" class="headerlink" title="1. 用户参数组件介绍"></a>1. <strong>用户参数组件介绍</strong></h4><p>​    用户参数（User  Parameter）组件在前置处理器元件中添加，前置处理器的作用是在取样器发出请求之前，执行一些操作。即：如果将前置处理器附加到取样器元件中，则它将在该取样器元件运行之前执行。常用操作如：取样器参数设置、环境变量设置、脚本预处理等。之前我们介绍过，JMeter中常用的参数化方式有四种：1、CSV数据文件设置（CSV Data Set Config）：这种方式是通常所指的参数化。数据存储在文件中，该种参数化方式取值范围大，灵活性强，适用于大量测试数据时的使用。</p>
+<h5 id="1-1-用户参数（User-Parameter）"><a href="#1-1-用户参数（User-Parameter）" class="headerlink" title="1.1 用户参数（User Parameter）"></a>1.1 用户参数（User Parameter）</h5><p>​        适用于参数取值范围很小，需要少量测试数据时使用。</p>
+<h5 id="1-2-用户自定义变量（User-Defined-Variables）"><a href="#1-2-用户自定义变量（User-Defined-Variables）" class="headerlink" title="1.2 用户自定义变量（User Defined Variables）"></a>1.2 用户自定义变量（User Defined Variables）</h5><p>​        更多用于设置全局变量，常用于数据库地址，测试环境、开发环境地址等常量配置。</p>
+<h5 id="1-3-函数助手"><a href="#1-3-函数助手" class="headerlink" title="1.3  函数助手"></a>1.3  函数助手</h5><p>​        可使用函数生成随机数字和随机字符串实现参数化。本文以前置处理器中的<strong>用户参数</strong>组件为例，实现JMeter中的参数化。</p>
+<h4 id="2-用户参数界面介绍"><a href="#2-用户参数界面介绍" class="headerlink" title="2. 用户参数界面介绍"></a>2. <strong>用户参数界面介绍</strong></h4><p>​    <strong>用户参数</strong>组件添加方式：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
+<p>界面说明：</p>
+<ul>
+<li><strong>名称</strong>：用户参数组件的自定义名称，见名知意最好。</li>
+<li><strong>注释</strong>：即添加一些备注信息，对该用户参数组件的简短说明，以便后期回顾时查看。</li>
+<li><strong>每次迭代更新一次</strong>：不同的线程需要应用不同的用户数据，这时就需要勾选此选项。也就是根据线程组里设置的线程数，每个线程调用不同的用户数据，依次取值。但是我实际操作中，勾选不勾选都能够依次取值。（如果修改线程组界面中的循环次数，勾不勾选，都只用一个用户的值。）</li>
+<li><strong>添加变量</strong>：横着添加一行变量信息，此变量会应用于每个用户。</li>
+<li><strong>删除变量</strong>：删除所选中的一行数据。</li>
+<li><strong>添加用户</strong>：竖着添加一个用户信息，一个用户就是一组测试数据。</li>
+<li><strong>删除用户</strong>：删除所选中的一列数据。</li>
+<li><strong>向上和向下按钮</strong>：就是上下移动所选中变量的位置。</li>
+</ul>
+<h4 id="3-使用“用户参数”组件实现参数化"><a href="#3-使用“用户参数”组件实现参数化" class="headerlink" title="3. 使用“用户参数”组件实现参数化"></a>3. <strong>使用“用户参数”组件实现参数化</strong></h4><p>​    需求，实现批量新建和删除标签</p>
+<h5 id="3-1测试计划内包含的元件"><a href="#3-1测试计划内包含的元件" class="headerlink" title="3.1测试计划内包含的元件"></a>3.1<strong>测试计划内包含的元件</strong></h5><p><strong>添加元件操作步骤</strong>：</p>
+<p>​    1、创建测试计划</p>
+<p>​    2、创建线程组：选中“测试计划”右键—&gt;添加—&gt;线程（用户）—&gt;线程组。</p>
+<p>​    3、在线程组中，添加取样器”HTTP请求“组件：选中“线程组”右键—&gt;添加—&gt;取样器—&gt; HTTP请求。</p>
+<p>​    4、在取样器中，添加前置处理器“用户参数”组件：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
+<p>​    5、在线程组中，添加监听器察看结果树组件：查看结果，选中“线程组”右键—&gt;添加—&gt;监听器—&gt;察看结果树。</p>
+<p>最终测试计划中的元件如下：</p>
+<p><img src="../images/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA.jpg" alt="标签新建"></p>
+<h5 id="3-2-线程组元件内容"><a href="#3-2-线程组元件内容" class="headerlink" title="3.2 线程组元件内容"></a>3.2 <strong>线程组元件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E5%8C%96_%E7%BA%BF%E7%A8%8B%E6%95%B0.jpg" alt="用户参数化_线程数"></p>
+<h5 id="3-3-HTTP请求组件内容"><a href="#3-3-HTTP请求组件内容" class="headerlink" title="3.3 HTTP请求组件内容"></a>3.3 <strong>HTTP请求组件内容</strong></h5><p><img src="../images/%E6%A0%87%E7%AD%BEhttp.jpg" alt="标签http"></p>
+<h5 id="3-4-用户参数组件内容"><a href="#3-4-用户参数组件内容" class="headerlink" title="3.4 用户参数组件内容"></a>3.4 <strong>用户参数组件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
+<h4 id="4-脚本运行结果"><a href="#4-脚本运行结果" class="headerlink" title="4. 脚本运行结果"></a>4. <strong>脚本运行结果</strong></h4><p><img src="../images/%E7%BB%93%E6%9E%9C.jpg" alt="结果"></p>
+<h5 id="5-总结优先级说明："><a href="#5-总结优先级说明：" class="headerlink" title="5. 总结优先级说明："></a>5. <strong>总结</strong>优先级说明：</h5><ul>
+<li>线程组下的用户参数组件 优先级高于 测试计划 里的用户自定义变量。</li>
+<li>HTTP 请求下的用户参数组件 优先级高于 **线程组下 **的用户参数组件。</li>
+<li>若有重名参数，优先取优先级高的用户参数。</li>
+<li>若用户参数和用户自定义变量重名，则优先取用户参数组件中的值 。因为配置元件执行完再到前置处理器，所以前置处理器的值会覆盖配置元件中设置的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7yic4ju000368vd68if7ozg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-JMeter中实现跨线程组关联" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" class="article-date">
@@ -158,7 +236,7 @@ fstream.close();
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" data-id="cm7wpmlnt0007hkvd00k05lwa" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E5%AE%9E%E7%8E%B0%E8%B7%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%85%B3%E8%81%94/" data-id="cm7yic4jx000768vdgzxxc33e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li></ul>
@@ -237,7 +315,7 @@ print(l.images) # 加了@property后，可以用调用属性的形式来调用�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="cm7wpmlo0000uhkvd92vb9xan" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/17/python-property%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="cm7yic4k5000u68vdaj11b0fg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
@@ -336,7 +414,7 @@ lisi 222222
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7wpmlnx000ihkvdbb9g725e" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/pytest-parametrize-%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7yic4k2000i68vd2xgfbbn7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li></ul>
@@ -539,7 +617,7 @@ test0223.py::Test_ABC::test_a[0-3] PASSED                                [100%]t
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" data-id="cm7wpmlnz000qhkvdcrhwatnq" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%803/" data-id="cm7yic4k4000q68vd47msas5p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
@@ -746,7 +824,7 @@ test0223.py:13: AssertionError
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%802/" data-id="cm7wpmlny000khkvdgwbvdl8s" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/pytest%E5%9F%BA%E7%A1%802/" data-id="cm7yic4k4000o68vd8a9wanjc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
@@ -928,7 +1006,7 @@ class Test_ABC:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/22/pytest%E5%9F%BA%E7%A1%801/" data-id="cm7wpmlnz000ohkvdd2hl29pi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/22/pytest%E5%9F%BA%E7%A1%801/" data-id="cm7yic4k3000k68vdcy6u0ttl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
@@ -1230,7 +1308,7 @@ if __name__ == &#39;__main__&#39;:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" data-id="cm7wpmlnm0001hkvd7qi152b7" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" data-id="cm7yic4js000168vdad9h66vp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li></ul>
@@ -1471,7 +1549,7 @@ if __name__ == &#39;__main__&#39;:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" data-id="cm7wpmlo5001fhkvde36m6acx" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" data-id="cm7yic4ka001j68vd0e9bd3pi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li></ul>
@@ -1752,225 +1830,10 @@ if __name__ == &#39;__main__&#39;:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" data-id="cm7wpmlo6001jhkvd9ad348ji" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" data-id="cm7yic4k9001f68vdbumi8r5m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-selenium多窗口-警告框处理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" class="article-date">
-  <time datetime="2022-11-11T03:19:14.000Z" itemprop="datePublished">2022-11-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/selenium/">selenium</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/">selenium多窗口_警告框处理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code class="python">#多窗口切换
-# 在页面操作过程中，有时单击某个链接会弹出新的窗口，这时就需要切换到新打开的窗口中进行操作。WebDriver 提供的switch_to.window()方法可以实现在不同的窗口间切换。
-# current_window_handle：获得当前窗口句柄。window_handles：返回所有窗口的句柄到当前会话。switch_to.window()：切换到相应的窗口。
-def test_window():
-    driver = webdriver.Chrome()
-    driver.get(&quot;https://www.baidu.com&quot;)
-    #获取百度搜索窗口句柄
-    search_window = driver.current_window_handle
-    driver.implicitly_wait(10)
-    driver.find_element_by_id(&quot;s-top-loginbtn&quot;).click()
-    driver.implicitly_wait(10)
-    driver.find_element_by_id(&#39;TANGRAM__PSP_11__regLink&#39;).click()
-    time.sleep(5)
-    all_handles = driver.window_handles
-    #进入注册窗口：暂时不适用，百度需要验证码才可以
-    for handle in all_handles:
-        if handle != search_window:
-            driver.switch_to.window(handle)
-            print(driver.title)
-            driver.find_element_by_id(&#39;TANGRAM__PSP_11__userName&#39;).send_keys(&#39;1fafa720fa6&#39;)
-            driver.find_element_by_id(&#39;TANGRAM__PSP_11__password&#39;).send_keys(&#39;1fa77242226&#39;)
-            time.sleep(5)
-            #关闭当前窗口
-            driver.close()
-        # 回到搜索窗口
-        driver.switch_to.window(search_window)
-        print(driver.title)
-        driver.quit()
-
-#警告框处理
-# 在 WebDriver 中处理JavaScript 生成的alert、confirm 和prompt 十分简单，具体做法是，
-# 首先使用switch_to.alert()方法定位，然后使用text、accept、dismiss、send_keys 等进行操作。
-# text：返回alert、confirm、prompt 中的文字信息。
-# accept()：接受现有警告框。
-# dismiss()：解散现有警告框。
-# send_keys()：在警告框中输入文本（如果可以输入的话）
-#可以使用 switch_to.alert()方法为百度搜索设置弹窗
-def test_alert():
-    driver = webdriver.Chrome()
-    driver.get(&#39;https://www.baidu.com&#39;)
-    # 打开搜索设置
-    # link = driver.find_element_by_link_text(&#39;设置&#39;).click()
-    driver.find_element_by_id(&#39;s-usersetting-top&#39;).click()
-    driver.find_element_by_link_text(&quot;搜索设置&quot;).click()
-    sleep(2)
-    # 保存设置
-    driver.find_element_by_class_name(&quot;prefpanelgo&quot;).click()
-    # 获取警告框
-    alert = driver.switch_to.alert
-    # 获取警告框提示信息
-    alert_text = alert.text
-    print(alert_text)
-    time.sleep(3)
-    # 接取警告框
-    alert.accept()
-    driver.quit()
-
-# 下拉框处理
-# WebDriver 提供了Select 类来处理下拉框。
-# Select类：用于定位&lt;select&gt;标签。
-# select_by_value()：通过value值定位下拉选项。
-# select_by_visible_text()：通过text值定位下拉选项。
-# select_by_index()：根据下拉选项的索引进行选择。第一个选项为0，第二个选项为1。
-def test_select():
-    driver = webdriver.Chrome()
-    path = r&#39;D:\7z\py\html\select.html&#39;
-    driver.get(path)
-    # 通过显示等待的方法判断元素是否出现
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.NAME, &quot;anjing&quot;)))
-    select = driver.find_element_by_name(&#39;anjing&#39;)
-    # 根据下标进行选择，从0开始
-    Select(select).select_by_index(1)
-    time.sleep(2)
-    # 根据value的值选择
-    Select(select).select_by_value(&#39;daily&#39;)
-    time.sleep(2)
-    # 根基text选择
-    Select(select).select_by_visible_text(&#39;关注了吗？&#39;)
-    time.sleep(2)
-    # 判断选择是否预期
-    WebDriverWait(driver, 20).until(EC.element_located_to_be_selected((By.XPATH, &#39;//*[contains(text(),&quot;关注了&quot;)]&#39;)))
-    driver.quit()
-
-#上传文件
-def test_upfile():
-    file_path = os.path.abspath(r&#39;D:\7z\py\html&#39;)
-    driver = webdriver.Chrome()
-    upload_page = r&#39;D:\7z\py\html\select.html&#39;
-    driver.get(upload_page)
-    # 定位上传按钮，添加本地文件
-    time.sleep(3)
-    driver.find_element_by_id(&quot;inputfile&quot;).send_keys(file_path + &#39;/day02.html&#39;)
-
-#操作cookie
-# WebDriver 操作Cookie 的方法如下。
-# get_cookies()：获得所有Cookie。
-# get_cookie(name)：返回字典中key 为“name”的Cookie。
-# add_cookie(cookie_dict)：添加 Cookie。
-# delete_cookie(name,optionsString)：删除名为OpenString 的Cookie。
-# delete_all_cookies()：删除所有Cookie。
-def test_cookie():
-    driver = webdriver.Chrome()
-    driver.get(&quot;http://www.baidu.com&quot;)
-    # 获得所有Cookie 信息并打印
-    cookie = driver.get_cookies()
-    print(cookie)
-    # 添加Cookie 信息
-    driver.add_cookie(&#123;&#39;name&#39;: &#39;key-aaaaaaa&#39;, &#39;value&#39;: &#39;value-bbbbbb&#39;&#125;)
-    # 遍历指定的Cookies
-    for cookie in driver.get_cookies():
-        print(&quot;%s -&gt; %s&quot; % (cookie[&#39;name&#39;], cookie[&#39;value&#39;]))
-
-#调用javascript,实现浏览器滚动条的拖动效果
-def test_move():
-    from selenium import webdriver
-    driver = webdriver.Chrome()
-    driver.get(&quot;http://www.baidu.com&quot;)
-    #，通过set_window_size()方法将浏览器窗口设置为固定宽、高显示,目的是让窗口出现水平和垂直滚动条
-    driver.set_window_size(800, 600)
-    driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium&quot;)
-    driver.find_element_by_id(&quot;su&quot;).click()
-    # 通过JavaScript 设置浏览器窗口的滚动条位置
-    js = &quot;window.scrollTo(100,450);&quot;
-    driver.execute_script(js)
-    time.sleep(4)
-def test_picture():
-    from selenium import webdriver
-    driver = webdriver.Chrome()
-    driver.get(&#39;http://www.baidu.com&#39;)
-    # 截取当前窗口，指定截图图片的保存位置
-</code></pre>
-<h4 id="html代码"><a href="#html代码" class="headerlink" title="html代码"></a>html代码</h4><pre><code>&lt;html&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;utf-8&quot;&gt;
-&lt;title&gt;上传表单&lt;/title&gt;
-#上传文件
-&lt;link href=&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;
-rel=&quot;stylesheet&quot; &gt;
-&lt;script src=&quot;https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;div class=&quot;jumbotron&quot;&gt;
-&lt;form class=&quot;form-inline&quot; role=&quot;form&quot;&gt;
-&lt;div class=&quot;form-group&quot;&gt;
-&lt;label class=&quot;sr-only&quot; for=&quot;name&quot;&gt;名称&lt;/label&gt;
-&lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;name&quot;
-placeholder=&quot;请输入名称&quot;&gt;
-&lt;/div&gt;
-&lt;div class=&quot;form-group&quot;&gt;
-&lt;label class=&quot;sr-only&quot; for=&quot;inputfile&quot;&gt;文件输入&lt;/label&gt;
-&lt;input type=&quot;file&quot; id=&quot;inputfile&quot;&gt;
-&lt;/div&gt;
-&lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;提交&lt;/button&gt;
-&lt;/form&gt;
-&lt;/div&gt;
-
-# select 选择
-&lt;form&gt;
-&lt;center&gt;
-&lt;select name=&quot;anjing&quot;&gt;
-&lt;option value=&quot;boke&quot;&gt;请关注今日天气&lt;/option&gt;
-&lt;option value=&quot;study&quot;&gt;今天大雨&lt;/option&gt;
-&lt;option value=&quot;daily&quot;&gt;写写什么&lt;/option&gt;
-&lt;option value=&quot;like&quot;&gt;喜欢的食物&lt;/option&gt;
-&lt;option value=&quot;attention&quot;&gt;关注点在哪里&lt;/option&gt;
-&lt;/center&gt;
-&lt;/select&gt;
-&lt;/form&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" data-id="cm7wpmlo30017hkvdfeffclhb" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li></ul>
 
     </footer>
   </div>
@@ -2004,7 +1867,7 @@ placeholder=&quot;请输入名称&quot;&gt;
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
     </div>
   </div>
 
@@ -2014,7 +1877,7 @@ placeholder=&quot;请输入名称&quot;&gt;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
+      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
     </div>
   </div>
 
@@ -2036,6 +1899,10 @@ placeholder=&quot;请输入名称&quot;&gt;
       <ul>
         
           <li>
+            <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/">mysql数据库插入数据</a>
           </li>
         
@@ -2049,10 +1916,6 @@ placeholder=&quot;请输入名称&quot;&gt;
         
           <li>
             <a href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/">自定义字符串的格式化</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
           </li>
         
       </ul>

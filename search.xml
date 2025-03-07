@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>服务器同步时间配置</title>
+      <link href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/"/>
+      <url>/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<h3 id="一、服务端配置（172-172-31-32）"><a href="#一、服务端配置（172-172-31-32）" class="headerlink" title="一、服务端配置（172.172.31.32）"></a>一、服务端配置（172.172.31.32）</h3><h4 id="1-安装Chrony"><a href="#1-安装Chrony" class="headerlink" title="1. 安装Chrony"></a>1. 安装Chrony</h4><pre><code class="bash">yum install -y chrony</code></pre><h4 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h4><p>编辑 <code>/etc/chrony.conf</code>：</p><pre><code class="bash">vi /etc/chrony.conf</code></pre><p><strong>删除或注释原有<code>server</code>行</strong>，添加以下内容：</p><pre><code class="conf"># 指定上游时间源（以阿里云NTP为例）server ntp.aliyun.com iburst# 允许客户端网段访问（覆盖33和34）allow 172.172.31.0/24# 其他优化参数driftfile /var/lib/chrony/driftmakestep 1.0 3rtcsync</code></pre><h4 id="3-启动服务并设置开机自启"><a href="#3-启动服务并设置开机自启" class="headerlink" title="3. 启动服务并设置开机自启"></a>3. 启动服务并设置开机自启</h4><pre><code class="bash">systemctl enable --now chronyd</code></pre><h4 id="4-防火墙放行"><a href="#4-防火墙放行" class="headerlink" title="4. 防火墙放行"></a>4. 防火墙放行</h4><pre><code class="bash">firewall-cmd --add-service=chrony --permanentfirewall-cmd --reload</code></pre><h4 id="5-验证服务端状态"><a href="#5-验证服务端状态" class="headerlink" title="5. 验证服务端状态"></a>5. 验证服务端状态</h4><pre><code class="bash"># 检查同步源状态（出现`^*`表示已同步）chronyc sources -v# 查看时间偏差和频率chronyc tracking</code></pre><hr><h3 id="二、客户端配置（172-172-31-33-和-172-172-31-34）"><a href="#二、客户端配置（172-172-31-33-和-172-172-31-34）" class="headerlink" title="二、客户端配置（172.172.31.33 和 172.172.31.34）"></a>二、客户端配置（172.172.31.33 和 172.172.31.34）</h3><h4 id="1-安装Chrony-1"><a href="#1-安装Chrony-1" class="headerlink" title="1. 安装Chrony"></a>1. 安装Chrony</h4><pre><code class="bash">yum install -y chrony</code></pre><h4 id="2-修改配置文件-1"><a href="#2-修改配置文件-1" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h4><p>编辑 <code>/etc/chrony.conf</code>：</p><pre><code class="bash">vi /etc/chrony.conf</code></pre><p><strong>删除或注释原有<code>server</code>行</strong>，添加以下内容：</p><pre><code class="conf"># 指向NTP服务器IP（172.172.31.32）server 172.172.31.32 iburst# 其他优化参数（与服务端一致）driftfile /var/lib/chrony/driftmakestep 1.0 3rtcsync</code></pre><h4 id="3-启动服务并验证"><a href="#3-启动服务并验证" class="headerlink" title="3. 启动服务并验证"></a>3. 启动服务并验证</h4><pre><code class="bash">systemctl restart chronyd# 检查是否同步到服务端（应显示`^* 172.172.31.32`）chronyc sources -v# 查看时间偏差chronyc tracking</code></pre><hr><h3 id="三、统一时区设置（所有机器）"><a href="#三、统一时区设置（所有机器）" class="headerlink" title="三、统一时区设置（所有机器）"></a>三、统一时区设置（所有机器）</h3><pre><code class="bash"># 设置时区为上海（根据需求调整）timedatectl set-timezone Asia/Shanghai# 验证时间和时区timedatectl status# 将系统时间写入硬件时钟hwclock -w</code></pre><hr><h3 id="四、最终验证"><a href="#四、最终验证" class="headerlink" title="四、最终验证"></a>四、最终验证</h3><h4 id="1-检查所有机器时间一致性"><a href="#1-检查所有机器时间一致性" class="headerlink" title="1. 检查所有机器时间一致性"></a>1. 检查所有机器时间一致性</h4><pre><code class="bash"># 在所有机器上执行date +&quot;%Y-%m-%d %H:%M:%S&quot;</code></pre><p>输出时间差异应小于 <strong>1秒</strong>。</p><h4 id="2-查看客户端同步状态"><a href="#2-查看客户端同步状态" class="headerlink" title="2. 查看客户端同步状态"></a>2. 查看客户端同步状态</h4><p>在客户端执行：</p><pre><code class="bash">chronyc tracking</code></pre><p>输出中 <code>System time</code> 应为 <code>0.000000 seconds</code>（表示已同步）。</p><hr><h3 id="五、故障排查"><a href="#五、故障排查" class="headerlink" title="五、故障排查"></a>五、故障排查</h3><h4 id="1-客户端无法同步"><a href="#1-客户端无法同步" class="headerlink" title="1. 客户端无法同步"></a>1. 客户端无法同步</h4><ul><li><p>检查网络连通性</p><pre><code class="bash">ping 172.172.31.32</code></pre></li><li><p>查看服务端是否允许访问</p><pre><code class="bash"># 在服务端执行chronyc clients</code></pre></li></ul><p>应显示客户端IP（33和34）。</p><h4 id="2-时间偏差过大"><a href="#2-时间偏差过大" class="headerlink" title="2. 时间偏差过大"></a>2. 时间偏差过大</h4><ul><li><p>强制立即同步</p><pre><code class="bash">chronyc makestep</code></pre></li></ul><h4 id="3-SELinux拦截"><a href="#3-SELinux拦截" class="headerlink" title="3. SELinux拦截"></a>3. SELinux拦截</h4><ul><li><p>临时允许NTP通信</p><pre><code class="bash">setsebool -P chronyd_can_network on</code></pre></li></ul><hr><h3 id="六、方案优势"><a href="#六、方案优势" class="headerlink" title="六、方案优势"></a>六、方案优势</h3><ol><li><strong>平滑同步</strong>：Chrony通过微调系统时钟避免时间跳变，适合生产环境。</li><li><strong>容错性强</strong>：支持间歇性网络中断后自动恢复同步。</li><li><strong>资源占用低</strong>：相比传统NTPd，内存和CPU消耗更低。</li></ol><p>若需进一步优化，可在服务端配置多个上游源（如 <code>server ntp1.aliyun.com iburst</code> 和 <code>server ntp2.aliyun.com iburst</code>）提升可靠性。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Chrony </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mysql数据库插入数据</title>
       <link href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/"/>
       <url>/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/</url>

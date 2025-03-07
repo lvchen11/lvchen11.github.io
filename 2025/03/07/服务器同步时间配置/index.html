@@ -5,19 +5,19 @@
   
 
   
-  <title>mysql8用户权限 | 月明星稀</title>
+  <title>服务器同步时间配置 | 月明星稀</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权GRANT ALL PRIVILEGES ON . TO ‘test1‘@’ip’;create user ‘test1‘@’172.172.30.53’ identified by ‘Aa123456@@’;GRANT ALL PRIVILEGES ON . TO ‘test2‘@’主机名’; （host">
+  <meta name="description" content="一、服务端配置（172.172.31.32）1. 安装Chronyyum install -y chrony  2. 修改配置文件编辑 &#x2F;etc&#x2F;chrony.conf： vi &#x2F;etc&#x2F;chrony.conf  删除或注释原有server行，添加以下内容： # 指定上游时间源（以阿里云NTP为例） server ntp.aliyun.com iburst  # 允许客户端网段访问（覆盖33和34">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql8用户权限">
-<meta property="og:url" content="http://example.com/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/index.html">
+<meta property="og:title" content="服务器同步时间配置">
+<meta property="og:url" content="http://example.com/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="月明星稀">
-<meta property="og:description" content="mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权GRANT ALL PRIVILEGES ON . TO ‘test1‘@’ip’;create user ‘test1‘@’172.172.30.53’ identified by ‘Aa123456@@’;GRANT ALL PRIVILEGES ON . TO ‘test2‘@’主机名’; （host">
+<meta property="og:description" content="一、服务端配置（172.172.31.32）1. 安装Chronyyum install -y chrony  2. 修改配置文件编辑 &#x2F;etc&#x2F;chrony.conf： vi &#x2F;etc&#x2F;chrony.conf  删除或注释原有server行，添加以下内容： # 指定上游时间源（以阿里云NTP为例） server ntp.aliyun.com iburst  # 允许客户端网段访问（覆盖33和34">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-07T03:11:19.000Z">
-<meta property="article:modified_time" content="2022-11-07T06:10:56.027Z">
+<meta property="article:published_time" content="2025-03-07T08:15:24.000Z">
+<meta property="article:modified_time" content="2025-03-07T08:21:09.398Z">
 <meta property="article:author" content="当时只道是寻常">
-<meta property="article:tag" content="mysql权限">
+<meta property="article:tag" content="Chrony">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
@@ -65,14 +65,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql8用户权限" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-服务器同步时间配置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" class="article-date">
-  <time datetime="2022-11-07T03:11:19.000Z" itemprop="datePublished">2022-11-07</time>
+    <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2025-03-07T08:15:24.000Z" itemprop="datePublished">2025-03-07</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
 
   </div>
@@ -83,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql8用户权限
+      服务器同步时间配置
     </h1>
   
 
@@ -91,20 +91,116 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="mysql-的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权"><a href="#mysql-的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权" class="headerlink" title="mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权"></a>mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权</h4><p>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test1‘@’ip’;<br>create user ‘test1‘@’172.172.30.53’ identified by ‘Aa123456@@’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test2‘@’主机名’; （host要是mysql30-53）[update user set host=’%’ where user=’test2’;]<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test3‘@’localhost’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test4‘@’127.0.0.1’;<br>查看用户权限：show grants for myuser;     (show grants for root@’localhost’)<br>查看所有用户：select user,host from mysql.user;<br>查看单个用户的所有情况：select * from mysql.user where user=’myuser’\G</p>
-<h4 id="授予用户权限和收回权限"><a href="#授予用户权限和收回权限" class="headerlink" title="授予用户权限和收回权限"></a>授予用户权限和收回权限</h4><p>创建用户：<br>create user ‘testss‘@’172.172.30.%’ identified by ‘Aa123456##’;<br>更新用户访问ip:<br>update user set host=’172.172.30.%’, where user=’testcc’;<br>授予用户远程访问的权限：<br>GRANT create,select, INSERT,UPDATE,DELETE,DROP,CREATE,RELOAD, PROCESS, REPLICATION CLIENT,BACKUP_ADMIN,REPLICATION_APPLIER,SESSION_VARIABLES_ADMIN ON <em>.</em> TO ‘testss‘@’172.172.30.%’  WITH GRANT OPTION;<br>grant insert ON <em>.</em> TO ‘testcc‘@’172.172.30.%’  WITH GRANT OPTION;<br>回收权限：revoke select on <em>.</em> from ‘data‘@’172.172.30.%’;</p>
-<h4 id="查看mysql日志命令"><a href="#查看mysql日志命令" class="headerlink" title="查看mysql日志命令"></a>查看mysql日志命令</h4><p>获取binlog文件列表:<br>mysql&gt; show binary logs;<br>生成一个新的binlog日志：<br>mysql&gt; flush logs;<br>查看当前正在写入的binlog文件<br>mysql&gt; show master status\G<br>查看指定binlog文件的内容<br>mysql&gt; show binlog events in ‘mysql-bin.000002’<br>查看mysql的binlog日志是否开启：<br>show variables like ‘log_bin’;</p>
-<h4 id="Mysql创建自动插入数据的存储过程"><a href="#Mysql创建自动插入数据的存储过程" class="headerlink" title="Mysql创建自动插入数据的存储过程"></a>Mysql创建自动插入数据的存储过程</h4><p>create table test(datetime datetime);<br>CREATE PROCEDURE user()<br>insert into test values(now());<br>CREATE EVENT IF NOT EXISTS eventJob<br>ON SCHEDULE EVERY 1 SECOND<br>ON COMPLETION PRESERVE<br>DO CALL user();<br>alter event eventJob on completion preserve enable;<br>SET GLOBAL event_scheduler = 1;</p>
-<p>关闭定时器：<br>alter event eventJob  on completion preserve disable;<br>SET GLOBAL event_scheduler = 0；</p>
-<h4 id="mysql插入当前时间"><a href="#mysql插入当前时间" class="headerlink" title="mysql插入当前时间"></a>mysql插入当前时间</h4><p>create table test(name varchar(255));<br>insert into test values (now());</p>
+        <h3 id="一、服务端配置（172-172-31-32）"><a href="#一、服务端配置（172-172-31-32）" class="headerlink" title="一、服务端配置（172.172.31.32）"></a>一、服务端配置（172.172.31.32）</h3><h4 id="1-安装Chrony"><a href="#1-安装Chrony" class="headerlink" title="1. 安装Chrony"></a>1. 安装Chrony</h4><pre><code class="bash">yum install -y chrony
+</code></pre>
+<h4 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h4><p>编辑 <code>/etc/chrony.conf</code>：</p>
+<pre><code class="bash">vi /etc/chrony.conf
+</code></pre>
+<p><strong>删除或注释原有<code>server</code>行</strong>，添加以下内容：</p>
+<pre><code class="conf"># 指定上游时间源（以阿里云NTP为例）
+server ntp.aliyun.com iburst
+
+# 允许客户端网段访问（覆盖33和34）
+allow 172.172.31.0/24
+
+# 其他优化参数
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+</code></pre>
+<h4 id="3-启动服务并设置开机自启"><a href="#3-启动服务并设置开机自启" class="headerlink" title="3. 启动服务并设置开机自启"></a>3. 启动服务并设置开机自启</h4><pre><code class="bash">systemctl enable --now chronyd
+</code></pre>
+<h4 id="4-防火墙放行"><a href="#4-防火墙放行" class="headerlink" title="4. 防火墙放行"></a>4. 防火墙放行</h4><pre><code class="bash">firewall-cmd --add-service=chrony --permanent
+firewall-cmd --reload
+</code></pre>
+<h4 id="5-验证服务端状态"><a href="#5-验证服务端状态" class="headerlink" title="5. 验证服务端状态"></a>5. 验证服务端状态</h4><pre><code class="bash"># 检查同步源状态（出现`^*`表示已同步）
+chronyc sources -v
+
+# 查看时间偏差和频率
+chronyc tracking
+</code></pre>
+<hr>
+<h3 id="二、客户端配置（172-172-31-33-和-172-172-31-34）"><a href="#二、客户端配置（172-172-31-33-和-172-172-31-34）" class="headerlink" title="二、客户端配置（172.172.31.33 和 172.172.31.34）"></a>二、客户端配置（172.172.31.33 和 172.172.31.34）</h3><h4 id="1-安装Chrony-1"><a href="#1-安装Chrony-1" class="headerlink" title="1. 安装Chrony"></a>1. 安装Chrony</h4><pre><code class="bash">yum install -y chrony
+</code></pre>
+<h4 id="2-修改配置文件-1"><a href="#2-修改配置文件-1" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h4><p>编辑 <code>/etc/chrony.conf</code>：</p>
+<pre><code class="bash">vi /etc/chrony.conf
+</code></pre>
+<p><strong>删除或注释原有<code>server</code>行</strong>，添加以下内容：</p>
+<pre><code class="conf"># 指向NTP服务器IP（172.172.31.32）
+server 172.172.31.32 iburst
+
+# 其他优化参数（与服务端一致）
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+</code></pre>
+<h4 id="3-启动服务并验证"><a href="#3-启动服务并验证" class="headerlink" title="3. 启动服务并验证"></a>3. 启动服务并验证</h4><pre><code class="bash">systemctl restart chronyd
+
+# 检查是否同步到服务端（应显示`^* 172.172.31.32`）
+chronyc sources -v
+
+# 查看时间偏差
+chronyc tracking
+</code></pre>
+<hr>
+<h3 id="三、统一时区设置（所有机器）"><a href="#三、统一时区设置（所有机器）" class="headerlink" title="三、统一时区设置（所有机器）"></a>三、统一时区设置（所有机器）</h3><pre><code class="bash"># 设置时区为上海（根据需求调整）
+timedatectl set-timezone Asia/Shanghai
+
+# 验证时间和时区
+timedatectl status
+
+# 将系统时间写入硬件时钟
+hwclock -w
+</code></pre>
+<hr>
+<h3 id="四、最终验证"><a href="#四、最终验证" class="headerlink" title="四、最终验证"></a>四、最终验证</h3><h4 id="1-检查所有机器时间一致性"><a href="#1-检查所有机器时间一致性" class="headerlink" title="1. 检查所有机器时间一致性"></a>1. 检查所有机器时间一致性</h4><pre><code class="bash"># 在所有机器上执行
+date +&quot;%Y-%m-%d %H:%M:%S&quot;
+</code></pre>
+<p>输出时间差异应小于 <strong>1秒</strong>。</p>
+<h4 id="2-查看客户端同步状态"><a href="#2-查看客户端同步状态" class="headerlink" title="2. 查看客户端同步状态"></a>2. 查看客户端同步状态</h4><p>在客户端执行：</p>
+<pre><code class="bash">chronyc tracking
+</code></pre>
+<p>输出中 <code>System time</code> 应为 <code>0.000000 seconds</code>（表示已同步）。</p>
+<hr>
+<h3 id="五、故障排查"><a href="#五、故障排查" class="headerlink" title="五、故障排查"></a>五、故障排查</h3><h4 id="1-客户端无法同步"><a href="#1-客户端无法同步" class="headerlink" title="1. 客户端无法同步"></a>1. 客户端无法同步</h4><ul>
+<li><p>检查网络连通性</p>
+<pre><code class="bash">ping 172.172.31.32
+</code></pre>
+</li>
+<li><p>查看服务端是否允许访问</p>
+<pre><code class="bash"># 在服务端执行
+chronyc clients
+</code></pre>
+</li>
+</ul>
+<p>应显示客户端IP（33和34）。</p>
+<h4 id="2-时间偏差过大"><a href="#2-时间偏差过大" class="headerlink" title="2. 时间偏差过大"></a>2. 时间偏差过大</h4><ul>
+<li><p>强制立即同步</p>
+<pre><code class="bash">chronyc makestep
+</code></pre>
+</li>
+</ul>
+<h4 id="3-SELinux拦截"><a href="#3-SELinux拦截" class="headerlink" title="3. SELinux拦截"></a>3. SELinux拦截</h4><ul>
+<li><p>临时允许NTP通信</p>
+<pre><code class="bash">setsebool -P chronyd_can_network on
+</code></pre>
+</li>
+</ul>
+<hr>
+<h3 id="六、方案优势"><a href="#六、方案优势" class="headerlink" title="六、方案优势"></a>六、方案优势</h3><ol>
+<li><strong>平滑同步</strong>：Chrony通过微调系统时钟避免时间跳变，适合生产环境。</li>
+<li><strong>容错性强</strong>：支持间歇性网络中断后自动恢复同步。</li>
+<li><strong>资源占用低</strong>：相比传统NTPd，内存和CPU消耗更低。</li>
+</ol>
+<p>若需进一步优化，可在服务端配置多个上游源（如 <code>server ntp1.aliyun.com iburst</code> 和 <code>server ntp2.aliyun.com iburst</code>）提升可靠性。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" data-id="cm7yic4jz000968vd5bxq4bnj" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" data-id="cm7yic4kd001z68vdc5xogm4m" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li></ul>
 
     </footer>
   </div>
@@ -112,19 +208,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          selenium定位方式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">python读写Excel文件-2</div>
+      <div class="article-nav-title">mysql数据库插入数据</div>
     </a>
   
 </nav>

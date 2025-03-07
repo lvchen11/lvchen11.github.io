@@ -64,6 +64,150 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-服务器同步时间配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2025-03-07T08:15:24.000Z" itemprop="datePublished">2025-03-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、服务端配置（172-172-31-32）"><a href="#一、服务端配置（172-172-31-32）" class="headerlink" title="一、服务端配置（172.172.31.32）"></a>一、服务端配置（172.172.31.32）</h3><h4 id="1-安装Chrony"><a href="#1-安装Chrony" class="headerlink" title="1. 安装Chrony"></a>1. 安装Chrony</h4><pre><code class="bash">yum install -y chrony
+</code></pre>
+<h4 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h4><p>编辑 <code>/etc/chrony.conf</code>：</p>
+<pre><code class="bash">vi /etc/chrony.conf
+</code></pre>
+<p><strong>删除或注释原有<code>server</code>行</strong>，添加以下内容：</p>
+<pre><code class="conf"># 指定上游时间源（以阿里云NTP为例）
+server ntp.aliyun.com iburst
+
+# 允许客户端网段访问（覆盖33和34）
+allow 172.172.31.0/24
+
+# 其他优化参数
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+</code></pre>
+<h4 id="3-启动服务并设置开机自启"><a href="#3-启动服务并设置开机自启" class="headerlink" title="3. 启动服务并设置开机自启"></a>3. 启动服务并设置开机自启</h4><pre><code class="bash">systemctl enable --now chronyd
+</code></pre>
+<h4 id="4-防火墙放行"><a href="#4-防火墙放行" class="headerlink" title="4. 防火墙放行"></a>4. 防火墙放行</h4><pre><code class="bash">firewall-cmd --add-service=chrony --permanent
+firewall-cmd --reload
+</code></pre>
+<h4 id="5-验证服务端状态"><a href="#5-验证服务端状态" class="headerlink" title="5. 验证服务端状态"></a>5. 验证服务端状态</h4><pre><code class="bash"># 检查同步源状态（出现`^*`表示已同步）
+chronyc sources -v
+
+# 查看时间偏差和频率
+chronyc tracking
+</code></pre>
+<hr>
+<h3 id="二、客户端配置（172-172-31-33-和-172-172-31-34）"><a href="#二、客户端配置（172-172-31-33-和-172-172-31-34）" class="headerlink" title="二、客户端配置（172.172.31.33 和 172.172.31.34）"></a>二、客户端配置（172.172.31.33 和 172.172.31.34）</h3><h4 id="1-安装Chrony-1"><a href="#1-安装Chrony-1" class="headerlink" title="1. 安装Chrony"></a>1. 安装Chrony</h4><pre><code class="bash">yum install -y chrony
+</code></pre>
+<h4 id="2-修改配置文件-1"><a href="#2-修改配置文件-1" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h4><p>编辑 <code>/etc/chrony.conf</code>：</p>
+<pre><code class="bash">vi /etc/chrony.conf
+</code></pre>
+<p><strong>删除或注释原有<code>server</code>行</strong>，添加以下内容：</p>
+<pre><code class="conf"># 指向NTP服务器IP（172.172.31.32）
+server 172.172.31.32 iburst
+
+# 其他优化参数（与服务端一致）
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+</code></pre>
+<h4 id="3-启动服务并验证"><a href="#3-启动服务并验证" class="headerlink" title="3. 启动服务并验证"></a>3. 启动服务并验证</h4><pre><code class="bash">systemctl restart chronyd
+
+# 检查是否同步到服务端（应显示`^* 172.172.31.32`）
+chronyc sources -v
+
+# 查看时间偏差
+chronyc tracking
+</code></pre>
+<hr>
+<h3 id="三、统一时区设置（所有机器）"><a href="#三、统一时区设置（所有机器）" class="headerlink" title="三、统一时区设置（所有机器）"></a>三、统一时区设置（所有机器）</h3><pre><code class="bash"># 设置时区为上海（根据需求调整）
+timedatectl set-timezone Asia/Shanghai
+
+# 验证时间和时区
+timedatectl status
+
+# 将系统时间写入硬件时钟
+hwclock -w
+</code></pre>
+<hr>
+<h3 id="四、最终验证"><a href="#四、最终验证" class="headerlink" title="四、最终验证"></a>四、最终验证</h3><h4 id="1-检查所有机器时间一致性"><a href="#1-检查所有机器时间一致性" class="headerlink" title="1. 检查所有机器时间一致性"></a>1. 检查所有机器时间一致性</h4><pre><code class="bash"># 在所有机器上执行
+date +&quot;%Y-%m-%d %H:%M:%S&quot;
+</code></pre>
+<p>输出时间差异应小于 <strong>1秒</strong>。</p>
+<h4 id="2-查看客户端同步状态"><a href="#2-查看客户端同步状态" class="headerlink" title="2. 查看客户端同步状态"></a>2. 查看客户端同步状态</h4><p>在客户端执行：</p>
+<pre><code class="bash">chronyc tracking
+</code></pre>
+<p>输出中 <code>System time</code> 应为 <code>0.000000 seconds</code>（表示已同步）。</p>
+<hr>
+<h3 id="五、故障排查"><a href="#五、故障排查" class="headerlink" title="五、故障排查"></a>五、故障排查</h3><h4 id="1-客户端无法同步"><a href="#1-客户端无法同步" class="headerlink" title="1. 客户端无法同步"></a>1. 客户端无法同步</h4><ul>
+<li><p>检查网络连通性</p>
+<pre><code class="bash">ping 172.172.31.32
+</code></pre>
+</li>
+<li><p>查看服务端是否允许访问</p>
+<pre><code class="bash"># 在服务端执行
+chronyc clients
+</code></pre>
+</li>
+</ul>
+<p>应显示客户端IP（33和34）。</p>
+<h4 id="2-时间偏差过大"><a href="#2-时间偏差过大" class="headerlink" title="2. 时间偏差过大"></a>2. 时间偏差过大</h4><ul>
+<li><p>强制立即同步</p>
+<pre><code class="bash">chronyc makestep
+</code></pre>
+</li>
+</ul>
+<h4 id="3-SELinux拦截"><a href="#3-SELinux拦截" class="headerlink" title="3. SELinux拦截"></a>3. SELinux拦截</h4><ul>
+<li><p>临时允许NTP通信</p>
+<pre><code class="bash">setsebool -P chronyd_can_network on
+</code></pre>
+</li>
+</ul>
+<hr>
+<h3 id="六、方案优势"><a href="#六、方案优势" class="headerlink" title="六、方案优势"></a>六、方案优势</h3><ol>
+<li><strong>平滑同步</strong>：Chrony通过微调系统时钟避免时间跳变，适合生产环境。</li>
+<li><strong>容错性强</strong>：支持间歇性网络中断后自动恢复同步。</li>
+<li><strong>资源占用低</strong>：相比传统NTPd，内存和CPU消耗更低。</li>
+</ol>
+<p>若需进一步优化，可在服务端配置多个上游源（如 <code>server ntp1.aliyun.com iburst</code> 和 <code>server ntp2.aliyun.com iburst</code>）提升可靠性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" data-id="cm7yic4kd001z68vdc5xogm4m" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysql数据库插入数据" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" class="article-date">
@@ -213,7 +357,7 @@ IGNORE 1 LINES               -- 跳过CSV文件的列头行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" data-id="cm7wpmlnv000dhkvd5bkjhhfs" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" data-id="cm7yic4k0000d68vd99rc3e1e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -434,7 +578,7 @@ obj.show()
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" data-id="cm7wpmlo6001lhkvd6jo5cvna" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" data-id="cm7yic4kb001l68vdepyza7ei" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -520,7 +664,7 @@ with FileOpener(&quot;test.txt&quot;, &quot;w&quot;) as f:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" data-id="cm7wpmlo7001ohkvd0l00clhk" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" data-id="cm7yic4kb001o68vd76p025q6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -612,7 +756,7 @@ print(format(v, &#39;p&#39;))  # 输出: Vector(r=5.00, θ=53.13°)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm7wpmlo9001zhkvd7qws2smf" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm7yic4ke002268vd4nbk0u0g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -740,7 +884,7 @@ NAME：打开文件的确切名称
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7wpmlnt0008hkvd3rorac78" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7yic4jy000868vd0nszfsfc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li></ul>
@@ -806,7 +950,7 @@ NAME：打开文件的确切名称
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7wpmlog003hhkvdblmf20ih" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7yic4ke002568vd3newbg0b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -980,7 +1124,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7wpmlo8001shkvdfwo907y9" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7yic4kc001v68vdhgj46v6q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -1061,7 +1205,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7wpmlnw000ehkvddrgm5meb" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7yic4k0000e68vdd2avemze" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li></ul>
@@ -1191,88 +1335,10 @@ print(p1_clone.x == p1.x)  # 应输出：True
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7wpmlo8001vhkvd43zzbc07" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7yic4kc001s68vd9igie78s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JMeter中使用“用户参数”实现参数化" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" class="article-date">
-  <time datetime="2023-06-15T09:22:07.000Z" itemprop="datePublished">2023-06-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/jmeter/">jmeter</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/">JMeter中使用“用户参数”实现参数化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-用户参数组件介绍"><a href="#1-用户参数组件介绍" class="headerlink" title="1. 用户参数组件介绍"></a>1. <strong>用户参数组件介绍</strong></h4><p>​    用户参数（User  Parameter）组件在前置处理器元件中添加，前置处理器的作用是在取样器发出请求之前，执行一些操作。即：如果将前置处理器附加到取样器元件中，则它将在该取样器元件运行之前执行。常用操作如：取样器参数设置、环境变量设置、脚本预处理等。之前我们介绍过，JMeter中常用的参数化方式有四种：1、CSV数据文件设置（CSV Data Set Config）：这种方式是通常所指的参数化。数据存储在文件中，该种参数化方式取值范围大，灵活性强，适用于大量测试数据时的使用。</p>
-<h5 id="1-1-用户参数（User-Parameter）"><a href="#1-1-用户参数（User-Parameter）" class="headerlink" title="1.1 用户参数（User Parameter）"></a>1.1 用户参数（User Parameter）</h5><p>​        适用于参数取值范围很小，需要少量测试数据时使用。</p>
-<h5 id="1-2-用户自定义变量（User-Defined-Variables）"><a href="#1-2-用户自定义变量（User-Defined-Variables）" class="headerlink" title="1.2 用户自定义变量（User Defined Variables）"></a>1.2 用户自定义变量（User Defined Variables）</h5><p>​        更多用于设置全局变量，常用于数据库地址，测试环境、开发环境地址等常量配置。</p>
-<h5 id="1-3-函数助手"><a href="#1-3-函数助手" class="headerlink" title="1.3  函数助手"></a>1.3  函数助手</h5><p>​        可使用函数生成随机数字和随机字符串实现参数化。本文以前置处理器中的<strong>用户参数</strong>组件为例，实现JMeter中的参数化。</p>
-<h4 id="2-用户参数界面介绍"><a href="#2-用户参数界面介绍" class="headerlink" title="2. 用户参数界面介绍"></a>2. <strong>用户参数界面介绍</strong></h4><p>​    <strong>用户参数</strong>组件添加方式：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
-<p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
-<p>界面说明：</p>
-<ul>
-<li><strong>名称</strong>：用户参数组件的自定义名称，见名知意最好。</li>
-<li><strong>注释</strong>：即添加一些备注信息，对该用户参数组件的简短说明，以便后期回顾时查看。</li>
-<li><strong>每次迭代更新一次</strong>：不同的线程需要应用不同的用户数据，这时就需要勾选此选项。也就是根据线程组里设置的线程数，每个线程调用不同的用户数据，依次取值。但是我实际操作中，勾选不勾选都能够依次取值。（如果修改线程组界面中的循环次数，勾不勾选，都只用一个用户的值。）</li>
-<li><strong>添加变量</strong>：横着添加一行变量信息，此变量会应用于每个用户。</li>
-<li><strong>删除变量</strong>：删除所选中的一行数据。</li>
-<li><strong>添加用户</strong>：竖着添加一个用户信息，一个用户就是一组测试数据。</li>
-<li><strong>删除用户</strong>：删除所选中的一列数据。</li>
-<li><strong>向上和向下按钮</strong>：就是上下移动所选中变量的位置。</li>
-</ul>
-<h4 id="3-使用“用户参数”组件实现参数化"><a href="#3-使用“用户参数”组件实现参数化" class="headerlink" title="3. 使用“用户参数”组件实现参数化"></a>3. <strong>使用“用户参数”组件实现参数化</strong></h4><p>​    需求，实现批量新建和删除标签</p>
-<h5 id="3-1测试计划内包含的元件"><a href="#3-1测试计划内包含的元件" class="headerlink" title="3.1测试计划内包含的元件"></a>3.1<strong>测试计划内包含的元件</strong></h5><p><strong>添加元件操作步骤</strong>：</p>
-<p>​    1、创建测试计划</p>
-<p>​    2、创建线程组：选中“测试计划”右键—&gt;添加—&gt;线程（用户）—&gt;线程组。</p>
-<p>​    3、在线程组中，添加取样器”HTTP请求“组件：选中“线程组”右键—&gt;添加—&gt;取样器—&gt; HTTP请求。</p>
-<p>​    4、在取样器中，添加前置处理器“用户参数”组件：选中“取样器”右键—&gt;添加—&gt;前置处理器—&gt;用户参数。</p>
-<p>​    5、在线程组中，添加监听器察看结果树组件：查看结果，选中“线程组”右键—&gt;添加—&gt;监听器—&gt;察看结果树。</p>
-<p>最终测试计划中的元件如下：</p>
-<p><img src="../images/%E6%A0%87%E7%AD%BE%E6%96%B0%E5%BB%BA.jpg" alt="标签新建"></p>
-<h5 id="3-2-线程组元件内容"><a href="#3-2-线程组元件内容" class="headerlink" title="3.2 线程组元件内容"></a>3.2 <strong>线程组元件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E5%8C%96_%E7%BA%BF%E7%A8%8B%E6%95%B0.jpg" alt="用户参数化_线程数"></p>
-<h5 id="3-3-HTTP请求组件内容"><a href="#3-3-HTTP请求组件内容" class="headerlink" title="3.3 HTTP请求组件内容"></a>3.3 <strong>HTTP请求组件内容</strong></h5><p><img src="../images/%E6%A0%87%E7%AD%BEhttp.jpg" alt="标签http"></p>
-<h5 id="3-4-用户参数组件内容"><a href="#3-4-用户参数组件内容" class="headerlink" title="3.4 用户参数组件内容"></a>3.4 <strong>用户参数组件内容</strong></h5><p><img src="../images/%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E7%95%8C%E9%9D%A2.jpg" alt="用户参数界面"></p>
-<h4 id="4-脚本运行结果"><a href="#4-脚本运行结果" class="headerlink" title="4. 脚本运行结果"></a>4. <strong>脚本运行结果</strong></h4><p><img src="../images/%E7%BB%93%E6%9E%9C.jpg" alt="结果"></p>
-<h5 id="5-总结优先级说明："><a href="#5-总结优先级说明：" class="headerlink" title="5. 总结优先级说明："></a>5. <strong>总结</strong>优先级说明：</h5><ul>
-<li>线程组下的用户参数组件 优先级高于 测试计划 里的用户自定义变量。</li>
-<li>HTTP 请求下的用户参数组件 优先级高于 **线程组下 **的用户参数组件。</li>
-<li>若有重名参数，优先取优先级高的用户参数。</li>
-<li>若用户参数和用户自定义变量重名，则优先取用户参数组件中的值 。因为配置元件执行完再到前置处理器，所以前置处理器的值会覆盖配置元件中设置的值。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/15/JMeter%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9C%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0%E2%80%9D%E5%AE%9E%E7%8E%B0%E5%8F%82%E6%95%B0%E5%8C%96/" data-id="cm7wpmlnq0003hkvd5g38d55n" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li></ul>
 
     </footer>
   </div>
@@ -1306,7 +1372,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
     </div>
   </div>
 
@@ -1316,7 +1382,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
+      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
     </div>
   </div>
 
@@ -1338,6 +1404,10 @@ print(p1_clone.x == p1.x)  # 应输出：True
       <ul>
         
           <li>
+            <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/">mysql数据库插入数据</a>
           </li>
         
@@ -1351,10 +1421,6 @@ print(p1_clone.x == p1.x)  # 应输出：True
         
           <li>
             <a href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/">自定义字符串的格式化</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/">linux命令lsof</a>
           </li>
         
       </ul>

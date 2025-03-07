@@ -5,19 +5,16 @@
   
 
   
-  <title>mysql8用户权限 | 月明星稀</title>
+  <title>Tag: Chrony | 月明星稀</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权GRANT ALL PRIVILEGES ON . TO ‘test1‘@’ip’;create user ‘test1‘@’172.172.30.53’ identified by ‘Aa123456@@’;GRANT ALL PRIVILEGES ON . TO ‘test2‘@’主机名’; （host">
-<meta property="og:type" content="article">
-<meta property="og:title" content="mysql8用户权限">
-<meta property="og:url" content="http://example.com/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/index.html">
+  <meta name="description" content="太阳当空照，花儿爱微笑">
+<meta property="og:type" content="website">
+<meta property="og:title" content="月明星稀">
+<meta property="og:url" content="http://example.com/tags/Chrony/index.html">
 <meta property="og:site_name" content="月明星稀">
-<meta property="og:description" content="mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权GRANT ALL PRIVILEGES ON . TO ‘test1‘@’ip’;create user ‘test1‘@’172.172.30.53’ identified by ‘Aa123456@@’;GRANT ALL PRIVILEGES ON . TO ‘test2‘@’主机名’; （host">
+<meta property="og:description" content="太阳当空照，花儿爱微笑">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-07T03:11:19.000Z">
-<meta property="article:modified_time" content="2022-11-07T06:10:56.027Z">
 <meta property="article:author" content="当时只道是寻常">
-<meta property="article:tag" content="mysql权限">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
@@ -65,72 +62,40 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql8用户权限" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" class="article-date">
-  <time datetime="2022-11-07T03:11:19.000Z" itemprop="datePublished">2022-11-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/mysql/">mysql</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      mysql8用户权限
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2025" class="archive-year">2025</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" class="archive-article-date">
+  <time datetime="2025-03-07T08:15:24.000Z" itemprop="datePublished">3月 7</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="mysql-的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权"><a href="#mysql-的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权" class="headerlink" title="mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权"></a>mysql 的登录方式，测试的时候要创建不同的用户来赋权做测试，下面是针对不同登录方式的赋权</h4><p>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test1‘@’ip’;<br>create user ‘test1‘@’172.172.30.53’ identified by ‘Aa123456@@’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test2‘@’主机名’; （host要是mysql30-53）[update user set host=’%’ where user=’test2’;]<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test3‘@’localhost’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘test4‘@’127.0.0.1’;<br>查看用户权限：show grants for myuser;     (show grants for root@’localhost’)<br>查看所有用户：select user,host from mysql.user;<br>查看单个用户的所有情况：select * from mysql.user where user=’myuser’\G</p>
-<h4 id="授予用户权限和收回权限"><a href="#授予用户权限和收回权限" class="headerlink" title="授予用户权限和收回权限"></a>授予用户权限和收回权限</h4><p>创建用户：<br>create user ‘testss‘@’172.172.30.%’ identified by ‘Aa123456##’;<br>更新用户访问ip:<br>update user set host=’172.172.30.%’, where user=’testcc’;<br>授予用户远程访问的权限：<br>GRANT create,select, INSERT,UPDATE,DELETE,DROP,CREATE,RELOAD, PROCESS, REPLICATION CLIENT,BACKUP_ADMIN,REPLICATION_APPLIER,SESSION_VARIABLES_ADMIN ON <em>.</em> TO ‘testss‘@’172.172.30.%’  WITH GRANT OPTION;<br>grant insert ON <em>.</em> TO ‘testcc‘@’172.172.30.%’  WITH GRANT OPTION;<br>回收权限：revoke select on <em>.</em> from ‘data‘@’172.172.30.%’;</p>
-<h4 id="查看mysql日志命令"><a href="#查看mysql日志命令" class="headerlink" title="查看mysql日志命令"></a>查看mysql日志命令</h4><p>获取binlog文件列表:<br>mysql&gt; show binary logs;<br>生成一个新的binlog日志：<br>mysql&gt; flush logs;<br>查看当前正在写入的binlog文件<br>mysql&gt; show master status\G<br>查看指定binlog文件的内容<br>mysql&gt; show binlog events in ‘mysql-bin.000002’<br>查看mysql的binlog日志是否开启：<br>show variables like ‘log_bin’;</p>
-<h4 id="Mysql创建自动插入数据的存储过程"><a href="#Mysql创建自动插入数据的存储过程" class="headerlink" title="Mysql创建自动插入数据的存储过程"></a>Mysql创建自动插入数据的存储过程</h4><p>create table test(datetime datetime);<br>CREATE PROCEDURE user()<br>insert into test values(now());<br>CREATE EVENT IF NOT EXISTS eventJob<br>ON SCHEDULE EVERY 1 SECOND<br>ON COMPLETION PRESERVE<br>DO CALL user();<br>alter event eventJob on completion preserve enable;<br>SET GLOBAL event_scheduler = 1;</p>
-<p>关闭定时器：<br>alter event eventJob  on completion preserve disable;<br>SET GLOBAL event_scheduler = 0；</p>
-<h4 id="mysql插入当前时间"><a href="#mysql插入当前时间" class="headerlink" title="mysql插入当前时间"></a>mysql插入当前时间</h4><p>create table test(name varchar(255));<br>insert into test values (now());</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" data-id="cm7yic4jz000968vd5bxq4bnj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          selenium定位方式
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-2/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">python读写Excel文件-2</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
+
 
 </section>
         
