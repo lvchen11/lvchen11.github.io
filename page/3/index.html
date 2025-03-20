@@ -64,6 +64,1012 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-pytest基础1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/22/pytest%E5%9F%BA%E7%A1%801/" class="article-date">
+  <time datetime="2023-02-22T09:50:34.000Z" itemprop="datePublished">2023-02-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/pytest/">pytest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/22/pytest%E5%9F%BA%E7%A1%801/">pytest基础1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="pytest框架约束"><a href="#pytest框架约束" class="headerlink" title="pytest框架约束"></a>pytest框架约束</h4><p>1.所有的单测文件名都需要满足test_*.py格式或*_test.py格式。<br>2.在单测文件中，测试类以Test开头，并且不能带有 init 方法(注意：定义class时，需要以T开头，不然pytest是不会去运行该class的)<br>3.在单测类中，可以包含一个或多个test_开头的函数。此时，在执行pytest命令时，会自动从当前目录及子目录中寻找符合上述约束的测试函数来执行。</p>
+<h5 id="控制测试用例执行"><a href="#控制测试用例执行" class="headerlink" title="控制测试用例执行"></a>控制测试用例执行</h5><p>1.在第N个用例失败后，结束测试执行</p>
+<p>pytest -x                    # 第01次失败，就停止测试<br>pytest –maxfail=2     # 出现2个失败就终止测试</p>
+<p>2.指定测试模式    pytest test_mod.py</p>
+<p>3.指定测试目录    pytest    ./test/</p>
+<p>4.通过node id 指定测试用例 ，nodeid由模块文件名、分隔符、类名、方法名、参数构成，                pytest test_mod.py::test_func</p>
+<p>运行模块中的指定方法：pytest test_mod.py::TestClass::test_method</p>
+<p>5.通过标记表达式执行  pytest -m slow   会执行被装饰器@pytest.mark.slow装饰的所有测试用例</p>
+<p>6、通过包执行测试        pytest –pyargs pkg.testing  这条命令会自动导入包pkg.testing,并使用该包所在的目录，执行下面的用例</p>
+<h4 id="其它运行方法"><a href="#其它运行方法" class="headerlink" title="其它运行方法"></a>其它运行方法</h4><p>1.多进程运行cases,当cases量很多时，运行时间也会变的很长，如果想缩短脚本运行的时长，就可以用多进程来运行。</p>
+<p>安装pytest-xdist: pip install -U pytest-xdist</p>
+<p>运行模式：pytest test_demo1.py -n NUM</p>
+<p>2.重试运行cases:  在做接口测试时，有事会遇到503或短时的网络波动，导致case运行失败，而这并非是我们期望的结果，此时可以就可以通过重试运行cases的方式来解决。</p>
+<p>安装pytest-rerunfailures：pip install -U pytest-rerunfailures</p>
+<p>pytest test_se.py –reruns NUM</p>
+<p>3.显示print内容：在运行测试脚本时，为了调试或打印一些内容，我们会在代码中加一些print内容，但是在运行pytest时，这些内容不会显示出来。如果带上-s，就可以显示了。</p>
+<p>pytest test_se.py -s -n 4</p>
+<h5 id="pytest的set和teardown函数"><a href="#pytest的set和teardown函数" class="headerlink" title="pytest的set和teardown函数"></a>pytest的set和teardown函数</h5><p>1.setup和teardown主要分为：模块级，类，功能，函数级</p>
+<p>函数级别setup()和teardown():运行于测试方法的始末</p>
+<p>运行一次函数会运行一次setup和teardown</p>
+<pre><code class="python">import pytest
+class Test_ABC:
+  # 函数级开始
+  def setup(self):
+      print(&quot;-------&gt;setup_method&quot;)
+  # 函数级结束
+  def teardown(self):
+      print(&quot;-------&gt;teardown_method&quot;)
+  def test_a(self):
+      print(&quot;-------&gt;test_a&quot;)
+      assert 1
+  def test_b(self):
+      print(&quot;-------&gt;test_b&quot;)
+if __name__ == &#39;__main__&#39;:
+              pytest.main(&quot;-s  test_abc.py&quot;)
+</code></pre>
+<pre><code class="python">执行结果：
+test0223.py::Test_ABC::test_a -------&gt;setup_method
+PASSED                                     [ 50%]-------&gt;test_a
+-------&gt;teardown_method
+
+test0223.py::Test_ABC::test_b -------&gt;setup_method
+PASSED                                     [100%]-------&gt;test_b
+-------&gt;teardown_method
+</code></pre>
+<p>类级别：运行于测试类的始末，即:在一个测试内只运行一次setup_class和teardown_class，不关心测试类内有多少个测试函数。</p>
+<pre><code class="python">import pytest
+class Test_ABC:
+   # 测试类级开始
+   def setup_class(self):
+       print(&quot;-------&gt;setup_class&quot;)
+   # 测试类级结束
+   def teardown_class(self):
+       print(&quot;-------&gt;teardown_class&quot;)
+   def test_a(self):
+       print(&quot;-------&gt;test_a&quot;)
+       assert 1
+   def test_b(self):
+       print(&quot;-------&gt;test_b&quot;)
+if __name__ == &#39;__main__&#39;:
+  pytest.main(&quot;-s  test_abc.py&quot;)
+
+执行结果：
+test0223.py::Test_ABC::test_a -------&gt;setup_class  #第一次setup_class()
+PASSED                                     [ 50%]-------&gt;test_a
+
+test0223.py::Test_ABC::test_b PASSED                                     [100%]-------&gt;test_b
+-------&gt;teardown_class    # 第一次teardown_class()
+</code></pre>
+<h5 id="Pytest配置文件"><a href="#Pytest配置文件" class="headerlink" title="Pytest配置文件"></a>Pytest配置文件</h5><p>pytest的配置文件通常放在测试目录下，名称为pytest.ini，命令行运行时会使用该配置文件中的配置.</p>
+<pre><code class="python"># 配置pytest命令行运行参数
+[pytest]
+addopts = -s...  # 空格分隔，可添加多个命令行参数 -所有参数均为插件包的参数配置测试搜索的路径
+testpaths =./ scripts  # 当前目录下的scripts文件夹 -可自定义
+# 配置测试搜索的文件名称
+python_files = test *.py
+# 当前目录下的scripts文件夹下，以test开头，以.py结尾的所有文件 -可自定义
+配置测试搜索的测试类名
+python_classes = Test_ *
+
+# 当前目录下的scripts文件夹下，以test开头，以.py结尾的所有文件中，以Test开头的类 -可自定义
+配置测试搜索的测试函数名
+
+python_functions = test_ *
+
+# 当前目录下的scripts文件夹下，以test开头，以.py结尾的所有文件中，以Test开头的类内，以test_开头的方法 -可自定义
+# 前置条件
+    - Test_App
+    - - test_abc.py
+    - - pytest.ini
+# pytest.ini的配置文件内容
+      [pytest]
+    # 命令行参数
+     addopts = -s
+    # 搜索文件名
+     python_files = test_*.py
+     # 搜索的类名
+     python_classes = Test_*
+     #搜索的函数名
+        python_functions = test_*
+</code></pre>
+<h5 id="pytest测试报告"><a href="#pytest测试报告" class="headerlink" title="pytest测试报告"></a>pytest测试报告</h5><pre><code class="text">pytest-HTML是一个插件，pytest用于生成测试结果的HTML报告
+安装方式：pip install pytest-html                   pip install pytest-html
+通过命令行方式，生成xm l /html格式的测试报告，存储于用户指定路径。插件名称：pytes t -html
+使用方法： 命令行格式：pytest --html = 用户路径 / report.html
+</code></pre>
+<pre><code class="python">import pytest
+
+
+class Test_ABC:
+    def setup_class(self):
+        print(&quot;-------&gt;setup_class&quot;)
+
+    def teardown_class(self):
+        print(&quot;-------&gt;teardown_class&quot;)
+
+    def test_a(self):
+        print(&quot;-------&gt;test_a&quot;)
+        assert 1
+
+    def test_b(self):
+        print(&quot;-------&gt;test_b&quot;)
+        assert 0  # 断言失败```
+
+运行方式：
+1.
+修改Test_App / pytest.ini文件，添加报告参数，即：addopts = -s - -html =./ report.html
+# -s:输出程序运行信息
+# --html=./report.html 在当前目录下生成report.html文件
+️
+若要生成xml文件，可将 - -html =./ report.html
+改成 - -html =./ report.xml
+2.
+命令行进入Test_App目录
+3.
+执行命令： pytest
+执行结果：
+1.
+在当前目录会生成assets文件夹和report.html文件
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/22/pytest%E5%9F%BA%E7%A1%801/" data-id="cm8h0o63f000k70vd5bsd18ut" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-HTML测试报告" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" class="article-date">
+  <time datetime="2022-11-21T05:50:48.000Z" itemprop="datePublished">2022-11-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/unittest/">unittest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/">HTML测试报告</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="HTML下载与安装"><a href="#HTML下载与安装" class="headerlink" title="HTML下载与安装"></a>HTML下载与安装</h4><p>HTMLTestRunner.py 文件，既可以把它当作Python 的第三方库来使用，也可以将把它当作项目的一部分来使用。建议将该文件放到python的lib目录下；如果把 HTMLTestRunner 当作项目的一部分来使用，就把它放到项目目录中。可以方便地定制生成的HTMLTestRunner 报告,文件目录结构如下：</p>
+<p><img src="/.com//../imags/$%7Bfiilename%7D/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95-16690114393791.jpg"></p>
+<pre><code class="python">#test_unittest1.py文件
+import unittest
+from selenium import webdriver
+from time import sleep
+
+class TestBaidu(unittest.TestCase):
+    driver = None
+
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+
+    def test_search_key_selenium(self):
+        &quot;&quot;&quot;&quot; 搜索关键字：selenium &quot;&quot;&quot;  # 加了注释的测试报告
+        search_key = &quot;selenium&quot;
+        self.baidu_search(search_key) # 调用baidu_search方法，直接传入search_key
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+
+    def test_search_key_unittest(self):
+        &quot;&quot;&quot; 搜索关键字：unittest&quot;&quot;&quot;
+        search_key = &quot;unittest&quot;
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+
+
+
+</code></pre>
+<pre><code class="python">#run_tests.py文件
+import unittest
+from HTMLTestRunner import HTMLTestRunner
+import time
+
+# 定义测试用例的目录为当前目录下的test_case 目录
+test_dir = &#39;./test_case&#39;
+suit = unittest.defaultTestLoader.discover(test_dir, pattern=&#39;test_*.py&#39;)
+
+# if __name__ == &#39;__main__&#39;:
+#     # 生成HTML 格式的报告
+#     fp = open(&#39;./test_report/result.html&#39;, &#39;wb&#39;)
+#     runner = HTMLTestRunner(stream=fp,title=&quot;百度搜索测试报告&quot;,description=&quot;运行环境：Windows 10, Chrome 浏览器&quot;)
+#     runner.run(suit)
+#     fp.close()
+
+
+if __name__ == &#39;__main__&#39;:
+    # 取当前日期时间，修改测试报告名称，确保测试报告不会被覆盖
+    # strftime()方法以指定的格式获取当前日期时间
+    now_time = time.strftime(&quot;%Y-%m-%d %H_%M_%S&quot;)
+    fp = open(&#39;./test_report/&#39;+ now_time +&#39;result.html&#39;, &#39;wb&#39;)
+    runner = HTMLTestRunner(stream=fp,title=&quot;百度搜索测试报告&quot;,description=&quot;运行环境：Windows 10, Chrome 浏览器&quot;)
+    runner.run(suit)
+    fp.close()
+</code></pre>
+<h4 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h4><pre><code class="python">import codecs
+import csv
+import unittest
+from itertools import islice
+from time import sleep
+
+from selenium import webdriver
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+        cls.test_data = []
+        with codecs.open(&#39;data.csv&#39;, &#39;r&#39;, &#39;utf_8_sig&#39;) as f:
+            data = csv.reader(f)
+            for line in islice(data, 1, None):
+                cls.test_data.append(line)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(3)
+    def test_search_selenium(self):
+        self.baidu_search(self.test_data[0][1])
+    def test_search_unittest(self):
+        self.baidu_search(self.test_data[1][1])
+    def test_search_parameterized(self):
+        self.baidu_search(self.test_data[2][1])
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+    verbosity是一个选项,表示测试结果的信息复杂度，有0、1、2 三个值
+    0 (静默模式): 你只能获得总的测试用例数和总的结果 比如 总共10个 失败2 成功8
+    1 (默认模式): 非常类似静默模式 只是在每个成功的用例前面有个“.” 每个失败的用例前面有个 “F”
+    2 (详细模式):测试结果会显示每个测试用例的所有相关的信息
+    并且 你在命令行里加入不同的参数可以起到一样的效果
+    加入 --quiet 参数 等效于 verbosity=0
+    加入--verbose参数等效于 verbosity=2
+    什么都不加就是 verbosity=1
+</code></pre>
+<h4 id="Parameterized"><a href="#Parameterized" class="headerlink" title="Parameterized"></a>Parameterized</h4><pre><code class="python">import unittest
+from time import sleep
+from selenium import webdriver
+from parameterized import parameterized
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+    # 通过Parameterized 实现参数化
+    @parameterized.expand([
+    (&quot;case1&quot;, &quot;selenium&quot;),
+    (&quot;case2&quot;, &quot;unittest&quot;),
+    (&quot;case3&quot;, &quot;parameterized&quot;),
+    ])
+    def test_search(self, name, search_key):
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+</code></pre>
+<h4 id="DDT"><a href="#DDT" class="headerlink" title="DDT"></a>DDT</h4><pre><code class="python">#列举了三组参数化，第一组为列表，第二组为元组，第三组为字典。需要注意的是，字典的key与测试方法的参数要保持一致。
+import unittest
+from time import sleep
+
+from selenium import webdriver
+from ddt import ddt, data, file_data, unpack
+@ddt
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(3)
+    # 参数化使用方式一
+    @data([&quot;case1&quot;, &quot;selenium&quot;], [&quot;case2&quot;, &quot;ddt&quot;], [&quot;case3&quot;, &quot;python&quot;])
+    @unpack
+    def test_search1(self, case, search_key):
+        print(&quot;第一组测试用例：&quot;, case)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    # 参数化使用方式二
+    @data((&quot;case1&quot;, &quot;selenium&quot;), (&quot;case2&quot;, &quot;ddt&quot;), (&quot;case3&quot;, &quot;python&quot;))
+    @unpack
+    def test_search2(self, case, search_key):
+        print(&quot;第二组测试用例：&quot;, case)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    # 参数化使用方式三
+    @data(&#123;&quot;search_key&quot;: &quot;selenium&quot;&#125;, &#123;&quot;search_key&quot;: &quot;ddt&quot;&#125;, &#123;&quot;search_key&quot;:
+    &quot;python&quot;&#125;)
+    @unpack
+    def test_search3(self, search_key):
+        print(&quot;第三组测试用例：&quot;, search_key)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+</code></pre>
+<p>DDT 同样支持数据文件的参数化。它封装了数据文件的读取,不需要关心数据文件是如何被读取进来的</p>
+<pre><code class="python">#创建ddt_data_file.json文件
+&#123;
+&quot;case1&quot;: &#123;&quot;search_key&quot;: &quot;python1&quot;&#125;,
+&quot;case2&quot;: &#123;&quot;search_key&quot;: &quot;ddt1&quot;&#125;,
+&quot;case3&quot;: &#123;&quot;search_key&quot;: &quot;Selenium1&quot;&#125;
+&#125;
+</code></pre>
+<pre><code class="python">import unittest
+from time import sleep
+
+from selenium import webdriver
+from ddt import ddt, data, file_data, unpack
+@ddt
+class TestBaidu(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(3)
+        
+    @file_data(&#39;ddt_data_file.json&#39;)
+    def test_search4(self, search_key):
+        print(&quot;第四组测试用例：&quot;, search_key)
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main(verbosity=2)
+</code></pre>
+<p>DDT 还支持yaml 格式的数据文件</p>
+<pre><code class="python">case1:
+- search_key: &quot;python&quot;
+case2:
+- search_key: &quot;ddt&quot;
+case3:
+- search_key: &quot;unittest&quot;
+</code></pre>
+<pre><code class="python">@file_data(&#39;ddt_data_file.yaml&#39;)
+def test_search5(self, case):
+search_key = case[0][&quot;search_key&quot;]
+print(&quot;第五组测试用例：&quot;, search_key)
+self.baidu_search(search_key)
+self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+</code></pre>
+<h4 id="自动发送邮件功能"><a href="#自动发送邮件功能" class="headerlink" title="自动发送邮件功能"></a>自动发送邮件功能</h4><pre><code class="python">import time
+import unittest
+import yagmail
+from HTMLTestRunner import HTMLTestRunner
+#把测试报告作为附件发送到指定邮箱
+def send_mail(report):
+    yag = yagmail.SMTP(user=&quot;sender@126.com&quot;,
+    password=&quot;a123456&quot;,
+    host=&#39;smtp.126.com&#39;)
+    subject = &quot;主题，自动化测试报告&quot;
+    contents = &quot;正文，请查看附件。&quot;
+    yag.send(&#39;receiver@126.com&#39;, subject, contents, report)
+    print(&#39;email has send out !&#39;)
+if __name__ == &#39;__main__&#39;:
+    # 定义测试用例的目录为当前目录
+    test_dir = &#39;./test_case&#39;
+    suit = unittest.defaultTestLoader.discover(test_dir, pattern=&#39;test_*.py&#39;)
+    # 获取当前日期和时间
+    now_time = time.strftime(&quot;%Y-%m-%d %H_%M_%S&quot;)
+    html_report = &#39;./test_report/&#39; + now_time + &#39;result.html&#39;
+    fp = open(html_report, &#39;wb&#39;)
+    # 调用HTMLTestRunner，运行测试用例
+    runner = HTMLTestRunner(stream=fp,title=&quot;百度搜索测试报告&quot;,description=&quot;运行环境：Windows 10, Chrome 浏览器&quot;)
+    runner.run(suit)
+    fp.close()
+    send_mail(html_report)  # 发送报告
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/21/HTML%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/" data-id="cm8h0o635000170vd43yifu20" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-unittest执行用例" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" class="article-date">
+  <time datetime="2022-11-18T02:26:22.000Z" itemprop="datePublished">2022-11-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/unittest/">unittest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/">unittest执行用例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="测试用例的执行顺序"><a href="#测试用例的执行顺序" class="headerlink" title="测试用例的执行顺序"></a>测试用例的执行顺序</h4><p>测试用例的执行顺序涉及多个层级：多个测试目录&gt;多个测试文件&gt;多个测试类&gt;多个测试方法（测试用例）</p>
+<p>``</p>
+<pre><code class="python">import unittest
+class TestBdd(unittest.TestCase):
+    def setUp(self):
+        print(&quot;test TestBdd:&quot;)
+    def test_ccc(self):
+        print(&quot;test ccc&quot;)
+    def test_aaa(self):
+        print(&quot;test aaa&quot;)
+
+class TestAdd(unittest.TestCase):
+    def setUp(self):
+        print(&quot;test TestAdd:&quot;)
+    def test_bbb(self):
+        print(&quot;test bbb&quot;)
+
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<p>unittest 默认根据ASCII 码的顺序加载测试用例的（数字与字母的顺序为0<del>9，A</del>Z，a~z），所以TestAdd 类会优先于TestBdd 类被执行，test_aaa()方法会优先于test_ccc()方法被执行，也就是说，它并不是按照测试用例的创建顺序从上到下执行的。</p>
+<p>声明测试套件TestSuite 类，通过addTest()方法按照一定的顺序来加载测试用<br>例。</p>
+<p>现在的执行顺序与addTest()方法加载测试用例的顺序相同。不过，当测试用例非常多时，不推荐用这种方法创建测试套件。最好的方法是通过命名控制执行顺序</p>
+<p>``</p>
+<pre><code class="python">if __name__ == &#39;__main__&#39;:
+    # 构造测试集
+    suite = unittest.TestSuite()
+    suite.addTest(TestBdd(&quot;test_aaa&quot;))
+    suite.addTest(TestBdd(&quot;test_ccc&quot;))
+    suite.addTest(TestAdd(&quot;test_bbb&quot;))
+    # 执行测试
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
+</code></pre>
+<h4 id="执行多级目录的测试用例"><a href="#执行多级目录的测试用例" class="headerlink" title="执行多级目录的测试用例"></a>执行多级目录的测试用例</h4><p>当测试用例的数量达到一定量级时，就要考虑目录划分，</p>
+<p>``</p>
+<pre><code>test_project
+├──/test_case/
+│ ├── test_bbb/
+│ │ ├── test_ccc/
+│ │ │ └── test_c.py
+│ │ └── test_b.py
+│ ├── test_ddd/
+│ │ └── test_d.py
+│ └── test_a.py
+└─ run_tests.py
+</code></pre>
+<p>对于上面的目录结构，如果将discover()方法中的start_dir 参数定为“./test_case”目<br>录，那么只能加载test_a.py 文件中的测试用例。如何让unittest 查找test_case/下子目录中的测试文件呢？方法很简单，就是在每个子目录下放一个__init__.py 文件。<strong>init</strong>.py 文件的作用是将一个目录标记成一个标准的Python 模块。</p>
+<h4 id="跳过测试和预期失败"><a href="#跳过测试和预期失败" class="headerlink" title="跳过测试和预期失败"></a>跳过测试和预期失败</h4><p>``</p>
+<pre><code>import unittest
+class MyTest(unittest.TestCase):
+    @unittest.skip(&quot;直接跳过测试&quot;)  # unittest.skip(reason)无条件地跳过装饰的测试，需要说明跳过测试的原因
+    def test_skip(self):
+        print(&quot;test aaa&quot;)
+    @unittest.skipIf(3 &gt; 2, &quot;当条件为真时跳过测试&quot;)# unittest.skipIf(condition, reason) 如果条件为真，则跳过装饰的测试。
+    def test_skip_if(self):
+        print(&#39;test bbb&#39;)
+
+    @unittest.skipUnless(3 &gt; 2, &quot;当条件为真时执行测试&quot;)#unittest.skipUnless(condition, reason)当条件为真时，执行装饰的测试
+    def test_skip_unless(self):
+        print(&#39;test ccc&#39;)
+
+    @unittest.expectedFailure   #unittest.expectedFailure()不管执行结果是否失败，都将测试标记为失败。
+    def test_expected_failure(self):
+        self.assertEqual(2, 3)
+
+if __name__ == &#39;__main__&#39;:
+        unittest.main() 
+</code></pre>
+<h5 id="Fixture"><a href="#Fixture" class="headerlink" title="Fixture"></a>Fixture</h5><pre><code class="python">import unittest
+def setUpModule():
+    print(&quot;test module start &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;)
+def tearDownModule():
+    print(&quot;test module end &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;)
+class MyTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        print(&quot;test class start =======&gt;&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        print(&quot;test class end =======&gt;&quot;)
+    def setUp(self):
+        print(&quot;test case start --&gt;&quot;)
+    def tearDown(self):
+        print(&quot;test case end --&gt;&quot;)
+    def test_case1(self):
+        print(&quot;test case1&quot;)
+    def test_case2(self):
+        print(&quot;test case2&quot;)
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+
+setUpModule/tearDownModule：在整个模块的开始与结束时被执行。
+setUpClass/tearDownClass：在测试类的开始与结束时被执行。
+setUp/tearDown：在测试用例的开始与结束时被执行。
+需要注意的是，setUpClass/tearDownClass 为类方法，需要通过@classmethod 进行装饰。
+另外，方法的参数为cls。其实，cls 与self 并没有什么本质区别，都只表示方法的第一个
+参数。
+</code></pre>
+<h4 id="编写web自动化测试"><a href="#编写web自动化测试" class="headerlink" title="编写web自动化测试"></a>编写web自动化测试</h4><p>``</p>
+<pre><code class="python">import unittest
+from time import sleep
+from selenium import webdriver
+class TestBaidu(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        self.base_url = &quot;https://www.baidu.com&quot;
+
+    def test_search_key_selenium(self):
+        self.driver.get(self.base_url)
+
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium&quot;)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+        title = self.driver.title
+        self.assertEqual(title, &quot;selenium_百度搜索&quot;)
+
+    def test_search_key_unittest(self):
+        self.driver.get(self.base_url)
+
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;unittest&quot;)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+        title = self.driver.title
+        self.assertEqual(title, &quot;unittest_百度搜索&quot;)
+
+    def tearDown(self):
+        self.driver.quit()
+
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+ 上面的代码不做过多介绍，都是以 unittest 创建测试类和方法的。方法中的代码是Selenium 脚本,代码存在一些问题，
+</code></pre>
+<p>观察上面代码可以发现，两个测试用例中的步骤是一样的，唯一的区别是搜索的关键字和断言的结果不同，使用模块化，把操作步骤封装成一个方法。</p>
+<p>``</p>
+<pre><code class="python">import unittest
+
+from selenium import webdriver
+from time import sleep
+
+
+class TestBaidu(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        self.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+
+    def test_search_key_selenium(self):
+        search_key = &quot;selenium&quot;
+        self.baidu_search(search_key) # 调用baidu_search方法，直接传入search_key
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+
+    def test_search_key_unittest(self):
+        search_key = &quot;unittest&quot;
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    def tearDown(self):
+        self.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+#baidu_search()方法不会被当作测试用例执行，因为根据unittest 查找和执行测试用例的规则，它只会把以“test”开头的方法当作测试用例
+</code></pre>
+<p>减少浏览器的启动和关闭次数</p>
+<p>``</p>
+<pre><code class="python">import unittest
+from selenium import webdriver
+from time import sleep
+class TestBaidu(unittest.TestCase):
+    driver = None
+
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Chrome()
+        cls.base_url = &quot;https://www.baidu.com&quot;
+    def baidu_search(self, search_key):
+        self.driver.get(self.base_url)
+        self.driver.find_element_by_id(&quot;kw&quot;).send_keys(search_key)
+        self.driver.find_element_by_id(&quot;su&quot;).click()
+        sleep(2)
+
+    def test_search_key_selenium(self):
+        search_key = &quot;selenium&quot;
+        self.baidu_search(search_key) # 调用baidu_search方法，直接传入search_key
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+
+    def test_search_key_unittest(self):
+        search_key = &quot;unittest&quot;
+        self.baidu_search(search_key)
+        self.assertEqual(self.driver.title, search_key + &quot;_百度搜索&quot;)
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/18/unittest%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B/" data-id="cm8h0o63o001o70vddrcd59a3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-unittest基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2022-11-15T05:14:49.000Z" itemprop="datePublished">2022-11-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/unittest/">unittest</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/15/unittest%E5%9F%BA%E7%A1%80/">unittest单元测试框架</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="unittest功能"><a href="#unittest功能" class="headerlink" title="unittest功能"></a>unittest功能</h4><ol>
+<li>提供测试用例组织和执行</li>
+<li>提供丰富的断言方法</li>
+<li>提供丰富的日志</li>
+</ol>
+<h4 id="基础代码实现"><a href="#基础代码实现" class="headerlink" title="基础代码实现"></a>基础代码实现</h4><p>``</p>
+<pre><code class="python">import unittest
+class Calculator:
+    &quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;
+    def __init__(self, a, b):
+        self.a = int(a)
+        self.b = int(b)
+    # 加法
+    def add(self):
+        return self.a + self.b
+    # 减法
+    def sub(self):
+        return self.a - self.b
+    # 乘法
+    def mul(self):
+        return self.a * self.b
+    # 除法
+    def div(self):
+        return self.a / self.b
+
+def test_add():
+    c = Calculator(3, 5)
+    result = c.add()
+    assert result == 8, &#39;加法运算失败!&#39;
+def test_sub():
+    c = Calculator(7, 2)
+    result = c.sub()
+    assert result == 5, &#39;减法运算失败!&#39;
+def test_mul():
+    c = Calculator(3, 3)
+    result = c.mul()
+    assert result == 10, &#39;乘法运算失败!&#39;
+def test_div():
+    c = Calculator(6, 2)
+    result = c.div()
+    assert result == 3, &#39;除法运算失败!&#39;
+if __name__ == &#39;__main__&#39;:
+    test_add()
+    test_sub()
+    test_mul()
+    test_div()
+</code></pre>
+<p>这样的测试存在着一些问题。首先，我们需要自己定义断言失败的提示；其次，当<br>测试函数运行失败后，后面的测试函数将不再执行；最后，执行结果无法统计    </p>
+<h5 id="通过-unittest-单元测试框架重新编写测试用例"><a href="#通过-unittest-单元测试框架重新编写测试用例" class="headerlink" title="通过 unittest 单元测试框架重新编写测试用例"></a>通过 unittest 单元测试框架重新编写测试用例</h5><p>``</p>
+<pre><code class="python">class TestCalculator(unittest.TestCase):
+    def test_add(self):
+        c = Calculator(3, 5)
+        result = c.add()
+        self.assertEqual(result, 8)
+    def test_sub(self):
+        c = Calculator(7, 2)
+        result = c.sub()
+        self.assertEqual(result, 5)
+    def test_mul(self):
+        c = Calculator(3, 3)
+        result = c.mul()
+        self.assertEqual(result, 10)
+    def test_div(self):
+        c = Calculator(6, 2)
+        result = c.div()
+        self.assertEqual(result, 3)
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<ol>
+<li>创建一个测试类，这里为TestCalculator 类，必须要继承unittest 模块的TestCase类。</li>
+<li>创建一个测试方法，该方法必须以“test”开头。</li>
+<li>通过unittest 提供的assertEqual()方法来断言结果是否与预期结果相同。该方法由TestCase 父类提供，由于继承了该类，所以可以通过self 调用。</li>
+<li>最后，调用unittest 的main()来执行测试用例，它会按照前面的两条规则查找测试用例并执行。</li>
+</ol>
+<h5 id="四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。"><a href="#四个重要的概念：Test-Case、Test-Suite、Test-Runner-和Test-Fixture。" class="headerlink" title="四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。"></a>四个重要的概念：Test Case、Test Suite、Test Runner 和Test Fixture。</h5><ol>
+<li>Test Case 是最小的测试单元，用于检查特定输入集合的特定返回值。unittest 提供了TestCase 基类，我们创建的测试类需要继承该基类，它可以用来创建新的测试用例。</li>
+<li>测试套件是测试用例、测试套件或两者的集合，用于组装一组要运行的测试。unittest提供了TestSuite 类来创建测试套件。</li>
+<li>Test Runner 是一个组件，用于协调测试的执行并向用户提供结果。Test Runner 可以使用图形界面、文本界面或返回特殊值来展示执行测试的结果。unittest 提供了TextTestRunner类运行测试用例，为了生成HTML 格式的测试报告，后面会选择使用HTMLTestRunner 运行类。</li>
+<li>Test Fixture 代表执行一个或多个测试所需的环境准备，以及关联的清理动作。例如，创建临时或代理数据库、目录，或启动服务器进程,unittest 中提供了setUp()/tearDown()、setUpClass()/tearDownClass()等方法来完成这些操作</li>
+</ol>
+<p>``</p>
+<pre><code class="python">class TestCalculator(unittest.TestCase):
+    # 测试用例前置动作
+    def setUp(self):
+        print(&quot;test start:&quot;)
+    # 测试用例后置动作
+    def tearDown(self):
+        print(&quot;test end&quot;)
+    def test_add(self):
+        c = Calculator(3, 5)
+        result = c.add()
+        self.assertEqual(result, 8)
+    def test_sub(self):
+        c = Calculator(7, 2)
+        result = c.sub()
+        self.assertEqual(result, 5)
+
+    def test_mul(self):
+        c = Calculator(3, 3)
+        result = c.mul()
+        self.assertEqual(result, 10)
+
+    def test_div(self):
+        c = Calculator(6, 2)
+        result = c.div()
+        self.assertEqual(result, 3)
+
+if __name__ == &#39;__main__&#39;:
+# 创建测试套件
+    suit = unittest.TestSuite()
+    suit.addTest(TestCalculator(&quot;test_add&quot;))
+    suit.addTest(TestCalculator(&quot;test_sub&quot;))
+    suit.addTest(TestCalculator(&quot;test_mul&quot;))
+    suit.addTest(TestCalculator(&quot;test_div&quot;))
+# 创建测试运行器
+    runner = unittest.TextTestRunner()
+    runner.run(suit)
+</code></pre>
+<ul>
+<li>首先，创建一个测试类并继承TestCase 类，在该类下面创建一条以“test”开头的方法为测试用例</li>
+<li>在测试类中增加了 setUp()/tearDown()方法，用于定义测试用例的前置和后置动作。在当前测试中暂时用不上，这里定义了一些简单的打印</li>
+<li>抛弃了unittest 提供的main()方法，而是调用TestSuite 类下面addTest()来添加测试用例。因为一次只能添加一条用例，所以需要指定测试类及测试方法。然后，再调用TextTestRunner 类下面的run()运行测试套件。</li>
+<li>优点：相比main()方法。测试用例的执行顺序可以由测试套件的添加顺序控制，而main()方法只能按照测试类、方法的名称来执行测试用例。例如，TestA 类比TestB 类先执行，test_add()用例比test_div()用例先执行。</li>
+<li>其次，当一个测试文件中有很多测试用例时，并不是每次都要执行所有的测试用例，尤其是比较耗时的UI 自动化测试。因而通过测试套件和测试运行器可以灵活地控制要执行的测试用例。</li>
+</ul>
+<h5 id="断言方法"><a href="#断言方法" class="headerlink" title="断言方法"></a>断言方法</h5><p>``</p>
+<pre><code class="python">import unittest
+class TestAssert(unittest.TestCase):
+    def test_equal(self):
+        self.assertEqual(2+52, 4)
+        self.assertEqual(&quot;pytgn&quot;, &quot;python&quot;)
+        self.assertNotEqual(&quot;hello&quot;, &quot;python&quot;)
+    def test_in(self):
+        self.assertIn(&quot;hello&quot;, &quot;hello world&quot;)
+        self.assertNotIn(&quot;hi&quot;, &quot;hello&quot;)
+    def test_true(self):
+        self.assertTrue(True)
+        self.assertFalse(False)
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<h5 id="测试用例的组织与discover-方法"><a href="#测试用例的组织与discover-方法" class="headerlink" title="测试用例的组织与discover 方法"></a>测试用例的组织与discover 方法</h5><p>针对 Calculator 类所编写的测试用例存在的问题：一个功能对应一条测试用例不够的；其次测试用例的划分，建议一个测试类对应一个被测试功能</p>
+<p>``</p>
+<pre><code class="python">class Calculator:
+    &quot;&quot;&quot; 用于完成两个数的加、减、乘、除&quot;&quot;&quot;
+    def __init__(self, a, b):
+        self.a = int(a)
+        self.b = int(b)
+    # 加法
+    def add(self):
+        return self.a + self.b
+    # 减法
+    def sub(self):
+        return self.a - self.b
+    # 乘法
+    def mul(self):
+        return self.a * self.b
+    # 除法
+    def div(self):
+        return self.a / self.b
+class TestAdd(unittest.TestCase):
+    &quot;&quot;&quot; add()方法测试&quot;&quot;&quot;
+    def test_add_integer(self):
+        &quot;&quot;&quot; 整数相加测试&quot;&quot;&quot;
+        c = Calculator(3, 5)
+        self.assertEqual(c.add(), 8)
+    def test_add_decimals(self):
+        &quot;&quot;&quot; 小数相加测试&quot;&quot;&quot;
+        c = Calculator(3.2, 5.5)
+        self.assertEqual(c.add(), 8)
+    def test_add_string(self):
+        &quot;&quot;&quot; 字符串整数相加测试&quot;&quot;&quot;
+        c = Calculator(&quot;7&quot;, &quot;9&quot;)
+        self.assertEqual(c.add(), 16)
+    # ……
+
+class TestSub(unittest.TestCase):
+    &quot;&quot;&quot; sub()方法测试&quot;&quot;&quot;
+    pass
+# ……
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<h5 id="判断某年是否为闰年"><a href="#判断某年是否为闰年" class="headerlink" title="判断某年是否为闰年"></a>判断某年是否为闰年</h5><p>``</p>
+<pre><code class="python">class LeapYear:
+    &quot;&quot;&quot;计算某年是否为闰年&quot;&quot;&quot;
+    def __init__ (self, year):
+        self.year = int(year)
+    def answer(self):
+        year = self.year
+        if year % 100 == 0:
+            if year % 400 == 0:
+                # 整百年能被400 整除的是闰年
+                return &quot;&#123;0&#125;是闰年&quot;.format(year)
+            else:
+                return &quot;&#123;0&#125;不是闰年&quot;.format(year)
+        else:
+            if year % 4 == 0:
+                # 非整百年能被4 整除的是闰年
+                return &quot;&#123;0&#125;是闰年&quot;.format(year)
+            else:
+                return &quot;&#123;0&#125;不是闰年&quot;.format(year)
+
+
+
+class TestLeapYear(unittest.TestCase):
+    def test_2000(self):
+        ly = LeapYear(2000)
+        self.assertEqual(ly.answer(), &quot;2000是闰年&quot;)
+    def test_2004(self):
+        ly = LeapYear(2004)
+        self.assertEqual(ly.answer(), &quot;2004是闰年&quot;)
+    def test_2017(self):
+        ly = LeapYear(2017)
+        self.assertEqual(ly.answer(), &quot;2017不是闰年&quot;)
+    def test_2100(self):
+        ly = LeapYear(2100)
+        self.assertEqual(ly.answer(), &quot;2100不是闰年&quot;)
+
+if __name__ == &#39;__main__&#39;:
+    unittest.main()
+</code></pre>
+<h5 id="如何执行多个测试文件"><a href="#如何执行多个测试文件" class="headerlink" title="如何执行多个测试文件"></a>如何执行多个测试文件</h5><p>unittest 中的TestLoader 类提供的discover()方法可以从多个文件中查找测试用例。</p>
+<p>该类根据各种标准加载测试用例，并将它们返回给测试套件。正常情况下，不需要创建这个类的实例。unittest 提供了可以共享的defaultTestLoader 类，可以使用其子类或方法创建实例，discover()方法就是其中之一。</p>
+<pre><code class="python">discover(start_dir，pattern=&#39;test*.py&#39;，top_level_dir=None)
+找到指定目录及其子目录下的所有测试模块，只有匹配的文件名才能被加载。如果启动的不是顶层目录，那么顶层目录必须单独指定。
+    start_dir ：待测试的模块名或测试用例目录。
+    pattern=&#39;test*.py&#39; ：测试用例文件名的匹配原则。此处匹配文件名以“test”开头的“.py”类型的文件，星号“*”表示任意多个字符。
+    top_level_dir=None：测试模块的顶层目录，如果没有顶层目录，则默认为None。
+</code></pre>
+<pre><code class="python">import unittest
+test_dir = &#39;../test1107&#39;
+suits = unittest.defaultTestLoader.discover(test_dir, pattern=&#39;test_unit*.py&#39;)
+if __name__ == &#39;__main__&#39;:
+    runner = unittest.TextTestRunner()
+    runner.run(suits)
+</code></pre>
+<p>discover()方法会自动根据测试用例目录（test_dir）查找测试用例文件（test*.py），并将找到的测试用例添加到测试套件中，因此，可以直接通过run()方法执行测试套件suits。这种方式极大地简化了测试用例的查找，我们需要做的就是按照文件的匹配规则创建测试文件即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/15/unittest%E5%9F%BA%E7%A1%80/" data-id="cm8h0o63n001j70vd2gme7qdh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-selenium多窗口-警告框处理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" class="article-date">
@@ -267,7 +1273,7 @@ placeholder=&quot;请输入名称&quot;&gt;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" data-id="cm7yic4k8001768vd6zhk9g5t" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/11/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" data-id="cm8h0o63l001a70vdg6285u6w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li></ul>
@@ -365,7 +1371,7 @@ def test_time():
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/11/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" data-id="cm7yic4k9001d68vd80t08d5a" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/11/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" data-id="cm8h0o63m001f70vd8vw6hcd1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li></ul>
@@ -587,7 +1593,7 @@ def test_chain():
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/" data-id="cm7yic4k8001a68vd5mk8fcs1" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/08/selenium%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F/" data-id="cm8h0o63m001d70vd4q7k28uy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li></ul>
@@ -635,7 +1641,7 @@ def test_chain():
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" data-id="cm7yic4jz000968vd5bxq4bnj" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/07/mysql8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90/" data-id="cm8h0o63b000970vdfsck7y96" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li></ul>
@@ -827,7 +1833,7 @@ wb.save(&#39;demo.xlsx&#39;)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-2/" data-id="cm7yic4k7001268vdh957drji" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-2/" data-id="cm8h0o63j001270vdc4jr8gef" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li></ul>
@@ -1015,7 +2021,7 @@ wb_for_write.save(&#39;阿里巴巴2020年股票数据汇总.xls&#39;)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-1/" data-id="cm7yic4k6000z68vd3ryl0k10" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/07/python%E8%AF%BB%E5%86%99Excel%E6%96%87%E4%BB%B6-1/" data-id="cm8h0o63j000z70vdhkzb0xe1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li></ul>
@@ -1027,196 +2033,11 @@ wb_for_write.save(&#39;阿里巴巴2020年股票数据汇总.xls&#39;)
 
 
   
-    <article id="post-python处理csv文件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/11/07/python%E5%A4%84%E7%90%86csv%E6%96%87%E4%BB%B6/" class="article-date">
-  <time datetime="2022-11-07T01:53:53.000Z" itemprop="datePublished">2022-11-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/07/python%E5%A4%84%E7%90%86csv%E6%96%87%E4%BB%B6/">python处理csv文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-CSV文件介绍"><a href="#1-CSV文件介绍" class="headerlink" title="1.CSV文件介绍"></a>1.CSV文件介绍</h3><p>CSV（Comma Separated Values）全称逗号分隔值文件是一种简单、通用的文件格式，被广泛的应用于应用程序（数据库、电子表格等）数据的导入和导出以及异构系统之间的数据交换。因为CSV是纯文本文件，不管是什么操作系统和编程语言都是可以处理纯文本的，而且很多编程语言中都提供了对读写CSV文件的支持，因此CSV格式在数据处理和数据科学中被广泛应用。</p>
-<p>CSV文件有以下特点：</p>
-<ol>
-<li>纯文本，使用某种字符集（如<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ASCII">ASCII</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Unicode">Unicode</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/GB2312">GB2312</a>）等）；</li>
-<li>由一条条的记录组成（典型的是每行一条记录）；</li>
-<li>每条记录被分隔符（如逗号、分号、制表符等）分隔为字段（列）；</li>
-<li>每条记录都有同样的字段序列。</li>
-</ol>
-<p>CSV文件可以使用文本编辑器或类似于Excel电子表格这类工具打开和编辑，当使用Excel这类电子表格打开CSV文件时，你甚至感觉不到CSV和Excel文件的区别。很多数据库系统都支持将数据导出到CSV文件中，当然也支持从CSV文件中读入数据保存到数据库中，这些内容并不是现在要讨论的重点。</p>
-<h3 id="2-将数据写入CSV文件"><a href="#2-将数据写入CSV文件" class="headerlink" title="2.将数据写入CSV文件"></a>2.将数据写入CSV文件</h3><p>现有五个学生三门课程的考试成绩需要保存到一个CSV文件中，要达成这个目标，可以使用Python标准库中的<code>csv</code>模块，该模块的<code>writer</code>函数会返回一个<code>csvwriter</code>对象，通过该对象的<code>writerow</code>或<code>writerows</code>方法就可以将数据写入到CSV文件中，具体的代码如下所示。</p>
-<pre><code class="Python">import csv
-import random
-
-with open(&#39;scores.csv&#39;, &#39;w&#39;) as file:
-    writer = csv.writer(file)
-    writer.writerow([&#39;姓名&#39;, &#39;语文&#39;, &#39;数学&#39;, &#39;英语&#39;])
-    names = [&#39;关羽&#39;, &#39;张飞&#39;, &#39;赵云&#39;, &#39;马超&#39;, &#39;黄忠&#39;]
-    for name in names:
-        scores = [random.randrange(50, 101) for _ in range(3)]
-        scores.insert(0, name)
-        writer.writerow(scores)
-</code></pre>
-<p>生成的CSV文件的内容。</p>
-<pre><code>姓名,语文,数学,英语
-关羽,98,86,61
-张飞,86,58,80
-赵云,95,73,70
-马超,83,97,55
-黄忠,61,54,87
-</code></pre>
-<p>需要说明的是上面的<code>writer</code>函数，除了传入要写入数据的文件对象外，还可以<code>dialect</code>参数，它表示CSV文件的方言，默认值是<code>excel</code>。除此之外，还可以通过<code>delimiter</code>、<code>quotechar</code>、<code>quoting</code>参数来指定分隔符（默认是逗号）、包围值的字符（默认是双引号）以及包围的方式。其中，包围值的字符主要用于当字段中有特殊符号时，通过添加包围值的字符可以避免二义性。大家可以尝试将上面第5行代码修改为下面的代码，然后查看生成的CSV文件。</p>
-<pre><code class="Python">writer = csv.writer(file, delimiter=&#39;|&#39;, quoting=csv.QUOTE_ALL)
-</code></pre>
-<p>生成的CSV文件的内容。</p>
-<pre><code>&quot;姓名&quot;|&quot;语文&quot;|&quot;数学&quot;|&quot;英语&quot;
-&quot;关羽&quot;|&quot;88&quot;|&quot;64&quot;|&quot;65&quot;
-&quot;张飞&quot;|&quot;76&quot;|&quot;93&quot;|&quot;79&quot;
-&quot;赵云&quot;|&quot;78&quot;|&quot;55&quot;|&quot;76&quot;
-&quot;马超&quot;|&quot;72&quot;|&quot;77&quot;|&quot;68&quot;
-&quot;黄忠&quot;|&quot;70&quot;|&quot;72&quot;|&quot;51&quot;
-</code></pre>
-<h3 id="3-从CSV文件读取数据"><a href="#3-从CSV文件读取数据" class="headerlink" title="3.从CSV文件读取数据"></a>3.从CSV文件读取数据</h3><p>如果要读取刚才创建的CSV文件，可以使用下面的代码，通过<code>csv</code>模块的<code>reader</code>函数可以创建出<code>csvreader</code>对象，该对象是一个迭代器，可以通过<code>next</code>函数或<code>for-in</code>循环读取到文件中的数据。</p>
-<pre><code class="Python">import csv
-
-with open(&#39;scores.csv&#39;, &#39;r&#39;) as file:
-    reader = csv.reader(file, delimiter=&#39;|&#39;)
-    for data_list in reader:
-        print(reader.line_num, end=&#39;\t&#39;)
-        for elem in data_list:
-            print(elem, end=&#39;\t&#39;)
-        print()
-</code></pre>
-<blockquote>
-<p><strong>注意</strong>：上面的代码对<code>csvreader</code>对象做<code>for</code>循环时，每次会取出一个列表对象，该列表对象包含了一行中所有的字段。</p>
-</blockquote>
-<h3 id="4-简单的总结"><a href="#4-简单的总结" class="headerlink" title="4.简单的总结"></a>4.简单的总结</h3><p>将来如果大家使用Python做数据分析，很有可能会用到名为<code>pandas</code>的三方库，它是Python数据分析的神器之一。<code>pandas</code>中封装了名为<code>read_csv</code>和<code>to_csv</code>的函数用来读写CSV文件，其中<code>read_CSV</code>会将读取到的数据变成一个<code>DataFrame</code>对象，而<code>DataFrame</code>就是<code>pandas</code>库中最重要的类型，它封装了一系列用于数据处理的方法（清洗、转换、聚合等）；而<code>to_csv</code>会将<code>DataFrame</code>对象中的数据写入CSV文件，完成数据的持久化。<code>read_csv</code>函数和<code>to_csv</code>函数远远比原生的<code>csvreader</code>和<code>csvwriter</code>强大。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/07/python%E5%A4%84%E7%90%86csv%E6%96%87%E4%BB%B6/" data-id="cm7yic4k6000w68vd8zay9cu2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csv/" rel="tag">csv</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python读取excle内容" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/10/14/python%E8%AF%BB%E5%8F%96excle%E5%86%85%E5%AE%B9/" class="article-date">
-  <time datetime="2022-10-14T03:24:23.000Z" itemprop="datePublished">2022-10-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/10/14/python%E8%AF%BB%E5%8F%96excle%E5%86%85%E5%AE%B9/">python读取excel内容</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-代码如下："><a href="#1-代码如下：" class="headerlink" title="1.代码如下："></a>1.代码如下：</h4><pre><code class="python">import xlrd
-import xlsxwriter
-
-# 操作Excel的工具类
-class Excel():
-    # 初始化方法 参数type：为r是读取excel，为w是写入excel获取不同的实例，参数file_name是将要读取的文件
-    def __init__(self, type, file_name):
-        # 读取excel
-        if type == &#39;r&#39;:
-            # 打开文件
-            self.workbook = xlrd.open_workbook(file_name)
-            # 获取到所有的sheet_names,sheet1,sheet2获取到所有，获取到的是一个list
-            self.sheet_names = self.workbook.sheet_names()
-            # 装载所有数据的list
-            self.list_data = []
-        # 写入excel
-        elif type == &#39;w&#39;:
-            # 获得写入excel的实例
-            self.workbook = xlsxwriter.Workbook(file_name)
-
-    def read(self):
-        # 根据sheet_name去读取用例，并获取文件的总行数获取到每行的内容
-        for sheet_name in self.sheet_names:
-            # 通过每个sheetname获取到每个页的内容
-            sheet = self.workbook.sheet_by_name(sheet_name)
-            # 获取总行数
-            rosw = sheet.nrows
-            # 根据总行数进行读取
-            for i in range(0, rosw):
-                rowvalues = sheet.row_values(i)
-                # 将每一行的内容添加进去
-                self.list_data.append(rowvalues)
-            #     去除大标题第一行进行切割处理
-        # 将得到的excel数据返回进行处理
-        return self.list_data
-
-#将元素和链接表处理为json格式方便查询
-def element_tojson(element):
-    elements = &#123;&#125;
-    #将元素和接口信息组成key和value的形式方便查询
-    for e in element:
-        elements[e[0]] = &#123;&quot;type&quot;: e[1], &quot;url&quot;: e[2]&#125;
-    return elements
-if __name__ == &#39;__main__&#39;:
-    file = &#39;../element/test1.xls&#39;
-    e = Excel(&#39;r&#39;, file)
-    list_read = e.read()
-    e = element_tojson(list_read)
-    print(e[&#39;获取短信验证码&#39;])
-    print(e)
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/10/14/python%E8%AF%BB%E5%8F%96excle%E5%86%85%E5%AE%B9/" data-id="cm7yic4k7001568vd4wil3go6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页 &amp;raquo;</a>
   </nav>
 
 </section>
@@ -1237,7 +2058,7 @@ if __name__ == &#39;__main__&#39;:
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代器和生成器</a></li></ul>
     </div>
   </div>
 
@@ -1247,7 +2068,7 @@ if __name__ == &#39;__main__&#39;:
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
+      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 16.67px;">迭代其和生成器</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 10px;">迭代器和生成器</a>
     </div>
   </div>
 
@@ -1269,23 +2090,23 @@ if __name__ == &#39;__main__&#39;:
       <ul>
         
           <li>
+            <a href="/2025/03/20/%E5%8F%8D%E5%90%91%E8%BF%AD%E4%BB%A3/">反向迭代</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/">生成器创建自定义迭代模式</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/">代理迭代的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/">python迭代器和生成器</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/">mysql数据库插入数据</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/">在类中封装属性名</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/">对象支持上下文管理协议</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/">自定义字符串的格式化</a>
           </li>
         
       </ul>

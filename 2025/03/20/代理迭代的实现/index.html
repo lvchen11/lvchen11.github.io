@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>代理迭代的实现 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="要在自定义容器对象上实现代理迭代，可以通过以下步骤完成： 解决方案：代理迭代的实现 目标：让自定义容器直接迭代其内部多个可迭代对象的所有元素。 步骤说明 定义容器类：容器类需包含多个可迭代对象（如列表、元组）。 实现 __iter__ 方法：在该方法中遍历所有内部可迭代对象，并逐个生成它们的元素。 使用 yield from 简化代码：通过 yield from iterable 直接委托迭代逻辑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代理迭代的实现">
+<meta property="og:url" content="http://example.com/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="要在自定义容器对象上实现代理迭代，可以通过以下步骤完成： 解决方案：代理迭代的实现 目标：让自定义容器直接迭代其内部多个可迭代对象的所有元素。 步骤说明 定义容器类：容器类需包含多个可迭代对象（如列表、元组）。 实现 __iter__ 方法：在该方法中遍历所有内部可迭代对象，并逐个生成它们的元素。 使用 yield from 简化代码：通过 yield from iterable 直接委托迭代逻辑">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-20T06:55:15.000Z">
+<meta property="article:modified_time" content="2025-03-20T07:03:03.420Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="迭代其和生成器">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-代理迭代的实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2025-03-20T06:55:15.000Z" itemprop="datePublished">2025-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      代理迭代的实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要在自定义容器对象上实现代理迭代，可以通过以下步骤完成：</p>
+<p>解决方案：代理迭代的实现</p>
+<p><strong>目标</strong>：让自定义容器直接迭代其内部多个可迭代对象的所有元素。</p>
+<h4 id="步骤说明"><a href="#步骤说明" class="headerlink" title="步骤说明"></a>步骤说明</h4><ol>
+<li><strong>定义容器类</strong>：容器类需包含多个可迭代对象（如列表、元组）。</li>
+<li><strong>实现 <code>__iter__</code> 方法</strong>：在该方法中遍历所有内部可迭代对象，并逐个生成它们的元素。</li>
+<li><strong>使用 <code>yield from</code> 简化代码</strong>：通过 <code>yield from iterable</code> 直接委托迭代逻辑给内部对象。</li>
+</ol>
+<p>示例代码</p>
+<pre><code>class MultiIterContainer:
+    def __init__(self, *iterables):
+        # 存储多个可迭代对象（如列表、元组、生成器等）
+        self.iterables = iterables
+    
+    def __iter__(self):
+        # 遍历每个内部可迭代对象，并逐层展开其元素
+        for iterable in self.iterables:
+            yield from iterable
+
+# 测试
+if __name__ == &quot;__main__&quot;:
+    # 初始化容器，传入列表、元组和生成器
+    data = [1, 2, 3]
+    text = (&quot;a&quot;, &quot;b&quot;)
+    gen = (x for x in range(4, 6))  # 生成器：4, 5
+
+    container = MultiIterContainer(data, text, gen)
+
+    # 直接迭代容器对象
+    for item in container:
+        print(item, end=&quot; &quot;)  # 输出：1 2 3 a b 4 5
+</code></pre>
+<p>关键机制</p>
+<ol>
+<li><strong><code>yield from</code> 的作用</strong>：<ul>
+<li>简化嵌套循环：<code>yield from iterable</code> 等价于 <code>for x in iterable: yield x</code>。</li>
+<li>支持任意可迭代对象（列表、元组、生成器、其他自定义容器等）。</li>
+</ul>
+</li>
+<li><strong>惰性迭代</strong>：<ul>
+<li>容器迭代时按需生成元素，适用于处理大型数据集或无限序列。</li>
+</ul>
+</li>
+<li><strong>动态更新</strong>：<ul>
+<li>如果容器内部的可迭代对象在迭代过程中被修改，迭代结果会反映最新状态。</li>
+</ul>
+</li>
+</ol>
+<p>扩展场景：处理嵌套结构</p>
+<p>若容器内部存在多层嵌套的可迭代对象（如列表的列表），可通过递归展开：</p>
+<pre><code>class DeepIterContainer:
+    def __init__(self, *iterables):
+        self.iterables = iterables
+    
+    def __iter__(self):
+        for item in self.iterables:
+            if isinstance(item, (list, tuple)):  # 检查是否为可迭代对象
+                yield from DeepIterContainer(*item)  # 递归展开
+            else:
+                yield item
+
+# 测试
+container = DeepIterContainer([1, [2, (3,)], 4], (&quot;a&quot;, [&quot;b&quot;]))
+for x in container:
+    print(x, end=&quot; &quot;)  # 输出：1 2 3 4 a b
+</code></pre>
+<p>总结</p>
+<p>通过实现 <code>__iter__</code> 方法并委托给内部对象的迭代逻辑，自定义容器可以：</p>
+<ol>
+<li><strong>统一管理多个可迭代对象</strong>。</li>
+<li><strong>直接支持 <code>for</code> 循环、列表推导式等迭代操作</strong>。</li>
+<li><strong>灵活扩展</strong>（如嵌套展开、过滤元素等）。</li>
+</ol>
+<p>这种模式常用于日志聚合、数据管道或组合模式的设计中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/" data-id="cm8h0o63n001l70vd6mi64wsn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          生成器创建自定义迭代模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">python迭代器和生成器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代器和生成器</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 16.67px;">迭代其和生成器</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 10px;">迭代器和生成器</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">三月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/03/20/%E5%8F%8D%E5%90%91%E8%BF%AD%E4%BB%A3/">反向迭代</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/">生成器创建自定义迭代模式</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/">代理迭代的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/">python迭代器和生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

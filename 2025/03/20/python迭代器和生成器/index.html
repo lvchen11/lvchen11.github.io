@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>python迭代器和生成器 | 月明星稀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、迭代器（Iterator）1. 核心概念迭代器是一个实现了__iter__和__next__方法的对象，用于逐个访问集合中的元素。任何实现了这两个方法的类都可以称为迭代器：  __iter__：返回迭代器对象自身（通常是self） __next__：返回下一个元素，若没有元素则抛出StopIteration异常  2. 代码示例 class MyIterator:     def __init">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python迭代器和生成器">
+<meta property="og:url" content="http://example.com/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/index.html">
+<meta property="og:site_name" content="月明星稀">
+<meta property="og:description" content="一、迭代器（Iterator）1. 核心概念迭代器是一个实现了__iter__和__next__方法的对象，用于逐个访问集合中的元素。任何实现了这两个方法的类都可以称为迭代器：  __iter__：返回迭代器对象自身（通常是self） __next__：返回下一个元素，若没有元素则抛出StopIteration异常  2. 代码示例 class MyIterator:     def __init">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-20T05:37:49.000Z">
+<meta property="article:modified_time" content="2025-03-20T07:14:35.057Z">
+<meta property="article:author" content="当时只道是寻常">
+<meta property="article:tag" content="迭代器和生成器">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="月明星稀" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">月明星稀</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-python迭代器和生成器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" class="article-date">
+  <time datetime="2025-03-20T05:37:49.000Z" itemprop="datePublished">2025-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python迭代器和生成器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>一、迭代器（Iterator）</strong><br><strong>1. 核心概念</strong><br>迭代器是一个实现了<code>__iter__</code>和<code>__next__</code>方法的对象，用于逐个访问集合中的元素。任何实现了这两个方法的类都可以称为迭代器：</p>
+<ul>
+<li><code>__iter__</code>：返回迭代器对象自身（通常是<code>self</code>）</li>
+<li><code>__next__</code>：返回下一个元素，若没有元素则抛出<code>StopIteration</code>异常</li>
+</ul>
+<p><strong>2. 代码示例</strong></p>
+<pre><code class="python">class MyIterator:
+    def __init__(self, max_val):
+        self.max_val = max_val
+        self.current = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.current &lt; self.max_val:
+            self.current += 1
+            return self.current
+        else:
+            raise StopIteration
+
+# 使用示例
+it = MyIterator(3)
+print(next(it))  # 输出 1
+print(next(it))  # 输出 2
+print(next(it))  # 输出 3
+# for num in it:
+#     print(num)
+</code></pre>
+<p><strong>3. 内置迭代器工具</strong><br>Python内置对象如列表、字符串等虽然不是迭代器，但可通过<code>iter()</code>函数转换为迭代器</p>
+<pre><code class="python">my_list = [1, 2, 3]
+list_iter = iter(my_list)
+print(next(list_iter))  # 输出 1
+</code></pre>
+<hr>
+<p><strong>二、生成器（Generator）</strong><br><strong>1. 核心概念</strong><br>生成器是一种特殊的迭代器，通过<code>yield</code>关键字实现延迟计算。它不需要显式定义<code>__iter__</code>和<code>__next__</code>方法，而是通过函数暂停和恢复执行状态来生成值。</p>
+<p><strong>2. 代码示例</strong><br><strong>(1) 生成器函数：</strong></p>
+<pre><code class="python">def my_generator(max_val):
+    current = 0
+    while current &lt; max_val:
+        yield current
+        current += 1
+
+# 使用示例
+gen = my_generator(3)
+print(next(gen))  # 输出 0
+print(next(gen))  # 输出 1
+</code></pre>
+<p><strong>(2) 生成器表达式：</strong></p>
+<pre><code class="python">gen_expr = (x**2 for x in range(3))
+print(list(gen_expr))  # 输出 [0, 1, 4]
+</code></pre>
+<p><strong>3. 优势特性</strong></p>
+<ul>
+<li><strong>内存效率</strong>：生成器逐个生成值，无需预存所有数据（适合处理大文件或无限序列）</li>
+<li><strong>状态保持</strong>：每次<code>yield</code>会保存当前执行状态</li>
+<li><strong>简化代码</strong>：无需手动实现迭代器类</li>
+</ul>
+<hr>
+<p><strong>三、关键区别对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>迭代器</th>
+<th>生成器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实现方式</td>
+<td>需显式定义<code>__iter__</code>和<code>__next__</code></td>
+<td>使用<code>yield</code>关键字自动实现</td>
+</tr>
+<tr>
+<td>代码复杂度</td>
+<td>较高</td>
+<td>较低</td>
+</tr>
+<tr>
+<td>内存占用</td>
+<td>需预先存储数据</td>
+<td>按需生成数据</td>
+</tr>
+<tr>
+<td>应用场景</td>
+<td>遍历现有集合</td>
+<td>处理流式数据或大规模数据集</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>四、实际应用场景</strong></p>
+<ol>
+<li><p><strong>迭代器</strong>：遍历数据库查询结果、自定义集合类</p>
+</li>
+<li><p>生成器</p>
+<ul>
+<li>读取大文件（逐行处理避免内存溢出）</li>
+</ul>
+<pre><code class="python">def read_large_file(file_path):
+    with open(file_path) as f:
+        for line in f:
+            yield line.strip()
+</code></pre>
+<ul>
+<li>生成无限序列（如斐波那契数列）</li>
+</ul>
+<pre><code class="python">def fibonacci():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+</code></pre>
+</li>
+</ol>
+<hr>
+<p><strong>五、注意事项</strong></p>
+<ol>
+<li>生成器只能遍历一次，若需重复使用需重新创建</li>
+<li>迭代器可通过<code>for</code>循环隐式调用<code>next()</code></li>
+<li>生成器支持双向通信（通过<code>.send()</code>方法传递值）</li>
+</ol>
+<p>通过结合迭代器的规范性和生成器的简洁性，可以高效处理各类数据流问题。如需进一步优化，可研究<code>itertools</code>模块提供的扩展工具。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" data-id="cm8h0o63l001770vd6dv76uqe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代器和生成器</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          代理迭代的实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">服务器同步时间配置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jmeter/">jmeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytest/">pytest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/unittest/">unittest</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%84%E7%90%86Excel%E6%96%87%E4%BB%B6/">处理Excel文件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代器和生成器</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 16.67px;">迭代其和生成器</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 10px;">迭代器和生成器</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">三月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/03/20/%E5%8F%8D%E5%90%91%E8%BF%AD%E4%BB%A3/">反向迭代</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/">生成器创建自定义迭代模式</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/">代理迭代的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/">python迭代器和生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 当时只道是寻常<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -64,6 +64,587 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-反向迭代" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/20/%E5%8F%8D%E5%90%91%E8%BF%AD%E4%BB%A3/" class="article-date">
+  <time datetime="2025-03-20T07:09:12.000Z" itemprop="datePublished">2025-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/20/%E5%8F%8D%E5%90%91%E8%BF%AD%E4%BB%A3/">反向迭代</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 Python 中反向迭代序列可以通过以下方法实现，根据不同的需求选择最佳方案：</p>
+<ol>
+<li><strong>使用 <code>reversed()</code> 函数（推荐）</strong></li>
+</ol>
+<p><code>reversed()</code> 返回一个反向迭代器，直接按倒序访问元素，无需复制数据。</p>
+<pre><code class="python">my_list = [1, 2, 3, 4, 5]
+
+# 反向迭代列表
+for item in reversed(my_list):
+    print(item)
+# 输出：5 4 3 2 1
+
+# 反向迭代字符串
+text = &quot;hello&quot;
+for char in reversed(text):
+    print(char)  # 输出：o l l e h
+</code></pre>
+<p><strong>优点</strong>：</p>
+<ul>
+<li><strong>内存高效</strong>：不生成新序列，直接反向访问原数据。</li>
+<li><strong>通用性</strong>：支持列表、字符串、元组等所有可逆对象。</li>
+</ul>
+<ol start="2">
+<li><strong>切片操作 <code>[::-1]</code></strong></li>
+</ol>
+<p>通过切片生成一个反向副本，适用于需要修改反向序列的场景。</p>
+<pre><code class="python">my_list = [1, 2, 3, 4, 5]
+reversed_list = my_list[::-1]  # 生成新列表 [5, 4, 3, 2, 1]
+
+for item in reversed_list:
+    print(item)
+</code></pre>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li><strong>内存开销</strong>：会生成完整的新序列副本，不适合大型数据集。</li>
+<li><strong>适用性</strong>：仅支持列表、字符串等可切片对象。</li>
+</ul>
+<ol start="3">
+<li><strong>自定义反向迭代逻辑</strong></li>
+</ol>
+<p>当对象不支持反向迭代时（如自定义链表），可手动实现反向逻辑。</p>
+<h4 id="示例：链表反向迭代"><a href="#示例：链表反向迭代" class="headerlink" title="示例：链表反向迭代"></a>示例：链表反向迭代</h4><pre><code class="python">class Node:
+    def __init__(self, value, next_node=None):
+        self.value = value
+        self.next = next_node
+
+# 创建链表：1 -&gt; 2 -&gt; 3 -&gt; None
+head = Node(1, Node(2, Node(3)))
+
+# 手动反向迭代
+current = head
+stack = []
+while current:
+    stack.append(current.value)  # 将节点值压入栈
+    current = current.next
+
+for value in reversed(stack):    # 从栈中弹出反向值
+    print(value)  # 输出：3 2 1
+</code></pre>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>处理不支持内置反向操作的数据结构（如单向链表）。</li>
+<li>需要自定义反向条件（如只反向偶数索引元素）。</li>
+</ul>
+<ol start="4">
+<li><strong>为自定义类添加反向迭代支持</strong></li>
+</ol>
+<p>通过实现 <code>__reversed__</code> 方法，使自定义容器支持 <code>reversed()</code>。</p>
+<pre><code class="python">class MyContainer:
+    def __init__(self, data):
+        self.data = data
+
+    def __reversed__(self):
+        # 返回一个反向迭代器
+        return reversed(self.data)
+
+# 使用示例
+container = MyContainer([1, 2, 3])
+for item in reversed(container):
+    print(item)  # 输出：3 2 1
+</code></pre>
+<ol start="5">
+<li><strong>反向迭代不可逆对象</strong></li>
+</ol>
+<p>对生成器或文件流等不可逆对象，可先转成列表再反向。</p>
+<pre><code class="python"># 反向迭代生成器产生的数据
+gen = (x for x in range(5))  # 生成器：0,1,2,3,4
+for item in reversed(list(gen)):  # 先转为列表
+    print(item)  # 输出：4 3 2 1 0
+</code></pre>
+<p><strong>注意</strong>：</p>
+<ul>
+<li><strong>内存风险</strong>：若数据量巨大，转换为列表可能导致内存不足。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>适用场景</th>
+<th>内存开销</th>
+<th>是否修改原数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>reversed()</code></td>
+<td>通用反向迭代</td>
+<td>低</td>
+<td>否</td>
+</tr>
+<tr>
+<td>切片 <code>[::-1]</code></td>
+<td>需要反向副本</td>
+<td>高</td>
+<td>生成副本</td>
+</tr>
+<tr>
+<td>自定义逻辑</td>
+<td>特殊数据结构或条件反向</td>
+<td>可变</td>
+<td>否</td>
+</tr>
+<tr>
+<td>转列表再反向</td>
+<td>处理不可逆对象（如生成器）</td>
+<td>高</td>
+<td>生成副本</td>
+</tr>
+</tbody></table>
+<p>根据数据规模和需求选择最佳方案！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/20/%E5%8F%8D%E5%90%91%E8%BF%AD%E4%BB%A3/" data-id="cm8h0o63p001r70vdbwtq6o3g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-生成器创建自定义迭代模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2025-03-20T07:02:22.000Z" itemprop="datePublished">2025-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/">生成器创建自定义迭代模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用生成器创建自定义迭代模式的 Python 实现</p>
+<h4 id="1-目标"><a href="#1-目标" class="headerlink" title="1. 目标"></a>1. <strong>目标</strong></h4><p>通过生成器函数（<code>yield</code>）实现以下自定义迭代模式：</p>
+<ul>
+<li><strong>非线性序列</strong>（如平方数、指数增长）。</li>
+<li><strong>条件过滤序列</strong>（如仅生成偶数或特定范围的数）。</li>
+<li><strong>无限序列</strong>（如斐波那契数列）。</li>
+<li><strong>组合迭代</strong>（如交替合并多个序列）。</li>
+</ul>
+<h4 id="2-基础生成器示例"><a href="#2-基础生成器示例" class="headerlink" title="2. 基础生成器示例"></a>2. <strong>基础生成器示例</strong></h4><h5 id="示例-1：生成平方数序列"><a href="#示例-1：生成平方数序列" class="headerlink" title="示例 1：生成平方数序列"></a><strong>示例 1：生成平方数序列</strong></h5><pre><code class="python">def square_generator(n):
+    &quot;&quot;&quot;生成前n个平方数&quot;&quot;&quot;
+    for i in range(n):
+        yield i ** 2
+
+# 使用示例
+for num in square_generator(5):
+    print(num)  # 输出：0, 1, 4, 9, 16
+</code></pre>
+<h5 id="示例-2：生成指数增长序列"><a href="#示例-2：生成指数增长序列" class="headerlink" title="示例 2：生成指数增长序列"></a><strong>示例 2：生成指数增长序列</strong></h5><pre><code class="python">def exponential_generator(base, max_value):
+    &quot;&quot;&quot;生成 base^0, base^1, ...，直到超过max_value&quot;&quot;&quot;
+    current = 1
+    while current &lt;= max_value:
+        yield current
+        current *= base
+
+# 使用示例
+for num in exponential_generator(2, 32):
+    print(num)  # 输出：1, 2, 4, 8, 16, 32
+</code></pre>
+<h4 id="3-条件过滤迭代"><a href="#3-条件过滤迭代" class="headerlink" title="3. 条件过滤迭代"></a>3. <strong>条件过滤迭代</strong></h4><h5 id="示例-3：仅生成满足条件的值"><a href="#示例-3：仅生成满足条件的值" class="headerlink" title="示例 3：仅生成满足条件的值"></a><strong>示例 3：仅生成满足条件的值</strong></h5><pre><code class="python">def conditional_filter(start, end, condition_func):
+    &quot;&quot;&quot;生成 start到end之间满足condition_func的数&quot;&quot;&quot;
+    current = start
+    while current &lt;= end:
+        if condition_func(current):
+            yield current
+        current += 1
+
+# 使用示例：生成偶数
+is_even = lambda x: x % 2 == 0
+for num in conditional_filter(0, 10, is_even):
+    print(num)  # 输出：0, 2, 4, 6, 8, 10
+</code></pre>
+<h4 id="4-无限序列"><a href="#4-无限序列" class="headerlink" title="4. 无限序列"></a>4. <strong>无限序列</strong></h4><h5 id="示例-4：无限斐波那契数列"><a href="#示例-4：无限斐波那契数列" class="headerlink" title="示例 4：无限斐波那契数列"></a><strong>示例 4：无限斐波那契数列</strong></h5><pre><code class="python">def fibonacci_generator():
+    &quot;&quot;&quot;生成无限斐波那契数列&quot;&quot;&quot;
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+# 使用示例：生成前10个斐波那契数
+fib = fibonacci_generator()
+for _ in range(10):
+    print(next(fib))  # 输出：0, 1, 1, 2, 3, 5, 8, 13, 21, 34
+</code></pre>
+<h4 id="5-组合迭代模式"><a href="#5-组合迭代模式" class="headerlink" title="5. 组合迭代模式"></a>5. <strong>组合迭代模式</strong></h4><h5 id="示例-5：交替合并多个序列"><a href="#示例-5：交替合并多个序列" class="headerlink" title="示例 5：交替合并多个序列"></a><strong>示例 5：交替合并多个序列</strong></h5><pre><code class="python">def alternate(*iterables):
+    &quot;&quot;&quot;交替从多个可迭代对象中取元素&quot;&quot;&quot;
+    iterators = [iter(it) for it in iterables]
+    while iterators:
+        for it in list(iterators):
+            try:
+                yield next(it)
+            except StopIteration:
+                iterators.remove(it)
+
+# 使用示例
+list1 = [1, 2, 3]
+list2 = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+for item in alternate(list1, list2):
+    print(item)  # 输出：1, &#39;a&#39;, 2, &#39;b&#39;, 3, &#39;c&#39;
+</code></pre>
+<h4 id="6-动态调整迭代逻辑"><a href="#6-动态调整迭代逻辑" class="headerlink" title="6. 动态调整迭代逻辑"></a>6. <strong>动态调整迭代逻辑</strong></h4><h5 id="示例-6：可变步长的迭代"><a href="#示例-6：可变步长的迭代" class="headerlink" title="示例 6：可变步长的迭代"></a><strong>示例 6：可变步长的迭代</strong></h5><pre><code class="python">def dynamic_step_generator(start, end, step_func):
+    &quot;&quot;&quot;根据step_func动态调整步长&quot;&quot;&quot;
+    current = start
+    while current &lt;= end:
+        yield current
+        step = step_func(current)  # 例如：步长每次翻倍
+        current += step
+
+# 使用示例：步长每次翻倍
+step_func = lambda x: x if x &lt; 4 else 1  # 自定义逻辑
+for num in dynamic_step_generator(1, 10, step_func):
+    print(num)  # 输出：1, 2, 4, 5, 6, 7, 8, 9, 10
+</code></pre>
+<h4 id="7-总结"><a href="#7-总结" class="headerlink" title="7. 总结"></a>7. 总结</h4><ul>
+<li><strong>核心机制</strong>：通过 <code>yield</code> 暂停函数状态，逐个返回值。</li>
+<li><strong>灵活控制</strong>：可以自由定义迭代的起始、终止、步长、条件等逻辑。</li>
+<li><strong>内存高效</strong>：生成器按需生成值，无需预先生成完整序列。</li>
+</ul>
+<p>通过组合上述模式，你可以轻松实现复杂的迭代需求（如分块处理、实时数据流等）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/" data-id="cm8h0o640003u70vd4owaavm5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-代理迭代的实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2025-03-20T06:55:15.000Z" itemprop="datePublished">2025-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/">代理迭代的实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要在自定义容器对象上实现代理迭代，可以通过以下步骤完成：</p>
+<p>解决方案：代理迭代的实现</p>
+<p><strong>目标</strong>：让自定义容器直接迭代其内部多个可迭代对象的所有元素。</p>
+<h4 id="步骤说明"><a href="#步骤说明" class="headerlink" title="步骤说明"></a>步骤说明</h4><ol>
+<li><strong>定义容器类</strong>：容器类需包含多个可迭代对象（如列表、元组）。</li>
+<li><strong>实现 <code>__iter__</code> 方法</strong>：在该方法中遍历所有内部可迭代对象，并逐个生成它们的元素。</li>
+<li><strong>使用 <code>yield from</code> 简化代码</strong>：通过 <code>yield from iterable</code> 直接委托迭代逻辑给内部对象。</li>
+</ol>
+<p>示例代码</p>
+<pre><code>class MultiIterContainer:
+    def __init__(self, *iterables):
+        # 存储多个可迭代对象（如列表、元组、生成器等）
+        self.iterables = iterables
+    
+    def __iter__(self):
+        # 遍历每个内部可迭代对象，并逐层展开其元素
+        for iterable in self.iterables:
+            yield from iterable
+
+# 测试
+if __name__ == &quot;__main__&quot;:
+    # 初始化容器，传入列表、元组和生成器
+    data = [1, 2, 3]
+    text = (&quot;a&quot;, &quot;b&quot;)
+    gen = (x for x in range(4, 6))  # 生成器：4, 5
+
+    container = MultiIterContainer(data, text, gen)
+
+    # 直接迭代容器对象
+    for item in container:
+        print(item, end=&quot; &quot;)  # 输出：1 2 3 a b 4 5
+</code></pre>
+<p>关键机制</p>
+<ol>
+<li><strong><code>yield from</code> 的作用</strong>：<ul>
+<li>简化嵌套循环：<code>yield from iterable</code> 等价于 <code>for x in iterable: yield x</code>。</li>
+<li>支持任意可迭代对象（列表、元组、生成器、其他自定义容器等）。</li>
+</ul>
+</li>
+<li><strong>惰性迭代</strong>：<ul>
+<li>容器迭代时按需生成元素，适用于处理大型数据集或无限序列。</li>
+</ul>
+</li>
+<li><strong>动态更新</strong>：<ul>
+<li>如果容器内部的可迭代对象在迭代过程中被修改，迭代结果会反映最新状态。</li>
+</ul>
+</li>
+</ol>
+<p>扩展场景：处理嵌套结构</p>
+<p>若容器内部存在多层嵌套的可迭代对象（如列表的列表），可通过递归展开：</p>
+<pre><code>class DeepIterContainer:
+    def __init__(self, *iterables):
+        self.iterables = iterables
+    
+    def __iter__(self):
+        for item in self.iterables:
+            if isinstance(item, (list, tuple)):  # 检查是否为可迭代对象
+                yield from DeepIterContainer(*item)  # 递归展开
+            else:
+                yield item
+
+# 测试
+container = DeepIterContainer([1, [2, (3,)], 4], (&quot;a&quot;, [&quot;b&quot;]))
+for x in container:
+    print(x, end=&quot; &quot;)  # 输出：1 2 3 4 a b
+</code></pre>
+<p>总结</p>
+<p>通过实现 <code>__iter__</code> 方法并委托给内部对象的迭代逻辑，自定义容器可以：</p>
+<ol>
+<li><strong>统一管理多个可迭代对象</strong>。</li>
+<li><strong>直接支持 <code>for</code> 循环、列表推导式等迭代操作</strong>。</li>
+<li><strong>灵活扩展</strong>（如嵌套展开、过滤元素等）。</li>
+</ol>
+<p>这种模式常用于日志聚合、数据管道或组合模式的设计中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/" data-id="cm8h0o63n001l70vd6mi64wsn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python迭代器和生成器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" class="article-date">
+  <time datetime="2025-03-20T05:37:49.000Z" itemprop="datePublished">2025-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/">python迭代器和生成器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>一、迭代器（Iterator）</strong><br><strong>1. 核心概念</strong><br>迭代器是一个实现了<code>__iter__</code>和<code>__next__</code>方法的对象，用于逐个访问集合中的元素。任何实现了这两个方法的类都可以称为迭代器：</p>
+<ul>
+<li><code>__iter__</code>：返回迭代器对象自身（通常是<code>self</code>）</li>
+<li><code>__next__</code>：返回下一个元素，若没有元素则抛出<code>StopIteration</code>异常</li>
+</ul>
+<p><strong>2. 代码示例</strong></p>
+<pre><code class="python">class MyIterator:
+    def __init__(self, max_val):
+        self.max_val = max_val
+        self.current = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.current &lt; self.max_val:
+            self.current += 1
+            return self.current
+        else:
+            raise StopIteration
+
+# 使用示例
+it = MyIterator(3)
+print(next(it))  # 输出 1
+print(next(it))  # 输出 2
+print(next(it))  # 输出 3
+# for num in it:
+#     print(num)
+</code></pre>
+<p><strong>3. 内置迭代器工具</strong><br>Python内置对象如列表、字符串等虽然不是迭代器，但可通过<code>iter()</code>函数转换为迭代器</p>
+<pre><code class="python">my_list = [1, 2, 3]
+list_iter = iter(my_list)
+print(next(list_iter))  # 输出 1
+</code></pre>
+<hr>
+<p><strong>二、生成器（Generator）</strong><br><strong>1. 核心概念</strong><br>生成器是一种特殊的迭代器，通过<code>yield</code>关键字实现延迟计算。它不需要显式定义<code>__iter__</code>和<code>__next__</code>方法，而是通过函数暂停和恢复执行状态来生成值。</p>
+<p><strong>2. 代码示例</strong><br><strong>(1) 生成器函数：</strong></p>
+<pre><code class="python">def my_generator(max_val):
+    current = 0
+    while current &lt; max_val:
+        yield current
+        current += 1
+
+# 使用示例
+gen = my_generator(3)
+print(next(gen))  # 输出 0
+print(next(gen))  # 输出 1
+</code></pre>
+<p><strong>(2) 生成器表达式：</strong></p>
+<pre><code class="python">gen_expr = (x**2 for x in range(3))
+print(list(gen_expr))  # 输出 [0, 1, 4]
+</code></pre>
+<p><strong>3. 优势特性</strong></p>
+<ul>
+<li><strong>内存效率</strong>：生成器逐个生成值，无需预存所有数据（适合处理大文件或无限序列）</li>
+<li><strong>状态保持</strong>：每次<code>yield</code>会保存当前执行状态</li>
+<li><strong>简化代码</strong>：无需手动实现迭代器类</li>
+</ul>
+<hr>
+<p><strong>三、关键区别对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>迭代器</th>
+<th>生成器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实现方式</td>
+<td>需显式定义<code>__iter__</code>和<code>__next__</code></td>
+<td>使用<code>yield</code>关键字自动实现</td>
+</tr>
+<tr>
+<td>代码复杂度</td>
+<td>较高</td>
+<td>较低</td>
+</tr>
+<tr>
+<td>内存占用</td>
+<td>需预先存储数据</td>
+<td>按需生成数据</td>
+</tr>
+<tr>
+<td>应用场景</td>
+<td>遍历现有集合</td>
+<td>处理流式数据或大规模数据集</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>四、实际应用场景</strong></p>
+<ol>
+<li><p><strong>迭代器</strong>：遍历数据库查询结果、自定义集合类</p>
+</li>
+<li><p>生成器</p>
+<ul>
+<li>读取大文件（逐行处理避免内存溢出）</li>
+</ul>
+<pre><code class="python">def read_large_file(file_path):
+    with open(file_path) as f:
+        for line in f:
+            yield line.strip()
+</code></pre>
+<ul>
+<li>生成无限序列（如斐波那契数列）</li>
+</ul>
+<pre><code class="python">def fibonacci():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+</code></pre>
+</li>
+</ol>
+<hr>
+<p><strong>五、注意事项</strong></p>
+<ol>
+<li>生成器只能遍历一次，若需重复使用需重新创建</li>
+<li>迭代器可通过<code>for</code>循环隐式调用<code>next()</code></li>
+<li>生成器支持双向通信（通过<code>.send()</code>方法传递值）</li>
+</ol>
+<p>通过结合迭代器的规范性和生成器的简洁性，可以高效处理各类数据流问题。如需进一步优化，可研究<code>itertools</code>模块提供的扩展工具。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" data-id="cm8h0o63l001770vd6dv76uqe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代器和生成器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-服务器同步时间配置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" class="article-date">
@@ -196,7 +777,7 @@ chronyc clients
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" data-id="cm7yic4kd001z68vdc5xogm4m" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/" data-id="cm8h0o63s002870vdbwbkfzs9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li></ul>
@@ -357,7 +938,7 @@ IGNORE 1 LINES               -- 跳过CSV文件的列头行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" data-id="cm7yic4k0000d68vd99rc3e1e" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" data-id="cm8h0o63c000d70vdb0e54127" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -578,7 +1159,7 @@ obj.show()
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" data-id="cm7yic4kb001l68vdepyza7ei" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/" data-id="cm8h0o63q001y70vdbnzm5vr7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -664,7 +1245,7 @@ with FileOpener(&quot;test.txt&quot;, &quot;w&quot;) as f:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" data-id="cm7yic4kb001o68vd76p025q6" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" data-id="cm8h0o63p001u70vdbzjwfzkp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -756,7 +1337,7 @@ print(format(v, &#39;p&#39;))  # 输出: Vector(r=5.00, θ=53.13°)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm7yic4ke002268vd4nbk0u0g" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/" data-id="cm8h0o641003x70vdg6blebd3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
@@ -884,461 +1465,10 @@ NAME：打开文件的确切名称
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm7yic4jy000868vd0nszfsfc" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2025/02/26/linux%E5%91%BD%E4%BB%A4lsof/" data-id="cm8h0o63b000870vd032j9grm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-selenium多窗口-警告框处理/select" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" class="article-date">
-  <time datetime="2025-02-26T01:42:46.081Z" itemprop="datePublished">2025-02-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <html>
-<head>
-<meta charset="utf-8">
-<title>上传表单</title>
-#上传文件
-<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js">
-</script>
-</head>
-<body>
-<div class="jumbotron">
-<form class="form-inline" role="form">
-<div class="form-group">
-<label class="sr-only" for="name">名称</label>
-<input type="text" class="form-control" id="name" placeholder="请输入名称">
-</div>
-<div class="form-group">
-<label class="sr-only" for="inputfile">文件输入</label>
-<input type="file" id="inputfile">
-</div>
-<button type="submit" class="btn btn-default">提交</button>
-</form>
-</div>
-
-# select 选择
-<form>
-<center>
-<select name="anjing">
-<option value="boke">请关注今日天气</option>
-<option value="study">今天大雨</option>
-<option value="daily">写写什么</option>
-<option value="like">喜欢的食物</option>
-<option value="attention">关注点在哪里</option>
-</select></center>
-
-</form>
-
-</body>
-</html>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/26/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/select/" data-id="cm7yic4ke002568vd3newbg0b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-改变对象字符串显示" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" class="article-date">
-  <time datetime="2025-02-25T08:37:57.000Z" itemprop="datePublished">2025-02-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/python/">python</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/">改变对象字符串显示</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-repr函数简介"><a href="#1-repr函数简介" class="headerlink" title="1. repr函数简介"></a>1. repr函数简介</h4><p>​        在Python中，<code>__repr__</code>和<code>__str__</code>都是用于对象字符串表示的特殊方法，但用途不同。<code>__repr__</code>（representation）旨在提供对象的“官方”字符串表示，通常用于调试和日志，应尽量明确且无歧义（如<code>eval(repr(obj))</code>能重建对象），开发者可通过<code>repr(obj)</code>或直接输出对象时调用；<code>__str__</code>（string）则面向用户，提供更友好、可读性高的描述（如<code>print(obj)</code>时触发），若未定义则默认回退到<code>__repr__</code>。两者均需返回字符串，但<code>__repr__</code>更强调准确性，<code>__str__</code>侧重易读性。</p>
-<pre><code class="python">class Pair:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def __repr__(self):
-        return &#39;Pair(&#123;0.x!r&#125;, &#123;0.y!r&#125;)&#39;.format(self)
-
-    def __str__(self):
-        return &#39;(&#123;0.x!s&#125;, &#123;0.y!s&#125;)&#39;.format(self)
-p = Pair(1,2)
-print(repr(p)) # Pair(1, 2)  # 当调用内置函数repr(obj)时，实际上会调用obj.__repr__()方法
-print(str(p)) # (1, 2)
-new_p = eval(repr(p))
-print(&quot;new_p: &quot;, new_p) # new_p:  (1, 2)
-
-
-p = Pair(True, [1, 2, 3])
-
-print(repr(p))  # 输出：Pair(True, [1, 2, 3])
-print(str(p))   # 输出：(True, [1, 2, 3])
-# 可以看到 !r 会保留数据的完整类型信息，而 !s 会直接输出值的字符串形式
-
-
-# 实例：
-class Vector3D:
-    def __init__(self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z
-    # 标准 repr 格式
-    def __repr__(self):
-        # return f&quot;Vector3D(&#123;self.x!r&#125;,&#123;self.y!r&#125;,&#123;self.z!r&#125;)&quot;
-        return f&quot;&#123;self.__class__.__name__&#125;(&#123;self.x!r&#125;,&#123;self.y!r&#125;,&#123;self.z!r&#125;)&quot;
-    
-    #定制化 str 格式
-    def __str__(self):
-        return f&quot;3D向量 → X:&#123;self.x:.2f&#125;, Y:&#123;self.y:.2f&#125;, Z:&#123;self.z:.2f&#125;&quot;
-print(&#39;---------------------------------分割线-----------------------------------&#39;)   
-V = Vector3D(3,4,5)
-print(V) # Vector3D(3,4,5)  # 如果用户没有为Vector3D类定义__str__方法，那么print(V)实际上会调用__repr__方法，导致print(V)和print(repr(V))输出相同
-print(repr(V))
-new_v = eval(repr(V))
-print(new_v)
-
-# V = Vector3D(3, 4, 5)
-# print(V)          # 输出 Vector3D(3,4,5) → 调用 __repr__
-# print(repr(V))    # 输出 Vector3D(3,4,5) → 直接调用 __repr__
-# new_v = eval(repr(V))
-# print(new_v)      # 输出 Vector3D(3,4,5) → 新对象的 __repr__
-
-v = Vector3D(1.2345, 2.5678, 3.8912)
-print(v)  # 输出：3D向量 → X:1.23, Y:2.57, Z:3.89
-
-# 日期时间类
-class MyDateTime:
-    def __init__(self, year, month, day):
-        self.year = year
-        self.month = month
-        self.day = day
-
-    def __repr__(self):
-        return f&quot;&#123;self.__class__.__name__&#125;(&#123;self.year&#125;, &#123;self.month&#125;, &#123;self.day&#125;)&quot;
-
-    def __str__(self):
-        return f&quot;&#123;self.year&#125;年&#123;self.month:02d&#125;月&#123;self.day:02d&#125;日&quot;
-
-# 测试输出
-# dt = MyDateTime(2023, 9, 15)
-# print(repr(dt))  # MyDateTime(2023, 9, 15)
-# print(dt)        # 2023年09月15日
-
-class BrokenClass1:
-    def __init__(self, value):
-        self.value = value
-    def __repr__(self):
-        return f&quot;BrokenClass1(&#123;self.value&#125;)&quot;  # 开发者视角
-    def __str__(self):
-        return f&quot;Value: &#123;self.value&#125;&quot;        # 用户视角
-obj = BrokenClass1(444)
-print(repr(obj)) # 调用 __repr__
-print(obj)  # 调用 __str__
-# 通过定义 __repr__ 或 __str__，你可以控制对象的字符串表示形式
-</code></pre>
-<h4 id="2-案例示范"><a href="#2-案例示范" class="headerlink" title="2. 案例示范"></a>2. 案例示范</h4><pre><code class="python">&quot;&quot;&quot;
-题目：智能坐标点类
-请实现一个 SmartPoint 类，要求满足以下所有条件：
-1. 基础要求
-包含 x, y, tag 三个属性（tag 为字符串类型的标签）
-__repr__ 返回的字符串必须能够通过 eval() 重建对象
-__str__ 返回人类可读的格式：&quot;标签：(x, y)&quot;（坐标保留2位小数）
-
-2. 特殊需求
-当 tag 包含空格时，__repr__ 必须自动添加引号
-如果 tag 为空字符串，__str__ 显示 &quot;未命名点&quot;
-在列表中打印多个 SmartPoint 对象时，显示的是 __repr__ 格式
-&quot;&quot;&quot;
-class SmartPoint:
-    def __init__(self, x, y, tag=&#39;&#39;):
-        self.x = x
-        self.y = y
-        self.tag = tag
-    def __repr__(self):
-        return f&quot;&#123;self.__class__.__name__&#125;(&#123;self.x!r&#125;, &#123;self.y!r&#125;, &#123;self.tag!r&#125;)&quot;
-    
-    def __str__(self):
-        # if self.tag == &quot;&quot;:  # 如果 tag 为空字符串
-        if not self.tag:
-            return f&quot;未命名点：(&#123;self.x:.2f&#125;, &#123;self.y:.2f&#125;)&quot;  # 返回默认提示
-        else:
-            return f&quot;&#123;self.tag&#125;: (&#123;self.x:.2f&#125;, &#123;self.y:.2f&#125;)&quot;
-
-# 创建对象
-p1 = SmartPoint(3.1415926, 2.71828, &quot;Alpha&quot;)
-p2 = SmartPoint(-5, 4.2, &quot;&quot;)
-p3 = SmartPoint(0, 0, &quot;Beta Point&quot;)
-
-# 测试1：直接打印
-print(p1)           # 应输出：Alpha：(3.14, 2.72)
-print(p2)           # 应输出：未命名点：(-5.00, 4.20)
-
-# # 测试2：repr相关
-print(repr(p3))     # 应输出：SmartPoint(0, 0, &#39;Beta Point&#39;)
-points = [p1, p3]
-print(points)       # 应输出：[SmartPoint(3.1415926, 2.71828, &#39;Alpha&#39;), SmartPoint(0, 0, &#39;Beta Point&#39;)]
-
-# 测试3：eval验证
-p1_clone = eval(repr(p1))
-print(p1.x)
-print(p1_clone.x)
-print(p1_clone.tag)
-print(p1_clone.x == p1.x)  # 应输出：True
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/25/%E6%94%B9%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA/" data-id="cm7yic4kc001v68vdhgj46v6q" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ntp配置时间同步" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" class="article-date">
-  <time datetime="2023-09-20T05:42:36.000Z" itemprop="datePublished">2023-09-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">ntp配置时间同步</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="方法1：ntpd服务同步"><a href="#方法1：ntpd服务同步" class="headerlink" title="方法1：ntpd服务同步"></a>方法1：ntpd服务同步</h4><ul>
-<li>每台主机上安装yum -y install ntp</li>
-<li>配置/etc/ntp.conf配置文件</li>
-<li>启动ntpd服务</li>
-</ul>
-<h4 id="方法2：ntpd-ntpdate同步"><a href="#方法2：ntpd-ntpdate同步" class="headerlink" title="方法2：ntpd+ntpdate同步"></a>方法2：ntpd+ntpdate同步</h4><ol>
-<li><p>选一台服务器作为ntp服务器</p>
-<p>安装yum -y install ntp</p>
-<p>启动ntpd服务</p>
-</li>
-<li><p>其他服务器作为客户端配置定时任务使用ntpdate同步时间</p>
-</li>
-</ol>
-<pre><code class="shell"> yum install ntpdate
-    echo &quot;* * * * * /usr/sbin/ntpdate ntp服务器ip&quot; &gt;&gt;/etc/crontab
-    systemctl start ntpdate
-    systemctl status ntpdate
-    systemctl enable ntpdate
-</code></pre>
-<ol start="3">
-<li>实例如下：</li>
-</ol>
-<pre><code class="shell">1、选择一台服务作为ntp服务器，安装ntp软件，并启动服务
-    yum -y install ntp
-    systemctl start ntpd
-    systemctl enable ntpd
-2、配置ntp客户端(客户端都要安装ntpdate)同步ntp服务器时间,下面命令都要在客户端执行
-        yum install ntpdate
-        echo &quot;* * * * * /usr/sbin/ntpdate 172.172.31.32&quot; &gt;&gt;/etc/crontab
-        systemctl restart crond
-        systemctl status crond
-</code></pre>
-<h4 id="记录一下装载目录方法："><a href="#记录一下装载目录方法：" class="headerlink" title="记录一下装载目录方法："></a>记录一下装载目录方法：</h4><pre><code class="shell">        # 用lsblk查看磁盘信息。
-        mkfs.xfs -f  /dev/sdb
-        mkdir -p /data1
-        mount /dev/sdb /data1
-        chmod +x  /etc/rc.d/rc.local
-        echo &quot;/usr/bin/mount -t xfs /dev/sdb /data1&quot; &gt;&gt;/etc/rc.d/rc.local
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/20/ntp%E9%85%8D%E7%BD%AE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cm7yic4k0000e68vdd2avemze" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-接口测试学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time datetime="2023-06-19T01:28:09.000Z" itemprop="datePublished">2023-06-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/">接口测试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">接口测试学习笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-HTTP-与-HTTPS-的概念"><a href="#1-HTTP-与-HTTPS-的概念" class="headerlink" title="1. HTTP 与 HTTPS 的概念"></a>1. HTTP 与 HTTPS 的概念</h4><ul>
-<li>HTTP</li>
-<li><ul>
-<li>超文本传输协议</li>
-<li>是一个基于请求与响应，无状态的，应用层的协议</li>
-<li>常基于 TCP/IP 协议传输数据</li>
-<li>以明文方式发送内容</li>
-</ul>
-</li>
-<li>HTTPS</li>
-<li><ul>
-<li>安全套接字层超文本传输协议</li>
-<li>通过计算机网络进行安全通信的传输协议</li>
-<li>在 HTTP 的基础上加入了 SSL/TLS 协议</li>
-<li><code>HTTP + 加密 + 认证 + 完整性保护 = HTTPS</code> </li>
-</ul>
-</li>
-<li><img src="../imags/$%7Bfiilename%7D/https%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.jpg" alt="https通信过程"></li>
-<li><img src="../images/%E4%BC%A0%E8%BE%93.jpg" alt="传输"></li>
-</ul>
-<h4 id="2-HTTP-与-HTTPS-的区别"><a href="#2-HTTP-与-HTTPS-的区别" class="headerlink" title="2. HTTP 与 HTTPS 的区别"></a>2. HTTP 与 HTTPS 的区别</h4><ol>
-<li><p>HTTPS 比 HTTP 更安全</p>
-<ul>
-<li><p>HTTP 是超文本传输协议，连接简单无状态，信息明文传输</p>
-</li>
-<li><p>HTTPS 通过 SSL/TLS 提供安全方式</p>
-</li>
-</ul>
-</li>
-<li><p>HTTP 和 HTTPS 使用完全不同的连接方式</p>
-</li>
-<li><p>HTTP 和 HTTPS 用的端口也不一样</p>
-<ul>
-<li><p>HTTP 是 80 端口</p>
-</li>
-<li><p>HTTPS 是 443 端口</p>
-</li>
-</ul>
-</li>
-<li><p>HTTPS 协议需要到 CA 申请证书，可能需要一定费用</p>
-</li>
-</ol>
-<h4 id="3-get、post区别"><a href="#3-get、post区别" class="headerlink" title="3.get、post区别"></a>3.get、post区别</h4><p><img src="../images/%E5%8C%BA%E5%88%AB.jpg" alt="区别"></p>
-<ul>
-<li><p>HTTP 的 method 字段不同</p>
-</li>
-<li><p>POST 可以附加 body，可以支持 form、json、xml、binary 等各种数据格式</p>
-</li>
-<li><p>行业通用的规范</p>
-</li>
-<li><ul>
-<li>无状态变化的建议使用 GET 请求</li>
-<li>数据的写入与状态修改建议用 POST</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>传送数据量不同</li>
-<li>安全性不同</li>
-</ul>
-<h4 id="4-session、cookie、token的区别"><a href="#4-session、cookie、token的区别" class="headerlink" title="4 session、cookie、token的区别"></a>4 session、cookie、token的区别</h4><ul>
-<li>Session：数据存储到服务端，只把关联数据的一个加密串放到 Cookie 中标记</li>
-<li>Cookie：浏览器接受服务器的 Set-Cookie 指令，并把 cookie 保存到电脑上，每个网站保存的 cookie 只作用于自己的网站</li>
-<li>Token：是一个用户请求时附带的请求字段，用于验证身份与权限</li>
-</ul>
-<h5 id="4-1-session的实现机制"><a href="#4-1-session的实现机制" class="headerlink" title="4.1 session的实现机制"></a>4.1 session的实现机制</h5><p>​        服务器创建 Session 出来后，会把 Session id，以 Cookie 的形式回写给客户端  浏览器，这样，只要客户端的浏览器不关，再去访问服务器时，都会带着 Session id ，服务器发现客户机浏览器带 Session id  过来了，就会使用内存中与之对应的 Session 为之服务。(Session 会存在服务器)</p>
-<p><img src="../images/session.jpg" alt="session"></p>
-<h5 id="4-2-cookie-实现机制"><a href="#4-2-cookie-实现机制" class="headerlink" title="4.2 cookie 实现机制"></a>4.2 cookie 实现机制</h5><ul>
-<li>Cookie 通过在客户端记录信息确定用户身份，</li>
-<li>Cookie 由服务器生成，发送给浏览器，浏览器把 Cookie 以 kv 形式保存到某个目录下的文本文件内，下一次请求同一网站时会把该 Cookie 发送给服务器。</li>
-</ul>
-<p><img src="../images/cookie%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.jpg" alt="cookie实现机制"></p>
-<h5 id="4-3-Token-的原理"><a href="#4-3-Token-的原理" class="headerlink" title="4.3 Token 的原理"></a>4.3 Token 的原理</h5><ul>
-<li><p>基于 Token 的身份验证是无状态的，我们不将用户信息存在服务器或 Session 中。这解决了在服务端存储信息时的许多问题 NoSession 意味着你的程序可以根据需要去增减机器，而不用去担心用户是否登录。</p>
-</li>
-<li><p>基于 Token 的身份验证的过程如下:</p>
-</li>
-<li><ul>
-<li>用户发送数据请求</li>
-<li>程序验证</li>
-<li>程序返回一个签名的 token 给客户端</li>
-<li>客户端储存 token，并且每次用于每次发送请求。</li>
-<li>服务端验证 token 并返回数据。</li>
-</ul>
-</li>
-</ul>
-<p>​    token 通常在 HTTP 的头部发送给服务端</p>
-<h5 id="4-4-Session-Cookie-Token-的工作原理"><a href="#4-4-Session-Cookie-Token-的工作原理" class="headerlink" title="4.4 Session,Cookie,Token 的工作原理"></a>4.4 Session,Cookie,Token 的工作原理</h5><p><img src="../images/%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.jpg" alt="工作原理"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/19/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cm7yic4kc001s68vd9igie78s" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li></ul>
 
     </footer>
   </div>
@@ -1351,7 +1481,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
   </nav>
 
 </section>
@@ -1372,7 +1502,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrony/" rel="tag">Chrony</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" rel="tag">jmeter_cookie处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" rel="tag">jmeter参数化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4/" rel="tag">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E6%9D%83%E9%99%90/" rel="tag">mysql权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ntpd/" rel="tag">ntpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest/" rel="tag">pytest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytest%E5%9F%BA%E7%A1%80/" rel="tag">pytest基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" rel="tag">selenium多窗口_警告框处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E5%AE%9A%E4%BD%8D/" rel="tag">selenium定位</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" rel="tag">selenium时间等待</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest%E6%A6%82%E5%BF%B5/" rel="tag">unittest概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" rel="tag">接口基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="tag">类与对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代其和生成器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" rel="tag">迭代器和生成器</a></li></ul>
     </div>
   </div>
 
@@ -1382,7 +1512,7 @@ print(p1_clone.x == p1.x)  # 应输出：True
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a>
+      <a href="/tags/Chrony/" style="font-size: 10px;">Chrony</a> <a href="/tags/Excel/" style="font-size: 13.33px;">Excel</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/jmeter-cookie%E5%A4%84%E7%90%86/" style="font-size: 10px;">jmeter_cookie处理</a> <a href="/tags/jmeter%E5%8F%82%E6%95%B0%E5%8C%96/" style="font-size: 10px;">jmeter参数化</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">linux命令</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/mysql%E6%9D%83%E9%99%90/" style="font-size: 10px;">mysql权限</a> <a href="/tags/ntpd/" style="font-size: 10px;">ntpd</a> <a href="/tags/pytest/" style="font-size: 10px;">pytest</a> <a href="/tags/pytest%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">pytest基础</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/selenium%E5%A4%9A%E7%AA%97%E5%8F%A3-%E8%AD%A6%E5%91%8A%E6%A1%86%E5%A4%84%E7%90%86/" style="font-size: 10px;">selenium多窗口_警告框处理</a> <a href="/tags/selenium%E5%AE%9A%E4%BD%8D/" style="font-size: 10px;">selenium定位</a> <a href="/tags/selenium%E6%97%B6%E9%97%B4%E7%AD%89%E5%BE%85/" style="font-size: 10px;">selenium时间等待</a> <a href="/tags/unittest%E6%A6%82%E5%BF%B5/" style="font-size: 13.33px;">unittest概念</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">接口基础</a> <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" style="font-size: 20px;">类与对象</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%85%B6%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 16.67px;">迭代其和生成器</a> <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" style="font-size: 10px;">迭代器和生成器</a>
     </div>
   </div>
 
@@ -1404,23 +1534,23 @@ print(p1_clone.x == p1.x)  # 应输出：True
       <ul>
         
           <li>
+            <a href="/2025/03/20/%E5%8F%8D%E5%90%91%E8%BF%AD%E4%BB%A3/">反向迭代</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E7%94%9F%E6%88%90%E5%99%A8%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E6%A8%A1%E5%BC%8F/">生成器创建自定义迭代模式</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/%E4%BB%A3%E7%90%86%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%AE%9E%E7%8E%B0/">代理迭代的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/20/python%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/">python迭代器和生成器</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/07/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4%E9%85%8D%E7%BD%AE/">服务器同步时间配置</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/06/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/">mysql数据库插入数据</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/03/%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%B0%81%E8%A3%85%E5%B1%9E%E6%80%A7%E5%90%8D/">在类中封装属性名</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/03/%E5%AF%B9%E8%B1%A1%E6%94%AF%E6%8C%81%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/">对象支持上下文管理协议</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96/">自定义字符串的格式化</a>
           </li>
         
       </ul>
